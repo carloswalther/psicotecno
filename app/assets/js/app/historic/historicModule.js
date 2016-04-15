@@ -1,0 +1,1 @@
+angular.module('HistoricModule', ["angucomplete-alt"]);

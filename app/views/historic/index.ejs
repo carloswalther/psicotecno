@@ -1,0 +1,343 @@
+<style>
+    .search{
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+}
+    
+</style>
+
+
+  
+  
+<div  class="row" style="margin-top: 70px;padding: 20;" ng-app="HistoricModule" ng-controller="HistoricController" ng-cloak>
+      <div class="modal fade" id="createPatientModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Crear Paciente</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success pull-rigth" data-dismiss="modal">Crear</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="newQuotation" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Nueva Cotización</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class=" col-sm-4 ">
+                            <div class="form-group">
+                                <label >Tipo de Registro</label>
+                            </div>
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <div class="form-group">
+                                <label >Descripción</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveQuotation(newQuotation)">Guardar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    
+<!--    MODEL CREACION KIT-->
+    <div class="modal fade" id="newKitModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Nuevo Kit</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                         <div class="row">
+                        <div class=" col-sm-4 ">
+                                <label >Nombre</label>
+                        </div>
+                        <div class=" col-sm-6 ">
+                                <input ng-model="newKit.name" type="text">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class=" col-sm-4 ">
+                                <label >Descripción</label>
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <textarea ng-model="newKit.description" ></textarea>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class=" col-sm-4 ">
+                                <label >Precio</label>
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <span> {{newKit.price}} </span>
+                        </div>
+                         
+                    </div>
+                    <div class="row">
+                        <div class=" col-sm-4 ">
+                                <label >Margen</label>
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <span> {{newKit.profit}} </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class=" col-sm-4 ">
+                                <label >Margen con descuento</label>
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <span> {{newKit.profitAfterDiscount}} </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class=" col-sm-4 ">
+                                <label >Habilitacion Manual</label>
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <span> {{newKit.enableCostManual}} </span>
+                        </div>
+                         
+                    </div>
+                    <div class="row">
+                        <div class=" col-sm-4 ">
+                                <label >Cuotas</label>
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <span> {{newKit.dues}} </span>
+                        </div>
+                         
+                    </div>
+                    </div>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveKit()">Guardar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+<!--    MODAL CREACION TEMPLATE-->
+    <div class="modal fade" id="newTemplateModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Nueva Plantilla</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class=" col-sm-4 ">
+                                <label >Nombre</label>
+                        </div>
+                        <div class=" col-sm-6 ">
+                                <input ng-model="template.name" type="text">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class=" col-sm-4 ">
+                                <label >Descripción</label>
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <textarea ng-model="template.description" ></textarea>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveTemplate()">Guardar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    
+<!--    MODEL SELECCION KIT-->
+    <div class="modal fade" id="selectKitModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Nuevo Kit</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class=" col-sm-12 ">
+                        <table style="width: 100%">
+                            <thead>
+                            <th>Nombre</th>
+                            <th>Descripciion</th>
+                            <th>Precio</th>
+                            <th>Asignar</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="lkit in kits">
+                                    <td>{{lkit.name}}</td>
+                                    <td>{{lkit.description}}</td>
+                                    <td>{{lkit.price | currency:"$":0}}</td>
+                                    <td><button type="button" ng-click="chargeKit(lkit)" class="btn btn-danger" data-dismiss="modal">Usar Kit</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveKit()">Guardar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+<!--    MODEL SELECCION TEMPLATE-->
+    <div class="modal fade" id="selectTemplateModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Nuevo Kit</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class=" col-sm-12 ">
+                            <table>
+                            <thead>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Asignar</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="lTemplate in templates">
+                                    <td>{{lTemplate.name}}</td>
+                                    <td>{{lTemplate.description}}</td>
+                                    <td><button type="button" ng-click="chargeTemplate(lTemplate)" class="btn btn-danger pull-right" data-dismiss="modal">Usar Plantilla</button></td>
+                                </tr>
+                            </tbody>
+                                
+                        </table>
+                        
+                            
+                                
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveKit()">Guardar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row search">
+        <div class="col-sm-4">
+            
+                     <div class="padded-row"> 
+<!--                         <label>Buscador de Items</label>-->
+{{newPatient}}  
+<angucomplete-alt id="members"
+              placeholder="Buscar Items"
+              pause="500"
+              text-searching="Buscando..."
+              text-no-results="No hay resultado"
+              clear-selected="true"
+              selected-object="addPatient"
+              remote-url="/patient/findAll?s="
+              remote-url-data-field=""
+              title-field="name"
+              description-field="lastName"
+              input-class="form-control form-control-small"
+              match-class="highlight"
+              class="ng-isolate-scope"
+              />
+          </div>
+          
+  
+  </div>
+        <div class="col-sm-4"> 
+            <button type="button" class="col-sm-5 btn btn-info" ng-click="openTemplates()">Plantillas</button>
+            <button type="button" class="col-sm-5 btn btn-info pull-right" ng-click="openKits()">Kits</button>
+        </div>        
+  <div class="col-sm-4 pull-right">
+<!-- <label>Buscador de Cliente</label>-->
+
+  <div class="padded-row"> 
+  <angucomplete-alt id="client"
+              placeholder="Buscar Cliente"
+              pause="500"
+              text-searching="Buscando..."
+              text-no-results="No hay resultado"
+              clear-selected="true"
+              selected-object="addCustomer"
+              remote-url="/customer/findAll?s="
+              remote-url-data-field=""
+              title-field="name"
+              description-field="rut"
+              input-class="form-control form-control-small"
+              match-class="highlight"
+              class="ng-isolate-scope"
+              />
+          </div>
+  </div>
+</div> 
+<!--    <div class="row" ng-show="customer">-->
+<!--<form name="quotationForm">-->
+
+<div class="row">
+    <div class="col-md-6">Nombre</div>
+    <div class="col-md-3">Empresa</div>
+    <div class="col-md-3">Examen</div>
+</div>
+<div class="row" ng-repeat="historic in historics">
+    <div class="col-md-6">{{historic.patient.name}} {{historic.patient.lastName}}</div>
+    <div class="col-md-3">{{historic.company.name}}</div>
+    <div class="col-md-3">{{historic.exam.name}}</div>
+</div>
+        
+
+
+
+
+</div>
+

@@ -16,26 +16,38 @@ var tmpPath = '.tmp/public/';
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-  'styles/**/*.css'
+    'styles/**/*.css',
+    'vendor/bootstrap/dist/css/bootstrap.min.css',
+    'vendor/bootstrap/dist/css/bootstrap-theme.min.css',
+    'vendor/angular-material/angular-material.min.css'
 ];
 
 
 // Client-side javascript files to inject in order
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
-
-  // Load sails.io before everything else
-  'js/dependencies/sails.io.js',
-
-  // Dependencies like jQuery, or Angular are brought in here
-  'js/dependencies/**/*.js',
-
-  // All of the rest of your client-side js files
-  // will be injected here in no particular order.
-  'js/**/*.js',
-
-  // Use the "exclude" operator to ignore files
-  // '!js/ignore/these/files/*.js'
+    // Load sails.io before everything else
+    'js/dependencies/sails.io.js',
+    // Dependencies like jQuery, or Angular are brought in here
+    'js/dependencies/**/*.js',
+    'vendor/jquery/dist/jquery.min.js',
+    'vendor/angular/angular.min.js',
+    'vendor/angular-animate/angular-animate.min.js',
+    'vendor/angular-aria/angular-aria.min.js',
+    'vendor/angular-messages/angular-messages.min.js',
+    'vendor/angular-material/angular-material.min.js',
+    'vendor/bootstrap/dist/js/bootstrap.min.js',
+    'vendor/angucomplete-alt/dist/angucomplete-alt.min.js',
+    'vendor/remarkable-bootstrap-notify/bootstrap-notify.min.js',
+    'vendor/underscore/underscore-min.js',
+// All of the rest of your client-side js files
+    // will be injected here in no particular order.
+    '/js/app/historic/historicModule.js',
+    '/js/app/historic/historicDirectives.js',
+    '/js/app/historic/historicController.js',
+//'js/**/*.js',
+            // Use the "exclude" operator to ignore files
+            // '!js/ignore/these/files/*.js'
 ];
 
 
@@ -49,7 +61,7 @@ var jsFilesToInject = [
 // templates get spit out to the same file.  Be sure and check out `tasks/README.md`
 // for information on customizing and installing new tasks.
 var templateFilesToInject = [
-  'templates/**/*.html'
+    'templates/**/*.html'
 ];
 
 
@@ -64,5 +76,5 @@ module.exports.templateFilesToInject = templateFilesToInject.map(transformPath);
 // Transform paths relative to the "assets" folder to be relative to the public
 // folder, preserving "exclude" operators.
 function transformPath(path) {
-  return (path.substring(0,1) == '!') ? ('!' + tmpPath + path.substring(1)) : (tmpPath + path);
+    return (path.substring(0, 1) == '!') ? ('!' + tmpPath + path.substring(1)) : (tmpPath + path);
 }
