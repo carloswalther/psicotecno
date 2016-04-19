@@ -110,11 +110,14 @@ angular.module('HistoricModule').controller('HistoricController',
                             $("#patient_value").val(data.name + " " + data.lastName);
                             msg("Paciente creado exitosamente", "", "success");
                             $('#createPatientModal').modal("hide");
+                            $scope.newPatient.error = false
+
                         } else {
                             $scope.newPatient.error = true;
                             $scope.$apply($scope.newPatient)
                             //msg("Paciente no se pudo creear", "", "danger");
                         }
+
                     });
                 };
                 //Validation of all form for quitation
