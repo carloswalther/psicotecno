@@ -25,11 +25,28 @@
                     <h4 class="modal-title" id="myModalLabel">Crear Paciente</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" class="form-control" ng-model="newPatient.name" placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" class="form-control" ng-model="newPatient.lastName" placeholder="Apellido">
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" class="form-control" ng-model="newPatient.rut" placeholder="Rut">
+                        </div>
+                        
+                    </div>
+                    <div class="row" ng-show="newPatient.error">
+                        <div class="alert alert-danger" style="margin:15px">
+                            <strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
+                        </div>
+                    </div>
                 </div>
                
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-success pull-rigth" data-dismiss="modal">Crear</button>
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success pull-rigth" ng-click="savePatient()">Crear</button>
                 </div>
             </div>
             </form>
@@ -276,7 +293,7 @@
     </div>
 
     <div class="row search">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             
                      <div class="padded-row"> 
 <!--                         <label>Buscador de Items</label>-->
@@ -299,6 +316,9 @@
           
   
   </div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-success form-control" ng-click="openNewPatient()">+ Paciente</button>
+    </div>
              
   <div class="col-sm-3 search">
 <!-- <label>Buscador de Cliente</label>-->

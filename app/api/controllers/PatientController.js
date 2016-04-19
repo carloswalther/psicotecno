@@ -14,5 +14,15 @@ module.exports = {
         });
 
     },
+    create: function (req, res) {
+        sails.log(req.body.patient);
+        Patient.create(req.body.patient).exec(function (err, data) {
+            if (err) {
+                return res.send(false);
+            } else {
+                return res.send(data);
+            }
+        });
+    }
 };
 
