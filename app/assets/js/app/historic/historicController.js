@@ -121,62 +121,16 @@ angular.module('HistoricModule').controller('HistoricController',
                     });
                 };
                 //Validation of all form for quitation
-                $scope.validateQuotation = function () {
-                    var state = false;
-                    if (_.isEmpty($scope.services > 0)) {
-                        state = true;
+                $scope.validateHistoric = function () {
+                    var state = true;
+                    if (!(_.isEmpty($scope.newHistoric.patient)
+                            || _.isEmpty($scope.newHistoric.exam)
+                            || _.isEmpty($scope.newHistoric.company))) {
+                        state = false;
                     }
-                    console.log(state);
+
                     return state;
                 }
-
-                // TEMPLATE
-                $scope.openTemplates = function () {
-                    $('#selectTemplateModal').modal("show");
-                };
-                $scope.getTemplates = function () {
-                    io.socket.get("/template", function (data) {
-                        $scope.templates = data;
-                        console.log("template", data)
-                        $scope.$apply();
-                        //msg("hola", "chao", "success");
-                    });
-                }
-                $scope.getTemplates();
-
-                $scope.chargeTemplate = function (lTemplate) {
-                    console.log("ID:", lTemplate);
-                    $scope.products = lTemplate.json.products;
-                    $scope.services = lTemplate.json.services;
-                    $scope.supplies = lTemplate.json.supplies;
-                    //$scope.kit = _.findWhere($scope.kits, {id: $scope.kitSelectedId});
-                    msg(lTemplate.name, "Cargada exitosamente", "success");
-                };
-                $scope.openSaveTemplate = function () {
-                    $("#newTemplateModal").modal("show");
-                };
-                $scope.openProductDetail = function () {
-                    $("#productDetail").modal("show");
-                };
-                $scope.saveTemplate = function () {
-                    //debugger;
-                    $scope.template.json.products = $scope.products;
-                    $scope.template.json.services = $scope.services;
-                    $scope.template.json.supplies = $scope.supplies;
-                    io.socket.post("/template/create", {template: $scope.template}, function (data) {
-                        if (data.res) {
-                            console.log("Template Creado:", data.obj);
-                            msg("Template creado exitosamente", data.obj.name, "success");
-                            $scope.getTemplates();
-                        } else {
-                            msg("Template no se pudo creear", data.msg, "danger");
-                        }
-
-                    });
-                };
-//                io.socket.get("/quotation/getLast", function (years) {
-//                    $scope.$apply();
-//                });
             }
         ]);
 
