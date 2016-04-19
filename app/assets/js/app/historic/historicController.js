@@ -8,7 +8,10 @@ angular.module('HistoricModule').controller('HistoricController',
                 $scope.newHistoric.patient = {};
                 $scope.newHistoric.company = {};
                 $scope.newHistoric.exam = {};
+                $scope.newHistoric.registerDate = new Date();
 
+
+                $scope.exams = appVars.exams;
 
 
                 io.socket.post("/historic/getAll", {date: new Date()}, function (data) {
@@ -20,19 +23,7 @@ angular.module('HistoricModule').controller('HistoricController',
                     $scope.$apply();
                 });
 
-                $scope.addOtherProduct = function () {
-                    var op = $.extend({}, $scope.otherProduct);
-                    op.quantity = 1;
-                    $scope.otherProduct = {
-                        name: "",
-                        description: "",
-                        type: "otherProduct",
-                        price: ""
-                    };
 
-
-                    $scope.otherProducts.push(op);
-                };
                 /**
                  *
                  * @param {type} selected objeto seleccionado
@@ -41,10 +32,67 @@ angular.module('HistoricModule').controller('HistoricController',
                 $scope.addPatient = function (selected) {
                     // verifica que elevento sea el de capturar un elemento
                     if (!_.isUndefined(selected)) {
-                        $scope.newPatient = $.extend({}, selected.originalObject)
+                        $scope.newHistoric.patient = $.extend({}, selected.originalObject)
                         //$scope.itemSelected = selected.originalObject;
                     }
                 };
+                /**
+                 *
+                 * @param {type} selected objeto seleccionado compañia de la lista
+                 * @returns {undefined}
+                 */
+                $scope.addCompany = function (selected) {
+                    // verifica que elevento sea el de capturar un elemento
+                    if (!_.isUndefined(selected)) {
+                        $scope.newHistoric.company = $.extend({}, selected.originalObject)
+                        //$scope.itemSelected = selected.originalObject;
+                    }
+                };
+
+                $scope.saveHistoric = function () {
+                    // verifica que elevento sea el de capturar un elemento
+                    if (!_.isEmpty($scope.newHistoric.patient)
+                            && !_.isEmpty($scope.newHistoric.exam)
+                            && !_.isEmpty($scope.newHistoric.company)) {
+
+                        io.socket.post("/historic/create", {historic: $scope.newHistoric}, function (data) {
+                            if (data) {
+                                var historic = $.extend(data, $scope.newHistoric);
+                                $scope.historics.push(historic);
+                                $scope.clarAll();
+                                $scope.$apply();
+                            } else {
+                                msg("No se pudo crear", "", "warning");
+                            }
+                        });
+                    } else {
+                        msg("Hay campos obligatorios que no se han llenador", "", "warning");
+                    }
+
+                };
+                $scope.clarAll = function () {
+                    delete $scope.newHistoric.respApplication;
+                    delete $scope.newHistoric.cc;
+                    $scope.newHistoric.patient = {};
+                    $scope.newHistoric.company = {};
+                    $scope.newHistoric.exam = {};
+                    $("#patient_value").val("");
+                    $("#company_value").val("");
+                };
+                $scope.getHistorics = function () {
+                    console.log("getHistorics");
+                    io.socket.post("/historic/getAll", {date: $scope.newHistoric.registerDate}, function (data) {
+                        console.log(data);
+                        if (data.err) {
+                            msg('Problema al cargar historico', '', 'warning');
+                        } else {
+                            $scope.historics = data;
+                        }
+                        $scope.$apply();
+                    });
+                };
+
+
                 $scope.deleteItem = function (item) {
                     if (confirm("Estas seguro de querer eliminar " + item.name)) {
                         switch (item.type) {

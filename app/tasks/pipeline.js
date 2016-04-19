@@ -19,7 +19,10 @@ var cssFilesToInject = [
     'styles/**/*.css',
     'vendor/bootstrap/dist/css/bootstrap.min.css',
     'vendor/bootstrap/dist/css/bootstrap-theme.min.css',
-    'vendor/angular-material/angular-material.min.css'
+    'vendor/angucomplete-alt/angucomplete-alt.css',
+    'vendor/angular-bootstrap/ui-bootstrap-csp.css',
+//'vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+            //'vendor/angular-material/angular-material.min.css'
 ];
 
 
@@ -32,14 +35,18 @@ var jsFilesToInject = [
     'js/dependencies/**/*.js',
     'vendor/jquery/dist/jquery.min.js',
     'vendor/angular/angular.min.js',
-    'vendor/angular-animate/angular-animate.min.js',
-    'vendor/angular-aria/angular-aria.min.js',
-    'vendor/angular-messages/angular-messages.min.js',
-    'vendor/angular-material/angular-material.min.js',
+//    'vendor/angular-animate/angular-animate.min.js',
+//    'vendor/angular-aria/angular-aria.min.js',
+//    'vendor/angular-messages/angular-messages.min.js',
+//    'vendor/angular-material/angular-material.min.js',
     'vendor/bootstrap/dist/js/bootstrap.min.js',
     'vendor/angucomplete-alt/dist/angucomplete-alt.min.js',
     'vendor/remarkable-bootstrap-notify/bootstrap-notify.min.js',
     'vendor/underscore/underscore-min.js',
+    'vendor/momentjs/min/moment-with-langs.min.js',
+    'vendor/angular-bootstrap/ui-bootstrap.min.js',
+//'vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+    // 'vendor/angular-bootstrap3-datepicker/dist/ng-bs3-datepicker.min.js',
 // All of the rest of your client-side js files
     // will be injected here in no particular order.
     '/js/app/historic/historicModule.js',
@@ -49,8 +56,6 @@ var jsFilesToInject = [
             // Use the "exclude" operator to ignore files
             // '!js/ignore/these/files/*.js'
 ];
-
-
 // Client-side HTML templates are injected using the sources below
 // The ordering of these templates shouldn't matter.
 // (uses Grunt-style wildcard/glob/splat expressions)

@@ -8,6 +8,11 @@
 module.exports = {
     attributes: {
         name: "string",
+        rut: "string",
+        centralPayment: {
+            type: "boolean",
+            defaultsTo: true
+        },
         historics: {
             collection: "historic",
             via: "company"

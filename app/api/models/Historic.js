@@ -15,7 +15,10 @@ module.exports = {
         },
         company: {
             model: "company"
-        }
+        },
+        cc: "string",
+        respApplication: "string",
+        registerDate: "date"
     }
 };
 

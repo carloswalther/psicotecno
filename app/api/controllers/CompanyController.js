@@ -6,6 +6,13 @@
  */
 
 module.exports = {
-	
+    findAll: function (req, res) {
+        var s = req.param('s');
+        var q = {or: [{name: {contains: s}}, {rut: {contains: s}}]};
+        Company.find(q).exec(function (err, patients) {
+            return res.send(patients);
+        });
+
+    },
 };
 

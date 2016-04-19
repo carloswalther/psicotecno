@@ -1,0 +1,56 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14-mar-2016, 18:25:49
+    Author     : carloswalther
+*/
+.quotationPage {
+    background-color: #D9EDF7;
+    padding-top: 70px;
+    padding-button: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+body{
+    padding-right: 40px;
+    padding-left: 40px;
+}
+.angucomplete-dropdown {
+    overflow-y: auto;
+    max-height: 400px;
+    
+}
+.table{
+    margin-bottom: 0;
+}
+.highlight{
+    color:red;
+}
+.panel{
+    margin:0;
+}
+button{
+    margin:10px;
+}
+.well .row{
+    margin:5px;
+}
+.search-service{
+    float: right;
+    position: absolute;
+    top: 3px;
+    margin-left: 50px;
+    min-width: 100px;
+}
+.btn-quotation-body{
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.input-quotation-body{
+    max-width: 60px;
+}

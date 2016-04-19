@@ -6,7 +6,12 @@
 }
     
 </style>
+<script>
+    appVars = {
+            exams: <%- JSON.stringify(exams) %> //examenes para option
 
+            }
+   </script>
 
   
   
@@ -271,22 +276,21 @@
     </div>
 
     <div class="row search">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             
                      <div class="padded-row"> 
 <!--                         <label>Buscador de Items</label>-->
-{{newPatient}}  
-<angucomplete-alt id="members"
-              placeholder="Buscar Items"
+<angucomplete-alt id="patient"
+              
+              placeholder="Buscar Paciente"
               pause="500"
               text-searching="Buscando..."
               text-no-results="No hay resultado"
-              clear-selected="true"
               selected-object="addPatient"
               remote-url="/patient/findAll?s="
               remote-url-data-field=""
-              title-field="name"
-              description-field="lastName"
+              title-field="name,lastName"
+              description-field="rut"
               input-class="form-control form-control-small"
               match-class="highlight"
               class="ng-isolate-scope"
@@ -295,22 +299,19 @@
           
   
   </div>
-        <div class="col-sm-4"> 
-            <button type="button" class="col-sm-5 btn btn-info" ng-click="openTemplates()">Plantillas</button>
-            <button type="button" class="col-sm-5 btn btn-info pull-right" ng-click="openKits()">Kits</button>
-        </div>        
-  <div class="col-sm-4 pull-right">
+             
+  <div class="col-sm-3 search">
 <!-- <label>Buscador de Cliente</label>-->
 
   <div class="padded-row"> 
-  <angucomplete-alt id="client"
-              placeholder="Buscar Cliente"
+  <angucomplete-alt id="company"
+              
+              placeholder="Buscar Empresa"
               pause="500"
               text-searching="Buscando..."
               text-no-results="No hay resultado"
-              clear-selected="true"
-              selected-object="addCustomer"
-              remote-url="/customer/findAll?s="
+              selected-object="addCompany"
+              remote-url="/company/findAll?s="
               remote-url-data-field=""
               title-field="name"
               description-field="rut"
@@ -320,24 +321,75 @@
               />
           </div>
   </div>
+  <div class="col-sm-3"> 
+        <select class="form-control" ng-model="newHistoric.exam" 
+                    ng-options="option.name for option in exams track by option.id">
+                
+            </select>
+  </div>  
+    <div class="col-sm-3"> 
+        
+<!--        <input type="text" class="form-control" uib-datepicker-popup ng-model="newHistoric.registerDate" is-open="status.opened" datepicker-options="dateOptions" close-text="Close" />-->
+        <input type="date" class="form-control" ng-model="newHistoric.registerDate" ng-change="getHistorics();" />
+        
+        
+    </div> 
 </div> 
+<div class="row">
+    <div class="col-sm-12"> 
+        <div class="well">
+            <div class="row">
+                <div class="col-sm-6"> 
+                    <input type="text"  class="form-control" ng-model="newHistoric.respApplication" placeholder="Responsable Solicitud">
+                </div>
+                <div class="col-sm-6"> 
+                    <input type="text"  class="form-control" ng-model="newHistoric.cc" placeholder="Centro de Costo">
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+<div class="row">
+    <div class="col-sm-4"> 
+        <button type="button" class="btn btn-warning form-control" ng-click="clarAll()">Limpiar formulario</button>
+    
+    </div>   
+    <div class="col-sm-4 pull-right"> 
+    
+        <button type="button" class="btn btn-success  form-control" ng-click="saveHistoric()">Registrar</button>
+    </div>   
+
+
+</div>
+    
 <!--    <div class="row" ng-show="customer">-->
 <!--<form name="quotationForm">-->
 
-<div class="row">
-    <div class="col-md-6">Nombre</div>
-    <div class="col-md-3">Empresa</div>
-    <div class="col-md-3">Examen</div>
-</div>
-<div class="row" ng-repeat="historic in historics">
-    <div class="col-md-6">{{historic.patient.name}} {{historic.patient.lastName}}</div>
-    <div class="col-md-3">{{historic.company.name}}</div>
-    <div class="col-md-3">{{historic.exam.name}}</div>
-</div>
-        
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+        <th>Nombre</th>
+        <th>Empresa</th>
+        <th>Examen</th>
+        <th>Responsable Solicitud</th>
+        <th>Centro de Costo</th>
+        <th>Fecha</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="historic in historics">
+            <td>{{historic.patient.name}} {{historic.patient.lastName}}</td>
+            <td>{{historic.company.name}}</td>
+            <td>{{historic.exam.name}}</td>
+            <td>{{historic.respApplication}}</td>
+            <td>{{historic.cc}}</td>
+            <td>{{historic.registerDate |date:"dd-MM-yy" }}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>     
 
 
-
+{{newHistoric}}
 
 </div>
 

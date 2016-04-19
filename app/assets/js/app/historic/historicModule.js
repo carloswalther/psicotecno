@@ -1,1 +1,1 @@
-angular.module('HistoricModule', ["angucomplete-alt"]);
+angular.module('HistoricModule', ["angucomplete-alt", 'ui.bootstrap']);

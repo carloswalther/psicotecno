@@ -8,6 +8,7 @@
 module.exports = {
     attributes: {
         name: "string",
+        rut: "stirng",
         lastName: "string",
         historics: {
             collection: "historic",
