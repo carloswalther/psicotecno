@@ -24,10 +24,12 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Crear Paciente</h4>
                 </div>
+               
                 <div class="modal-body">
+                    <form name="newPatientForm">
                     <div class="row">
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" class="form-control" ng-model="newPatient.name" placeholder="Nombre">
+                            <input type="text" class="form-control" name="newPatient.name"ng-model="newPatient.name" placeholder="Nombre" required>
                         </div>
                         <div class="col-sm-12 col-lg-6">
                             <input type="text" class="form-control" ng-model="newPatient.lastName" placeholder="Apellido">
@@ -35,8 +37,9 @@
                         <div class="col-sm-12 col-lg-6">
                             <input type="text" class="form-control" ng-model="newPatient.rut" placeholder="Rut">
                         </div>
-                        
                     </div>
+                    </form>
+                    {{newPatientForm.$valid}}
                     <div class="row" ng-show="newPatient.error">
                         <div class="alert alert-danger" style="margin:15px">
                             <strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
@@ -48,8 +51,9 @@
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-success pull-rigth" ng-click="savePatient()">Crear</button>
                 </div>
+                
             </div>
-            </form>
+           
         </div>
     </div>
     
@@ -82,7 +86,6 @@
                     <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveQuotation(newQuotation)">Guardar</button>
                 </div>
             </div>
-            </form>
         </div>
     </div>
     
