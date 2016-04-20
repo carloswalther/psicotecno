@@ -94,28 +94,65 @@ angular.module('HistoricModule').controller('HistoricController',
                     });
                 };
 
+                $scope.validateHistoric = function () {
+                   var state = true;
+                   if (!(_.isEmpty($scope.newHistoric.patient)
+                           || _.isEmpty($scope.newHistoric.exam)
+                           || _.isEmpty($scope.newHistoric.company))) {
+                       state = false;
+                   }
 
+                   return state;
+               }
 
                 $scope.openNewPatient = function () {
 
                     $('#createPatientModal').modal("show");
+                    $scope.isSaving = false
                 };
 
                 $scope.savePatient = function () {
-
-
-                    io.socket.post("/patient/create", {patient: $scope.newPatient}, function (data) {
+                    $scope.isSaving = true
+                    io.socket.post("/patient/create", {patient: $scope.newPatient}, function (data) {   
                         if (data) {
                             $scope.newHistoric.patient = $.extend($scope.newPatient, data);
                             $("#patient_value").val(data.name + " " + data.lastName);
                             msg("Paciente creado exitosamente", "", "success");
                             $('#createPatientModal').modal("hide");
                             $scope.newPatient.error = false
+                            
 
                         } else {
                             $scope.newPatient.error = true;
                             $scope.$apply($scope.newPatient)
                             //msg("Paciente no se pudo creear", "", "danger");
+                        }
+
+                    });
+                };
+
+
+
+                $scope.openNewCompany = function () {
+
+                    $('#createCompanyModal').modal("show");
+                };
+
+                $scope.saveCompany = function () {
+
+
+                    io.socket.post("/company/create", {company: $scope.newCompany}, function (data) {
+                        if (data) {
+                            $scope.newHistoric.company = $.extend($scope.newCompany, data);
+                            $("#company_value").val(data.name + " " + data.rut);
+                            msg("Empresa creada exitosamente", "", "success");
+                            $('#createCompanyModal').modal("hide");
+                            $scope.newCompany.error = false
+
+                        } else {
+                            $scope.newCompany.error = true;
+                            $scope.$apply($scope.newCompany)
+                            //msg("Empresa no se pudo creear", "", "danger");
                         }
 
                     });

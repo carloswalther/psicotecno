@@ -18,40 +18,79 @@
 <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="HistoricModule" ng-controller="HistoricController" ng-cloak>
       <div class="modal fade" id="createPatientModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-            <form>
+            <form role="form" data-toggle="validator">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Crear Paciente</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="form-group">
                     <div class="row">
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" class="form-control" ng-model="newPatient.name" placeholder="Nombre">
+                            <input type="text" name="name" class="form-control" ng-model="newPatient.name" placeholder="Nombre" required>
                         </div>
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" class="form-control" ng-model="newPatient.lastName" placeholder="Apellido">
+                            <input type="text" name="lastname" class="form-control" ng-model="newPatient.lastName" placeholder="Apellido" required>
                         </div>
+                    </div>
+                    <br>
+                    <div class="row">
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" class="form-control" ng-model="newPatient.rut" placeholder="Rut">
-                        </div>
-                        
+                            <input type="text" name="rut" class="form-control" ng-model="newPatient.rut" placeholder="Rut" required>
+                        </div>    
                     </div>
                     <div class="row" ng-show="newPatient.error">
                         <div class="alert alert-danger" style="margin:15px">
                             <strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
                         </div>
                     </div>
+                    </div>
                 </div>
                
-                <div class="modal-footer">
+                <div class=" form-group modal-footer">
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-success pull-rigth" ng-click="savePatient()">Crear</button>
+                    <button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
                 </div>
             </div>
             </form>
         </div>
     </div>
+
+   <!--Modal Company-->
+    <div class="modal fade" id="createCompanyModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Crear Empresa</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" class="form-control" ng-model="newCompany.name" placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" class="form-control" ng-model="newCompany.rut" placeholder="Rut">
+                        </div>    
+                    </div>
+                    <div class="row" ng-show="newCompany.error">
+                        <div class="alert alert-danger" style="margin:15px">
+                            <strong>Error!</strong> No se puede crear esta Empresa, probablemente ya existe, intente buscarlo nuevamente
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success pull-rigth" ng-click="saveCompany()" ng-disabled="isSaving">Crear</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
     
     <div class="modal fade" id="newQuotation" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -317,10 +356,10 @@
   
   </div>
     <div class="col-sm-1">
-        <button type="button" class="btn btn-success form-control" ng-click="openNewPatient()"><i class="glyphicon glyphicon-plus"></i> Paciente</button>
+        <button type="button" class="btn btn-success form-control" ng-click="openNewPatient()"><i class="glyphicon glyphicon-plus"></i></button>
     </div>
              
-  <div class="col-sm-3 search">
+  <div class="col-sm-2 search">
 <!-- <label>Buscador de Cliente</label>-->
 
   <div class="padded-row"> 
@@ -341,13 +380,16 @@
               />
           </div>
   </div>
-  <div class="col-sm-3"> 
+  <div class="col-sm-1">
+        <button type="button" class="btn btn-success form-control" ng-click="openNewCompany()"><i class="glyphicon glyphicon-plus"></i></button>
+    </div>
+  <div class="col-sm-2"> 
         <select class="form-control" ng-model="newHistoric.exam" 
                     ng-options="option.name for option in exams track by option.id">
                 
             </select>
   </div>  
-    <div class="col-sm-3"> 
+    <div class="col-sm-2"> 
         
 <!--        <input type="text" class="form-control" uib-datepicker-popup ng-model="newHistoric.registerDate" is-open="status.opened" datepicker-options="dateOptions" close-text="Close" />-->
         <input type="date" class="form-control" ng-model="newHistoric.registerDate" ng-change="getHistorics();" />
@@ -376,7 +418,7 @@
     </div>   
     <div class="col-sm-4 pull-right"> 
     
-        <button type="button" class="btn btn-success  form-control" ng-click="saveHistoric()">Registrar</button>
+        <button type="button" class="btn btn-success  form-control" ng-click="saveHistoric()" ng-disabled="validateHistoric()">Registrar</button>
     </div>   
 
 

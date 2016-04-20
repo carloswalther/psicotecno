@@ -34,6 +34,7 @@ var jsFilesToInject = [
     // Dependencies like jQuery, or Angular are brought in here
     'js/dependencies/**/*.js',
     'vendor/jquery/dist/jquery.min.js',
+    'js/validator.js',
     'vendor/angular/angular.min.js',
 //    'vendor/angular-animate/angular-animate.min.js',
 //    'vendor/angular-aria/angular-aria.min.js',

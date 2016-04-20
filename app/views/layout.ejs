@@ -146,6 +146,7 @@
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/js/validator.js"></script>
     <script src="/vendor/angular/angular.min.js"></script>
     <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/vendor/angucomplete-alt/dist/angucomplete-alt.min.js"></script>
@@ -178,6 +179,15 @@
                         }
                     });
                 }
-        </script>
+        $( document ).ready(function() {
+            $('#form').validator().on('submit', function (e) {
+              if (e.isDefaultPrevented()) {
+                // handle the invalid form...
+              } else {
+                // everything looks good!
+              }
+            })
+        });
+    </script>
   </body>
 </html>
