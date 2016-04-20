@@ -18,7 +18,13 @@ module.exports = {
         },
         cc: "string",
         respApplication: "string",
-        registerDate: "date"
+        registerDate: "date",
+        //Sección de resutados
+        edad: "integer",
+        estudios: "string",
+        aniosEstudio: "string",
+        // aqui se guardara [{licencia:"una licencia",anios:0,meses:6},{...}]
+        licencia: "json"
     }
 };
 
