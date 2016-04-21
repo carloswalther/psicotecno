@@ -53,6 +53,9 @@ var jsFilesToInject = [
     '/js/app/historic/historicModule.js',
     '/js/app/historic/historicDirectives.js',
     '/js/app/historic/historicController.js',
+    '/js/app/exam/examModule.js',
+    '/js/app/exam/examDirectives.js',
+    '/js/app/exam/examController.js',
 //'js/**/*.js',
             // Use the "exclude" operator to ignore files
             // '!js/ignore/these/files/*.js'

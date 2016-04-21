@@ -6,6 +6,12 @@
  */
 
 module.exports = {
+
+	index: function (req, res) {
+        Exam.find().exec(function (err, exams) {
+            return res.view({exams: exams});
+        })
+    }
 	
 };
 

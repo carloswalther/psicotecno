@@ -1,0 +1,250 @@
+<script>
+	appVars = {
+            exams: <%- JSON.stringify(exams) %> //examenes para option
+
+        }
+    </script>
+    <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="ExamModule" ng-controller="ExamController" ng-cloak>
+    	<!--Modal de Resultado-->
+    	<div class="modal fade" id="createResultModal" tabindex="-1" role="dialog">
+    		<div class="modal-dialog" role="document">
+    			<form role="form" data-toggle="validator">
+    				<div class="modal-content">
+    					<div class="modal-header">
+    						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    						<h4 class="modal-title" id="myModalLabel">Resultado</h4>
+    					</div>
+    					<div class="modal-body">
+    						<div class="row">
+    							<div class="col-md-12">
+    								<div class="form-group">
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Edad</label> 
+    										</div>
+    										<div class="col-md-2">
+    											<input class="form-control" type="number" placeholder="12" />
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Estudios</label>
+    										</div>
+    										<div class="col-md-10">
+    											<select class="form-control">
+    												<option selected>Seleccione Estudios</option>
+    											</select>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Años de Estudio</label>
+    										</div>
+    										<div class="col-md-10">
+    											<input class="form-control" type="number" placeholder="12" />
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Licencia</label>
+    										</div>
+    										<div class="col-md-8">
+    											<select class="form-control">
+    												<option selected>Selecciones Licencia</option>
+    											</select>
+    										</div>
+    										<div class="col-md-1">
+    											<button class="btn btn-default"><i class="glyphicon glyphicon-plus"></i></button>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Años de Licencia</label>
+    										</div>
+    										<div class="col-md-5">
+    											<input class="form-control" type="number" placeholder="años"></input>
+    										</div>
+    										<div class="col-md-5">
+    											<input class="form-control" type="number" placeholder="meses"></input>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>RAVEN</label>
+    										</div>
+    										<div class="col-md-10">
+    											<input class="form-control" type="number" placeholder="0 - 60" min="0" max="60" />
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>EPQ</label>
+    										</div>
+    										<div class="col-md-5">
+    											<input class="form-control" type="number" placeholder="N"></input>
+    										</div>
+    										<div class="col-md-5">
+    											<input class="form-control" type="number" placeholder="P"></input>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>EPWORTH</label>
+    										</div>
+    										<div class="col-md-10">
+    											<input class="form-control" type="number" placeholder="1 - 24" />
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Reactímetro</label> 
+    										</div>
+    										<div class="col-md-4">
+    											<input class="form-control" type="number" placeholder="0.0 - 0.43" min="0.0" max="0.43" step="0.01" />
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Palanca</label> 
+    										</div>
+    										<div class="col-md-4">
+    											<input class="form-control" type="number" placeholder="0 - 12" min="0" max="12" />
+    										</div>
+    										<div class="col-md-4">
+    											<label>Errores</label>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Punteo</label> 
+    										</div>
+    										<div class="col-md-4">
+    											<input class="form-control" type="number" placeholder="0 - 23" min="0" max="23" />
+    										</div>
+    										<div class="col-md-4">
+    											<label>Errores</label>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label style="font-size: 12px">Encandilamiento</label> 
+    										</div>
+    										<div class="col-md-4">
+    											<input class="form-control" type="number" placeholder="1 - 5" min="1" max="5" />
+    										</div>
+    										<div class="col-md-4">
+    											<label>Segundos</label>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Lentes Cerca</label>
+    										</div>
+    										<div class="col-md-10">
+    											<select class="form-control">
+    												<option selected>No</option>
+    												<option>Sí</option>
+    											</select>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Lentes Lejos</label>
+    										</div>
+    										<div class="col-md-10">
+    											<select class="form-control">
+    												<option selected>No</option>
+    												<option>Sí</option>
+    											</select>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label>Conclusión</label>
+    										</div>
+    										<div class="col-md-10">
+    											<select class="form-control">
+    												<option selected>Seleccione</option>
+												</select>
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-2">
+    											<label style="font-size: 13px">Observaciones</label>
+    										</div>
+    										<div class="col-md-10">
+    											<textarea class="form-control" rows="5"></textarea>
+    										</div>
+    									</div>
+									</div>
+    							</div>
+    						</div>
+
+
+
+
+
+
+    						<div class="row" ng-show="newPatient.error">
+    							<div class="alert alert-danger" style="margin:15px">
+    								<strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
+    							</div>
+    						</div>
+    					</div>
+
+    					<div class=" form-group modal-footer">
+    						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+    						<button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
+    					</div>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
+    	<!-- Fin Modal Resultado-->
+    	<div class="col-md-12">
+    		<h3>Toma de Examenes <i class="glyphicon glyphicon-list-alt"></i></h3>
+    		<hr>
+    		<div class="row">
+    			<div class=" col-sm-12 ">
+    				<table class="table table-hover table-bordered"> 
+    					<thead> 
+    						<tr> 
+    							<th>Paciente</th> 
+    							<th>Empresa</th> 
+    							<th>Examen</th> 
+    							<th>Centro de Costo</th>
+    							<th>Solicita Estado</th>
+    							<th>Ingresar Resultado</th>  
+    						</tr> 
+    					</thead> 
+    					<tbody> 
+    						<tr> 
+    							<td></td>
+    							<td></td>
+    							<td></td>
+    							<td></td>
+    							<td></td>
+    							<td><button type="button" ng-click="openNewResult()" class="btn btn-sm btn-info center-block" data-dismiss="modal">Ingresar Resultado</button></td>
+    						</tr> 
+    					</tbody> 
+    				</table>
+    			</div>
+    		</div>
+    	</div>
+
+    </div>
