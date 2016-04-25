@@ -35,6 +35,7 @@ var jsFilesToInject = [
     'js/dependencies/**/*.js',
     'vendor/jquery/dist/jquery.min.js',
     'js/validator.js',
+    'js/jquery.Rut.js',
     'vendor/angular/angular.min.js',
 //    'vendor/angular-animate/angular-animate.min.js',
 //    'vendor/angular-aria/angular-aria.min.js',
@@ -56,6 +57,11 @@ var jsFilesToInject = [
     '/js/app/exam/examModule.js',
     '/js/app/exam/examDirectives.js',
     '/js/app/exam/examController.js',
+    '/js/app/patient/patientModule.js',
+    '/js/app/patient/patientDirectives.js',
+    '/js/app/patient/patientController.js',
+    
+    
 //'js/**/*.js',
             // Use the "exclude" operator to ignore files
             // '!js/ignore/these/files/*.js'

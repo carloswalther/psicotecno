@@ -147,6 +147,7 @@
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/js/validator.js"></script>
+    <script src="/js/jquery.Rut.js"></script>
     <script src="/vendor/angular/angular.min.js"></script>
     <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/vendor/angucomplete-alt/dist/angucomplete-alt.min.js"></script>
@@ -160,6 +161,9 @@
     <script src="/js/app/exam/examModule.js"></script>
     <script src="/js/app/exam/examDirectives.js"></script>
     <script src="/js/app/exam/examController.js"></script>
+    <script src="/js/app/patient/patientModule.js"></script>
+    <script src="/js/app/patient/patientDirectives.js"></script>
+    <script src="/js/app/patient/patientController.js"></script>
     <!--SCRIPTS END-->
     <script>
         function msg(title,message,type){
@@ -190,6 +194,17 @@
                 // everything looks good!
               }
             })
+
+            $('#rut_validator').Rut({
+                on_error: function(){ alert('Rut incorrecto'); },
+                format_on: 'keyup'
+            });
+
+            $('#rut_validator2').Rut({
+                on_error: function(){ alert('Rut incorrecto'); },
+                format_on: 'keyup'
+            });
+
         });
     </script>
   </body>

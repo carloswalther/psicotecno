@@ -1,0 +1,1 @@
+angular.module('PatientModule', ["angucomplete-alt", 'ui.bootstrap']);

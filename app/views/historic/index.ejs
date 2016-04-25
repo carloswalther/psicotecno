@@ -37,7 +37,7 @@
                     <br>
                     <div class="row">
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" name="rut" class="form-control" ng-model="newPatient.rut" placeholder="Rut" required>
+                            <input type="text" id="rut_validator" name="rut" class="form-control" ng-model="newPatient.rut" placeholder="Rut" required>
                         </div>    
                     </div>
                     <div class="row" ng-show="newPatient.error">
@@ -72,7 +72,7 @@
                             <input type="text" class="form-control" ng-model="newCompany.name" placeholder="Nombre">
                         </div>
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" class="form-control" ng-model="newCompany.rut" placeholder="Rut">
+                            <input type="text" id="rut_validator2" class="form-control" ng-model="newCompany.rut" placeholder="Rut">
                         </div>    
                     </div>
                     <div class="row" ng-show="newCompany.error">

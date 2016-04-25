@@ -23,6 +23,11 @@ module.exports = {
                 return res.send(data);
             }
         });
+    },
+
+     edit: function (req, res) {
+        res.view();
     }
+
 };
 
