@@ -6,42 +6,27 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Ingreso Rápido de Usuario</h4>
+                            <h4 class="modal-title" id="myModalLabel">Ingreso Rápido de Empresa</h4>
                         </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input class="form-control" placeholder="Usuario" name="username"></input>
+                                    <input class="form-control" placeholder="Nombre" name="name"></input>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input class="form-control" placeholder="Nombre" name="nombre"></input>
+                                    <input class="form-control" placeholder="RUT" name="rut"></input>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input class="form-control" placeholder="Apellido" name="apellido"></input>
+                                    <label>Pago Centralizado <input type="checkbox" class="form-control" ng-model="newCompany.centralPayment" placeholder="Nombre"></label>
                                 </div>
                             </div>
                             <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input class="form-control" placeholder="Password" type="password" name="password"></input>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <select class="form-control" name="rol">
-                                        <option value="#">Administrador</option>
-                                        <option value="#">Secretaria</option>
-                                        <option value="#">Tecnico</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div class="row" ng-show="newPatient.error">
                                 <div class="alert alert-danger" style="margin:15px">
                                     <strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
@@ -60,7 +45,7 @@
         <!-- Fin Modal Resultado-->
         <div class="col-md-12">
         <div class="row">
-            <h3>Crear/Editar Usuario <i class="glyphicon glyphicon-user"></i></h3>
+            <h3>Crear/Editar Empresa <i class="glyphicon glyphicon-user"></i></h3>
         </div>
         <hr>
         <div class="row">
@@ -77,11 +62,10 @@
                     <table class="table table-hover table-bordered"> 
                         <thead> 
                             <tr> 
-                                <th>Usuario</th> 
+
                                 <th>Nombre</th> 
-                                <th>Apellido</th> 
-                                <th>Password</th>
-                                <th>Rol</th>
+                                <th>Rut</th>
+                                <th>Pago Centralizado</th>
                                 <th>Acciones</th>
                             </tr> 
                         </thead> 
@@ -89,14 +73,7 @@
                             <tr> 
                                 <td><input class="form-control"></input></td>
                                 <td><input class="form-control"></input></td>
-                                <td><input class="form-control"></input></td>
-                                <td><input class="form-control" disabled></input></td>
-                                <td><select class="form-control">
-                                        <option>Administrador</option>
-                                        <option>Secretaria</option>
-                                        <option>Tecnico</option>
-                                    </select>
-                                </td>
+                                <td><center> - </center></td>
                                 <td><center><button class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button></center></td>
                             </tr> 
                         </tbody> 
