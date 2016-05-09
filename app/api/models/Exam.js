@@ -8,6 +8,8 @@
 module.exports = {
     attributes: {
         name: "string",
+        cost: "integer",
+        particularCost: "integer",
         historics: {
             collection: "historic",
             via: "exam"

@@ -11,7 +11,7 @@ module.exports = {
         rut: "string",
         centralPayment: {
             type: "boolean",
-            defaultsTo: true
+            defaultsTo: false
         },
         historics: {
             collection: "historic",

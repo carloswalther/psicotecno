@@ -10,6 +10,8 @@ angular.module('HistoricModule').controller('HistoricController',
                 $scope.newHistoric.patient = {};
                 $scope.newHistoric.company = {};
                 $scope.newHistoric.exam = {};
+                $scope.newHistoric.pooc = "PO";
+                $scope.newHistoric.mutual = "Mutual";
                 $scope.newHistoric.registerDate = new Date();
 
 
@@ -78,6 +80,7 @@ angular.module('HistoricModule').controller('HistoricController',
                     $scope.newHistoric.patient = {};
                     $scope.newHistoric.company = {};
                     $scope.newHistoric.exam = {};
+                    $scope.newHistoric.mutual = "Mutual";
                     $("#patient_value").val("");
                     $("#company_value").val("");
                 };
@@ -95,38 +98,40 @@ angular.module('HistoricModule').controller('HistoricController',
                 };
 
                 $scope.validateHistoric = function () {
-                   var state = true;
-                   if (!(_.isEmpty($scope.newHistoric.patient)
-                           || _.isEmpty($scope.newHistoric.exam)
-                           || _.isEmpty($scope.newHistoric.company))) {
-                       state = false;
-                   }
+                    var state = true;
+                    if (!(_.isEmpty($scope.newHistoric.patient)
+                            || _.isEmpty($scope.newHistoric.exam)
+                            || _.isEmpty($scope.newHistoric.company))) {
+                        state = false;
+                    }
 
-                   return state;
-               }
+                    return state;
+                }
 
                 $scope.openNewPatient = function () {
 
                     $('#createPatientModal').modal("show");
-                    $scope.isSaving = false
+
                 };
 
                 $scope.savePatient = function () {
                     $scope.isSaving = true
-                    io.socket.post("/patient/create", {patient: $scope.newPatient}, function (data) {   
+                    io.socket.post("/patient/create", {patient: $scope.newPatient}, function (data) {
+                        $scope.isSaving = false;
                         if (data) {
                             $scope.newHistoric.patient = $.extend($scope.newPatient, data);
                             $("#patient_value").val(data.name + " " + data.lastName);
                             msg("Paciente creado exitosamente", "", "success");
                             $('#createPatientModal').modal("hide");
                             $scope.newPatient.error = false
-                            
+
 
                         } else {
                             $scope.newPatient.error = true;
                             $scope.$apply($scope.newPatient)
                             //msg("Paciente no se pudo creear", "", "danger");
                         }
+
 
                     });
                 };
@@ -136,12 +141,15 @@ angular.module('HistoricModule').controller('HistoricController',
                 $scope.openNewCompany = function () {
 
                     $('#createCompanyModal').modal("show");
+
                 };
 
                 $scope.saveCompany = function () {
 
-
+                    $scope.isSaving = true;
                     io.socket.post("/company/create", {company: $scope.newCompany}, function (data) {
+
+                        $scope.isSaving = false;
                         if (data) {
                             $scope.newHistoric.company = $.extend($scope.newCompany, data);
                             $("#company_value").val(data.name + " " + data.rut);
@@ -149,11 +157,13 @@ angular.module('HistoricModule').controller('HistoricController',
                             $('#createCompanyModal').modal("hide");
                             $scope.newCompany.error = false
 
+
                         } else {
                             $scope.newCompany.error = true;
                             $scope.$apply($scope.newCompany)
                             //msg("Empresa no se pudo creear", "", "danger");
                         }
+
 
                     });
                 };

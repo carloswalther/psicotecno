@@ -8,7 +8,7 @@
     	<!--Modal de Resultado-->
     	<div class="modal fade" id="createResultModal" tabindex="-1" role="dialog">
     		<div class="modal-dialog" role="document">
-    			<form role="form" data-toggle="validator">
+                <form role="form" ng-submit="saveHistoric(registerExamForm.$valid)" name="registerExamForm" data-toggle="validator" novalidate>
     				<div class="modal-content">
     					<div class="modal-header">
     						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -19,105 +19,109 @@
     							<div class="col-md-12">
     								<div class="form-group">
     									<div class="row">
-    										<div class="col-md-2">
-    											<label>Edad</label> 
-    										</div>
-    										<div class="col-md-2">
-    											<input class="form-control" type="number" placeholder="12" />
-    										</div>
-    									</div>
-    									<br>
-    									<div class="row">
-    										<div class="col-md-2">
-    											<label>Estudios</label>
-    										</div>
-    										<div class="col-md-10">
-    											<select class="form-control">
-    												<option selected>Seleccione Estudios</option>
-    											</select>
-    										</div>
-    									</div>
-    									<br>
-    									<div class="row">
-    										<div class="col-md-2">
-    											<label>Años de Estudio</label>
-    										</div>
-    										<div class="col-md-10">
-    											<input class="form-control" type="number" placeholder="12" />
-    										</div>
-    									</div>
-    									<br>
-    									<div class="row">
-    										<div class="col-md-2">
-    											<label>Licencia</label>
+    										<div class="col-md-4">
+    											<label>Edad (*)</label> 
     										</div>
     										<div class="col-md-8">
-    											<select class="form-control">
-    												<option selected>Selecciones Licencia</option>
-    											</select>
+    											<input name="edad" ng-model="editHistoric.edad" class="form-control" type="number" placeholder="Edad 18-80" min="18" max="80" required/>
     										</div>
-    										<div class="col-md-1">
-    											<button class="btn btn-default"><i class="glyphicon glyphicon-plus"></i></button>
-    										</div>
+                                          </div>
+                                        <div class="row" style="margin: 0 0 0 0;">
+                                            <div ng-show="registerExamForm.edad.$invalid
+                                                 && registerExamForm.edad.$touched" class="alert alert-danger">
+                                                <strong>Edad!</strong> Debes ingresar una edad y que esté entre 18 y 65 alos.
+                                            </div>
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
-    											<label>Años de Licencia</label>
+    										<div class="col-md-4">
+    											<label>Estudios (*)</label>
     										</div>
-    										<div class="col-md-5">
-    											<input class="form-control" type="number" placeholder="años"></input>
+    										<div class="col-md-8">
+                                                <select name="estudios" ng-model="editHistoric.estudios" class="form-control" required>
+    												
+                                                    <option value="E. Básica Incompleta">E. Básica Incompleta</option>
+                                                    <option value="E. Básica Completa">E. Básica Completa</option>
+                                                    <option value="E. Media Incompleta">E. Media Incompleta</option>
+                                                    <option value="T. Superior Incompleto">T. Superior Incompleto</option>
+                                                    <option value="T. Superior Completo">T. Superior Completo</option>
+                                                    <option value="E. Superior Incompleta">E. Superior Incompleta</option>
+                                                    <option value="E. Superior Completa">E. Superior Completa</option>
+                                                </select>
     										</div>
-    										<div class="col-md-5">
-    											<input class="form-control" type="number" placeholder="meses"></input>
-    										</div>
+    									</div>
+                                         <div class="row" style="margin: 0 0 0 0;">
+                                            <div ng-show="registerExamForm.estudios.$invalid
+                                                 && registerExamForm.estudios.$touched" class="alert alert-danger">
+                                                <strong>Estudios!</strong> Debes señeccionar algún nivel de estudios
+                                            </div>
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
+    										<div class="col-md-4">
+    											<label>Años de Estudio (*)</label>
+    										</div>
+    										<div class="col-md-8">
+                                                <select name="aniosEstudio" ng-model="editHistoric.aniosEstudio" class="form-control" required>
+                                                    <option value="1ERO - 8VO Básico">1ERO - 8VO Básico</option>
+                                                    <option value="1ERO - 5TO Medio">1ERO - 5TO Medio</option>
+                                                    <option value="1-2 Años">1-2 Años</option>
+                                                    <option value="1-7 Años">1-7 Años</option>
+                                                </select>
+                                            </div>
+    									</div>
+                                        <div class="row" style="margin: 0 0 0 0;">
+                                            <div ng-show="registerExamForm.aniosEstudio.$invalid
+                                                 && registerExamForm.aniosEstudio.$touched" class="alert alert-danger">
+                                                <strong>Años de Estudio!</strong> Debes señeccionar los años de estudios correspondientes
+                                            </div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-4">
     											<label>RAVEN</label>
     										</div>
-    										<div class="col-md-10">
-    											<input class="form-control" type="number" placeholder="0 - 60" min="0" max="60" />
+    										<div class="col-md-8">
+    											<input ng-model="editHistoric.raven" class="form-control" type="number" placeholder="0 - 60" min="0" max="60" />
     										</div>
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
+    										<div class="col-md-4">
     											<label>EPQ</label>
     										</div>
-    										<div class="col-md-5">
-    											<input class="form-control" type="number" placeholder="N"></input>
-    										</div>
-    										<div class="col-md-5">
-    											<input class="form-control" type="number" placeholder="P"></input>
-    										</div>
-    									</div>
-    									<br>
-    									<div class="row">
-    										<div class="col-md-2">
-    											<label>EPWORTH</label>
-    										</div>
-    										<div class="col-md-10">
-    											<input class="form-control" type="number" placeholder="1 - 24" />
-    										</div>
-    									</div>
-    									<br>
-    									<div class="row">
-    										<div class="col-md-2">
-    											<label>Reactímetro</label> 
+    										<div class="col-md-4">
+    											<input ng-model="editHistoric.epqN" class="form-control" type="number" min="1" max="30" placeholder="N 1-30"></input>
     										</div>
     										<div class="col-md-4">
-    											<input class="form-control" type="number" placeholder="0.0 - 0.43" min="0.0" max="0.43" step="0.01" />
+    											<input ng-model="editHistoric.epqQ" class="form-control" type="number" min="1" max="30" placeholder="P 1-30"></input>
     										</div>
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
+    										<div class="col-md-4">
+    											<label>EPWORTH</label>
+    										</div>
+    										<div class="col-md-8">
+                                                <input class="form-control" min=1 max=24 ng-model="editHistoric.epworth" type="number" placeholder="1 - 24" />
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-4">
+    											<label>Reactímetro</label> 
+    										</div>
+    										<div class="col-md-8">
+    											<input class="form-control" ng-model="editHistoric.reactimetro" ype="number" placeholder="0.0 - 0.43" min="0.0" max="0.43" step="0.01" />
+    										</div>
+    									</div>
+    									<br>
+    									<div class="row">
+    										<div class="col-md-4">
     											<label>Palanca</label> 
     										</div>
     										<div class="col-md-4">
-    											<input class="form-control" type="number" placeholder="0 - 12" min="0" max="12" />
+    											<input class="form-control" ng-model="editHistoric.palanca" type="number" placeholder="0 - 12" min="0" max="12" />
     										</div>
     										<div class="col-md-4">
     											<label>Errores</label>
@@ -125,11 +129,11 @@
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
+    										<div class="col-md-4">
     											<label>Punteo</label> 
     										</div>
     										<div class="col-md-4">
-    											<input class="form-control" type="number" placeholder="0 - 23" min="0" max="23" />
+    											<input class="form-control" ng-model="editHistoric.punteo" type="number" placeholder="0 - 23" min="0" max="23" />
     										</div>
     										<div class="col-md-4">
     											<label>Errores</label>
@@ -137,11 +141,11 @@
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
+    										<div class="col-md-4">
     											<label style="font-size: 12px">Encandilamiento</label> 
     										</div>
     										<div class="col-md-4">
-    											<input class="form-control" type="number" placeholder="1 - 5" min="1" max="5" />
+    											<input class="form-control" ng-model="editHistoric.encandilamiento" type="number" placeholder="1 - 5" min="1" max="5" />
     										</div>
     										<div class="col-md-4">
     											<label>Segundos</label>
@@ -149,46 +153,58 @@
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
+    										<div class="col-md-4">
     											<label>Lentes Cerca</label>
     										</div>
-    										<div class="col-md-10">
-    											<select class="form-control">
-    												<option selected>No</option>
-    												<option>Sí</option>
+    										<div class="col-md-8">
+    											<select class="form-control" ng-model="editHistoric.lentesCerca">
+    												<option selected value="no">No</option>
+    												<option value="si">Sí</option>
     											</select>
     										</div>
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
+    										<div class="col-md-4">
     											<label>Lentes Lejos</label>
     										</div>
-    										<div class="col-md-10">
-    											<select class="form-control">
-    												<option selected>No</option>
-    												<option>Sí</option>
+    										<div class="col-md-8">
+    											<select class="form-control" ng-model="editHistoric.lentesLejos">
+    												<option selected value="no">No</option>
+    												<option value="si">Sí</option>
     											</select>
     										</div>
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
-    											<label>Conclusión</label>
+    										<div class="col-md-4">
+    											<label>Conclusión (*)</label>
     										</div>
-    										<div class="col-md-10">
-    											<select class="form-control">
-    												<option selected>Seleccione</option>
-												</select>
+    										<div class="col-md-8">
+    											<select ng-model="editHistoric.conclusion" class="form-control">
+                                                    <option value="Recomendable">Recomendable</option>
+                                                    <option value="Recomendable con obs.">Recomendable con obs.</option>
+                                                    <option value="N.R.T.">N.R.T.</option>
+                                                    <option value="No Recomendable">No Recomendable</option>
+                                                    <option value="N.P.C.R.">N.P.C.R.</option>
+                                                    <option value="P.C.R.">P.C.R.</option>
+                                                </select>
     										</div>
+    									</div>
+                                        
+                                        <div class="row" style="margin: 0 0 0 0;">
+                                            <div ng-show="registerExamForm.conclusion.$invalid
+                                                 && registerExamForm.conclusion.$touched" class="alert alert-danger">
+                                                <strong>Conclución!</strong> Debes seleccionar una concusión de entre estas opciones.
+                                            </div>
     									</div>
     									<br>
     									<div class="row">
-    										<div class="col-md-2">
+    										<div class="col-md-4">
     											<label style="font-size: 13px">Observaciones</label>
     										</div>
-    										<div class="col-md-10">
-    											<textarea class="form-control" rows="5"></textarea>
+    										<div class="col-md-8">
+    											<textarea class="form-control" ng-model="editHistoric.observacion" rows="5"></textarea>
     										</div>
     									</div>
 									</div>
@@ -209,7 +225,7 @@
 
     					<div class=" form-group modal-footer">
     						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
-    						<button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
+    						<button type="submit" class="btn btn-success pull-rigth" ng-disabled="registerExamForm.$invalid">Registrar resultado</button>
     					</div>
     				</div>
     			</form>
@@ -217,32 +233,53 @@
     	</div>
     	<!-- Fin Modal Resultado-->
     	<div class="col-md-12">
-    		<h3>Toma de Examenes <i class="glyphicon glyphicon-list-alt"></i></h3>
-    		<hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 style="margin-top: 0px;">Toma de Examenes <i class="glyphicon glyphicon-list-alt"></i></h3>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" ng-model="filter" placeholder="Buscar por nombre">
+                </div>
+                <div class="pull-right">
+                    <input type="date" ng-model="date">
+                    <button type="button" class="btn btn-sm btn-success" ng-click="getHistorics();">Cargar Fecha</button>
+                </div>
+    		
+                
+            </div>
+            <hr>
     		<div class="row">
-    			<div class=" col-sm-12 ">
+    			<div class=" col-sm-12 " ng-show="historics.length > 0">
     				<table class="table table-hover table-bordered"> 
     					<thead> 
     						<tr> 
-    							<th>Paciente</th> 
-    							<th>Empresa</th> 
-    							<th>Examen</th> 
-    							<th>Centro de Costo</th>
-    							<th>Solicita Estado</th>
-    							<th>Ingresar Resultado</th>  
+    							<th class="col-sm-2">Paciente</th> 
+    							<th class="col-sm-2">Empresa</th> 
+    							<th class="col-sm-2">Examen</th> 
+    							<th class="col-sm-2">Centro de Costo</th>
+    							<th class="col-sm-2">Solicita Estado</th>
+    							<th class="col-sm-2">Ingresar Resultado</th>  
     						</tr> 
     					</thead> 
     					<tbody> 
-    						<tr> 
-    							<td></td>
-    							<td></td>
-    							<td></td>
-    							<td></td>
-    							<td></td>
-    							<td><button type="button" ng-click="openNewResult()" class="btn btn-sm btn-info center-block" data-dismiss="modal">Ingresar Resultado</button></td>
+                            <tr ng-class="{true: 'success'}[historic.processed]" ng-repeat="historic in historics" ng-show="filterName(historic)"> 
+    							<td>{{historic.patient.name}} {{historic.patient.lastName}}</td>
+    							<td>{{historic.company.name}}</td>
+    							<td>{{historic.exam.name}}</td>
+    							<td>{{historic.cc}}</td>
+                                <td>{{historic.respApplication}}</td>
+    							
+    							<td><button ng-show="!historic.processed" type="button" ng-click="openNewResult(historic)" class="btn btn-sm btn-info center-block" data-dismiss="modal">Ingresar Resultado</button>
+                                <button ng-show="historic.processed" type="button" ng-click="openNewResult(historic)" class="btn btn-sm btn-warning center-block" data-dismiss="modal">Editar Resultado</button></td>
     						</tr> 
     					</tbody> 
     				</table>
+    			</div>
+                <div class=" col-sm-12 " ng-show="historics.length == 0">
+    				<div class="jumbotron" style="padding-left: 50px;">
+                        <h3>No existen examenes en esta fecha!</h3>
+                        <p>Debes seleccionar otra fecha</p>
+                    </div>
     			</div>
     		</div>
     	</div>

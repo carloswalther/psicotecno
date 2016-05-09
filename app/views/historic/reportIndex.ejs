@@ -1,0 +1,274 @@
+<style>
+    .search{
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+}
+    
+</style>
+<script>
+
+   </script>
+
+  
+  
+<div  class="row" style="margin-top: 70px;padding: 20;" ng-app="HistoricReportModule" ng-controller="HistoricReportController" ng-cloak>
+      <div class="modal fade" id="createPatientModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form role="form" data-toggle="validator">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Crear Paciente</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" name="name" class="form-control" ng-model="newPatient.name" placeholder="Nombre" required>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" name="secondName" class="form-control" ng-model="newPatient.secondName" placeholder="Segundo Nombre" required>
+                        </div>
+                    </div>
+                        <br>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" name="name" class="form-control" ng-model="newPatient.lastName" placeholder="Apellido P." required>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" name="lastname" class="form-control" ng-model="newPatient.secondLastName" placeholder="Apellido M." required>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text"  ng-rut rut-format="live" name="rut" class="form-control" ng-model="newPatient.rut" placeholder="Rut" required>
+                        </div>    
+                    </div>
+                    <div class="row" ng-show="newPatient.error">
+                        <div class="alert alert-danger" style="margin:15px">
+                            <strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
+                        </div>
+                    </div>
+                    </div>
+                </div>
+               
+                <div class=" form-group modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+   <!--Modal Company-->
+    <div class="modal fade" id="createCompanyModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Crear Empresa</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" class="form-control" ng-model="newCompany.name" placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" class="form-control"  ng-rut rut-format="live"  ng-model="newCompany.rut" placeholder="Rut">
+                        </div>    
+                    </div>
+                    <br>
+                     <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <label>Pago Centralizado <input type="checkbox" class="form-control" ng-model="newCompany.centralPayment" placeholder="Nombre"></label>
+                        </div>
+                        
+                    </div>
+                    <div class="row" ng-show="newCompany.error">
+                        <div class="alert alert-danger" style="margin:15px">
+                            <strong>Error!</strong> No se puede crear esta Empresa, probablemente ya existe, intente buscarlo nuevamente
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success pull-rigth" ng-click="saveCompany()" ng-disabled="isSaving">Crear</button>
+                </div>
+                {{newCompany}}
+            </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="newQuotation" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Nueva Cotización</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class=" col-sm-4 ">
+                            <div class="form-group">
+                                <label >Tipo de Registro</label>
+                            </div>
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <div class="form-group">
+                                <label >Descripción</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveQuotation(newQuotation)">Guardar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    
+
+    <div class="row search">
+      
+  <div class="padded-row"> 
+   <div class="col-sm-2"> 
+      <angucomplete-alt id="company"
+              
+              placeholder="Buscar Empresa"
+              pause="500"
+              text-searching="Buscando..."
+              text-no-results="No hay resultado"
+              selected-object="addCompany"
+              remote-url="/company/findAll?s="
+              remote-url-data-field=""
+              title-field="name"
+              description-field="rut"
+              input-class="form-control form-control-small"
+              match-class="highlight"
+              class="ng-isolate-scope"
+              />
+          </div>
+  </div>
+   <div class="col-sm-2"> 
+        
+<!--        <input type="text" class="form-control" uib-datepicker-popup ng-model="newHistoric.registerDate" is-open="status.opened" datepicker-options="dateOptions" close-text="Close" />-->
+        <input type="date" class="form-control" ng-model="filter.from" ng-change="getHistorics();" />
+        
+        
+    </div> 
+   <div class="col-sm-2"> 
+        
+<!--        <input type="text" class="form-control" uib-datepicker-popup ng-model="newHistoric.registerDate" is-open="status.opened" datepicker-options="dateOptions" close-text="Close" />-->
+        <input type="date" class="form-control" ng-model="filter.to" ng-change="getHistorics();" />
+        
+        
+    </div> 
+        <div class="col-sm-2"> 
+        
+            <select ng-model="filter.pooc" class="form-control">
+                <option value="pooc">PO y OC</option>
+                <option value="PO">PO</option>
+                <option value="OC">OC</option>
+            </select>
+        
+        
+        
+    </div> 
+</div> 
+
+<div class="row">
+    <div class="col-sm-4"> 
+        <button type="button" class="btn btn-warning form-control" ng-click="clarAll()">Limpiar formulario</button>
+    
+    </div>   
+    <div class="col-sm-4 pull-right"> 
+    
+        <button type="button" class="btn btn-success  form-control" ng-click="searchReport()" >Buscar</button>
+    </div>   
+</div>
+    
+<!--    <div class="row" ng-show="customer">-->
+<!--<form name="quotationForm">-->
+<div class="well">
+    <table class="table">
+        <thead>
+        <th>Item</th>
+        <th>Valor</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Total Venta:</td>
+            <td>{{getTotalCost()|currency }}</td>
+        </tr>
+        <tr>
+            <td>Total Numero Exámenes:</td>
+            <td>{{historics.length}}</td>
+        </tr>
+    </tbody> 
+    </table>
+    <div class="row">
+            <form method="post" action="/historic/excelTodo">
+                <div class="col-sm-4"> 
+                    <input type="hidden" name="filter" value="{{lastFilter}}"/>
+                    <button type="submit" class="btn btn-success form-control"  >Excel Todo</button>
+                </div> 
+            </form>
+        
+            <form method="post" action="/historic/excelCobro">
+                <div class="col-sm-4"> 
+                    <input type="hidden" name="filter" value="{{lastFilter}}"/>
+                    <button type="submit" class="btn btn-success form-control"  >Excel Cobro</button>
+                </div> 
+            </form>
+                
+        
+    </div>
+</div>
+<div class="table-responsive" ng-show="historics.length > 0">
+  <table class="table">
+    <thead>
+        <th>Nombre<br>
+            <input ng-model="nameFilter" type="text">
+        </th>
+        <th>Empresa
+            <input ng-model="nameFilter" type="text">
+        </th>
+        <th>Examen</th>
+        <th>Centro de Costo</th>
+        <th>Responsable Solicitud</th>
+        <th>Precio</th>
+        <th>Cargo</th>
+        <th>PO/CO</th>
+        <th>Tipo</th>
+        <th>Fecha</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="historic in historics" ng-show="userFilter(historic)">
+            <td>{{historic.patientName}} {{historic.patientSecondName}} {{historic.patientLastName}} {{historic.patientSecondLastName}}</td>
+            <td>{{historic.companyName}}</td>
+            <td>{{historic.examName}}</td>
+            <td>{{historic.cc}}</td>
+            <td>{{historic.respApplication}}</td>
+            <td>{{historic.mutual =="Mutual" ? historic.examCost:historic.examParticularCost}}</td>
+            <td>{{historic.position}}</td>
+            <td>{{historic.pooc}}</td>
+            <td>{{historic.mutual}}</td>
+            <td>{{historic.registerDate |date:"dd-MM-yy" }}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>     
+</div>
+

@@ -31,13 +31,22 @@
                             <input type="text" name="name" class="form-control" ng-model="newPatient.name" placeholder="Nombre" required>
                         </div>
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" name="lastname" class="form-control" ng-model="newPatient.lastName" placeholder="Apellido" required>
+                            <input type="text" name="secondName" class="form-control" ng-model="newPatient.secondName" placeholder="Segundo Nombre" required>
+                        </div>
+                    </div>
+                        <br>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" name="name" class="form-control" ng-model="newPatient.lastName" placeholder="Apellido P." required>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" name="lastname" class="form-control" ng-model="newPatient.secondLastName" placeholder="Apellido M." required>
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" id="rut_validator" name="rut" class="form-control" ng-model="newPatient.rut" placeholder="Rut" required>
+                            <input type="text"  ng-rut rut-format="live" name="rut" class="form-control" ng-model="newPatient.rut" placeholder="Rut" required>
                         </div>    
                     </div>
                     <div class="row" ng-show="newPatient.error">
@@ -72,8 +81,15 @@
                             <input type="text" class="form-control" ng-model="newCompany.name" placeholder="Nombre">
                         </div>
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" id="rut_validator2" class="form-control" ng-model="newCompany.rut" placeholder="Rut">
+                            <input type="text" class="form-control"  ng-rut rut-format="live"  ng-model="newCompany.rut" placeholder="Rut">
                         </div>    
+                    </div>
+                    <br>
+                     <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <label>Pago Centralizado <input type="checkbox" class="form-control" ng-model="newCompany.centralPayment" placeholder="Nombre"></label>
+                        </div>
+                        
                     </div>
                     <div class="row" ng-show="newCompany.error">
                         <div class="alert alert-danger" style="margin:15px">
@@ -86,6 +102,7 @@
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-success pull-rigth" ng-click="saveCompany()" ng-disabled="isSaving">Crear</button>
                 </div>
+                {{newCompany}}
             </div>
             </form>
         </div>
@@ -125,211 +142,6 @@
         </div>
     </div>
     
-<!--    MODEL CREACION KIT-->
-    <div class="modal fade" id="newKitModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <form>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Nuevo Kit</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                         <div class="row">
-                        <div class=" col-sm-4 ">
-                                <label >Nombre</label>
-                        </div>
-                        <div class=" col-sm-6 ">
-                                <input ng-model="newKit.name" type="text">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class=" col-sm-4 ">
-                                <label >Descripción</label>
-                        </div>
-                        <div class=" col-sm-6 ">
-                            <textarea ng-model="newKit.description" ></textarea>
-                        </div>
-                    </div>
-                     <div class="row">
-                        <div class=" col-sm-4 ">
-                                <label >Precio</label>
-                        </div>
-                        <div class=" col-sm-6 ">
-                            <span> {{newKit.price}} </span>
-                        </div>
-                         
-                    </div>
-                    <div class="row">
-                        <div class=" col-sm-4 ">
-                                <label >Margen</label>
-                        </div>
-                        <div class=" col-sm-6 ">
-                            <span> {{newKit.profit}} </span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class=" col-sm-4 ">
-                                <label >Margen con descuento</label>
-                        </div>
-                        <div class=" col-sm-6 ">
-                            <span> {{newKit.profitAfterDiscount}} </span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class=" col-sm-4 ">
-                                <label >Habilitacion Manual</label>
-                        </div>
-                        <div class=" col-sm-6 ">
-                            <span> {{newKit.enableCostManual}} </span>
-                        </div>
-                         
-                    </div>
-                    <div class="row">
-                        <div class=" col-sm-4 ">
-                                <label >Cuotas</label>
-                        </div>
-                        <div class=" col-sm-6 ">
-                            <span> {{newKit.dues}} </span>
-                        </div>
-                         
-                    </div>
-                    </div>
-                </div>
-               
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveKit()">Guardar</button>
-                </div>
-            </div>
-            </form>
-        </div>
-    </div>
-
-<!--    MODAL CREACION TEMPLATE-->
-    <div class="modal fade" id="newTemplateModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <form>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Nueva Plantilla</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class=" col-sm-4 ">
-                                <label >Nombre</label>
-                        </div>
-                        <div class=" col-sm-6 ">
-                                <input ng-model="template.name" type="text">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class=" col-sm-4 ">
-                                <label >Descripción</label>
-                        </div>
-                        <div class=" col-sm-6 ">
-                            <textarea ng-model="template.description" ></textarea>
-                        </div>
-                    </div>
-                </div>
-               
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveTemplate()">Guardar</button>
-                </div>
-            </div>
-            </form>
-        </div>
-    </div>
-    
-<!--    MODEL SELECCION KIT-->
-    <div class="modal fade" id="selectKitModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <form>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Nuevo Kit</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class=" col-sm-12 ">
-                        <table style="width: 100%">
-                            <thead>
-                            <th>Nombre</th>
-                            <th>Descripciion</th>
-                            <th>Precio</th>
-                            <th>Asignar</th>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="lkit in kits">
-                                    <td>{{lkit.name}}</td>
-                                    <td>{{lkit.description}}</td>
-                                    <td>{{lkit.price | currency:"$":0}}</td>
-                                    <td><button type="button" ng-click="chargeKit(lkit)" class="btn btn-danger" data-dismiss="modal">Usar Kit</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    </div>
-                </div>
-               
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveKit()">Guardar</button>
-                </div>
-            </div>
-            </form>
-        </div>
-    </div>
-<!--    MODEL SELECCION TEMPLATE-->
-    <div class="modal fade" id="selectTemplateModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <form>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Nuevo Kit</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class=" col-sm-12 ">
-                            <table>
-                            <thead>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Asignar</th>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="lTemplate in templates">
-                                    <td>{{lTemplate.name}}</td>
-                                    <td>{{lTemplate.description}}</td>
-                                    <td><button type="button" ng-click="chargeTemplate(lTemplate)" class="btn btn-danger pull-right" data-dismiss="modal">Usar Plantilla</button></td>
-                                </tr>
-                            </tbody>
-                                
-                        </table>
-                        
-                            
-                                
-                                
-                        </div>
-                        
-                    </div>
-                </div>
-               
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveKit()">Guardar</button>
-                </div>
-            </div>
-            </form>
-        </div>
-    </div>
 
     <div class="row search">
         <div class="col-sm-2">
@@ -380,6 +192,7 @@
               />
           </div>
   </div>
+
   <div class="col-sm-1">
         <button type="button" class="btn btn-success form-control" ng-click="openNewCompany()"><i class="glyphicon glyphicon-plus"></i></button>
     </div>
@@ -396,16 +209,31 @@
         
         
     </div> 
+    <div class="col-sm-2"> 
+        <select class="form-control" ng-model="newHistoric.mutual">
+            <option value="Mutual">Mutual</option>
+            <option value="Particular">Particular</option>
+        </select>
+    </div>  
 </div> 
 <div class="row">
     <div class="col-sm-12"> 
         <div class="well">
             <div class="row">
-                <div class="col-sm-6"> 
+                <div class="col-sm-3"> 
+                    <input type="text"  class="form-control" ng-model="newHistoric.cc" placeholder="Centro de Costo">
+                </div>
+                <div class="col-sm-3"> 
                     <input type="text"  class="form-control" ng-model="newHistoric.respApplication" placeholder="Responsable Solicitud">
                 </div>
-                <div class="col-sm-6"> 
-                    <input type="text"  class="form-control" ng-model="newHistoric.cc" placeholder="Centro de Costo">
+                <div class="col-sm-3"> 
+                    <input type="text"  class="form-control" ng-model="newHistoric.position" placeholder="Cargo">
+                </div>
+                <div class="col-sm-3"> 
+                    <select class="form-control" ng-model="newHistoric.pooc"> 
+                            <option selected value="PO">PO</option>
+                            <option value="OC">OC</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -433,25 +261,28 @@
         <th>Nombre</th>
         <th>Empresa</th>
         <th>Examen</th>
-        <th>Responsable Solicitud</th>
         <th>Centro de Costo</th>
+        <th>Responsable Solicitud</th>
+        <th>Cargo</th>
+        <th>PO/CO</th>
+        <th>Tipo</th>
         <th>Fecha</th>
+        
     </thead>
     <tbody>
         <tr ng-repeat="historic in historics">
-            <td>{{historic.patient.name}} {{historic.patient.lastName}}</td>
-            <td>{{historic.company.name}}</td>
-            <td>{{historic.exam.name}}</td>
-            <td>{{historic.respApplication}}</td>
+            <td>{{historic.patientName}} {{historic.patientSecondName}} {{historic.patientLastName}} {{historic.patientSecondLastName}}</td>
+            <td>{{historic.companyName}}</td>
+            <td>{{historic.examName}}</td>
             <td>{{historic.cc}}</td>
+            <td>{{historic.respApplication}}</td>
+            <td>{{historic.position}}</td>
+            <td>{{historic.pooc}}</td>
+            <td>{{historic.mutual}}</td>
             <td>{{historic.registerDate |date:"dd-MM-yy" }}</td>
         </tr>
     </tbody>
   </table>
 </div>     
-
-
-{{newHistoric}}
-
 </div>
 

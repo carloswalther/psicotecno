@@ -1,1 +1,1 @@
-angular.module('HistoricModule', ["angucomplete-alt", 'ui.bootstrap']);
+angular.module('HistoricModule', ["angucomplete-alt", 'ui.bootstrap', 'platanus.rut']);

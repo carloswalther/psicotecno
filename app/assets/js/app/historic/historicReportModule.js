@@ -1,0 +1,1 @@
+angular.module('HistoricReportModule', ["angucomplete-alt", 'ui.bootstrap', 'platanus.rut']);
