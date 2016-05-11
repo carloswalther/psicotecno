@@ -24,6 +24,10 @@ module.exports = {
                 return res.send(data);
             }
         });
+    },
+
+    index: function (req,res){
+        return res.view();
     }
 };
 

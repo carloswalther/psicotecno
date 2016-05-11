@@ -1,0 +1,85 @@
+    <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="PatientModule" ng-controller="PatientController" ng-cloak>
+        <!--Modal de Resultado-->
+        <div class="modal fade" id="createPatientModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <form role="form" data-toggle="validator">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Ingreso Rápido de Empresa</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input class="form-control" placeholder="Nombre" name="name"></input>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input class="form-control" placeholder="RUT" name="rut"></input>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Pago Centralizado <input type="checkbox" class="form-control" ng-model="newCompany.centralPayment" placeholder="Nombre"></label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" ng-show="newPatient.error">
+                                <div class="alert alert-danger" style="margin:15px">
+                                    <strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class=" form-group modal-footer">
+                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Fin Modal Resultado-->
+        <div class="col-md-12">
+        <div class="row">
+            <h3>Crear/Editar Empresa <i class="glyphicon glyphicon-user"></i></h3>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <input class="form-control pull-left" placeholder="Búsqueda"></input>
+            </div>
+            <div class="col-md-8">
+                <button type="button" class="btn btn-success pull-right" ng-click="openNewPatient()">Crear</button>
+            </div>
+        </div>
+            <br>
+            <div class="row">
+                <div class=" col-sm-12 ">
+                    <table class="table table-hover table-bordered"> 
+                        <thead> 
+                            <tr> 
+
+                                <th>Nombre</th> 
+                                <th>Rut</th>
+                                <th>Pago Centralizado</th>
+                                <th>Acciones</th>
+                            </tr> 
+                        </thead> 
+                        <tbody> 
+                            <tr> 
+                                <td><input class="form-control"></input></td>
+                                <td><input class="form-control"></input></td>
+                                <td><center> - </center></td>
+                                <td><center><button class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button></center></td>
+                            </tr> 
+                        </tbody> 
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>  
