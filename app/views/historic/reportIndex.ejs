@@ -176,16 +176,19 @@
         
     </div> 
         <div class="col-sm-2"> 
-        
-            <select ng-model="filter.pooc" class="form-control">
-                <option value="pooc">PO y OC</option>
-                <option value="PO">PO</option>
-                <option value="OC">OC</option>
-            </select>
-        
-        
-        
-    </div> 
+        <select class="form-control" ng-model="filter.mutual">
+            <option value="MutualParticular">Mutual/Particular</option>
+            <option value="Mutual">Mutual</option>
+            <option value="Particular">Particular</option>
+        </select>      
+        </div> 
+         <div class="col-sm-2"> 
+        <select class="form-control" ng-model="filter.centralPayment">
+            <option value="centralNoCentral">Centralizado si/no</option>
+            <option value="true">Cemtralizado</option>
+            <option value="false">No Centralizado</option>
+        </select>      
+        </div> 
 </div> 
 
 <div class="row">
@@ -209,8 +212,12 @@
     </thead>
     <tbody>
         <tr>
-            <td>Total Venta:</td>
-            <td>{{getTotalCost()|currency }}</td>
+            <td>Total Mutual:</td>
+            <td>{{getTotalMutualCost()|currency:"":0 }}</td>
+        </tr>
+        <tr>
+            <td>Total Particular:</td>
+            <td>{{getTotalParticularCost()|currency:"":0 }}</td>
         </tr>
         <tr>
             <td>Total Numero Exámenes:</td>
@@ -219,17 +226,26 @@
     </tbody> 
     </table>
     <div class="row">
-            <form method="post" action="/historic/excelTodo">
+            <form method="post" action="/historic/excelConPaciente">
                 <div class="col-sm-4"> 
                     <input type="hidden" name="filter" value="{{lastFilter}}"/>
-                    <button type="submit" class="btn btn-success form-control"  >Excel Todo</button>
+                    <button type="submit" class="btn btn-success form-control"  
+                             ng-disabled="lastFilter.mutual !== 'Mutual'">Planilla Detalle</button>
+                </div> 
+            </form>
+            <form method="post" action="/historic/excelDetalle">
+                <div class="col-sm-4"> 
+                    <input type="hidden" name="filter" value="{{lastFilter}}"/>
+                    <button type="submit" class="btn btn-success form-control"  
+                             ng-disabled="lastFilter.mutual !== 'Mutual'">Planilla Cobro</button>
                 </div> 
             </form>
         
             <form method="post" action="/historic/excelCobro">
                 <div class="col-sm-4"> 
                     <input type="hidden" name="filter" value="{{lastFilter}}"/>
-                    <button type="submit" class="btn btn-success form-control"  >Excel Cobro</button>
+                    <button type="submit" class="btn btn-success form-control" 
+                            ng-disabled="lastFilter.mutual !== 'Mutual'">Planilla Facturación</button>
                 </div> 
             </form>
                 
@@ -261,7 +277,7 @@
             <td>{{historic.examName}}</td>
             <td>{{historic.cc}}</td>
             <td>{{historic.respApplication}}</td>
-            <td>{{historic.mutual =="Mutual" ? historic.examCost:historic.examParticularCost}}</td>
+            <td>{{(historic.mutual =="Mutual" ? historic.examCost : historic.examParticularCost) | currency:"":0}}</td>
             <td>{{historic.position}}</td>
             <td>{{historic.pooc}}</td>
             <td>{{historic.mutual}}</td>

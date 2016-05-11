@@ -6,7 +6,8 @@ angular.module('HistoricReportModule').controller('HistoricReportController',
                 $scope.filter = {
                     from: new Date(),
                     to: new Date(),
-                    pooc: "pooc"
+                    centralPayment: "centralNoCentral",
+                    mutual: "MutualParticular"
                 };
                 $scope.lastFilter = $.extend({}, $scope.filter);
                 $scope.newPatient = {};
@@ -88,12 +89,22 @@ angular.module('HistoricReportModule').controller('HistoricReportController',
                     delete $scope.filter.company;
                     $("#company_value").val("");
                 };
-                $scope.getTotalCost = function () {
-                    var total = 0;
+                $scope.getTotalMutualCost = function () {
+                    var totalMutual = 0;
                     for (i = 0; i < $scope.historics.length; i++) {
-                        total += $scope.historics[i].exam.cost;
+                        if ($scope.historics[i].mutual === "Mutual")
+                            totalMutual += $scope.historics[i].examCost;
                     }
-                    return total;
+                    return totalMutual;
+                };
+
+                $scope.getTotalParticularCost = function () {
+                    var totalParticular = 0;
+                    for (i = 0; i < $scope.historics.length; i++) {
+                        if ($scope.historics[i].mutual !== "Mutual")
+                            totalParticular += $scope.historics[i].examParticularCost;
+                    }
+                    return totalParticular;
                 };
 
 

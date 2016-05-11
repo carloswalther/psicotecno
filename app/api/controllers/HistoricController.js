@@ -15,6 +15,7 @@ module.exports = {
         var newHistoric = req.body.historic;
         newHistoric.companyName = newHistoric.company.name;
         newHistoric.companyRut = newHistoric.company.rut;
+        newHistoric.centralPayment = newHistoric.company.centralPayment;
 
         newHistoric.patientRut = newHistoric.patient.rut;
         newHistoric.patientName = newHistoric.patient.name;
@@ -83,10 +84,12 @@ module.exports = {
             q.company = filter.company.id;
         }
         if (!_.isUndefined(filter.mutual)) {
-            q.mutual = filter.mutual;
+            if (filter.mutual !== "MutualParticular")
+                q.mutual = filter.mutual;
         }
         if (!_.isUndefined(filter.centralPayment)) {
-            q.centralPayment = filter.centralPayment;
+            if (filter.centralPayment !== "centralNoCentral")
+                q.centralPayment = (filter.centralPayment === "true") ? true : false;
         }
         sails.log(q);
         Historic.find(q)
@@ -98,8 +101,9 @@ module.exports = {
                     }
                 })
     },
-    excelCobro: function (req, res) {
-        var excel = require('node-excel-export');
+    excelConPaciente: function (req, res) {
+
+        var excel = require('excel-export');
         sails.log(req.body);
 
         var moment = require("moment");
@@ -113,91 +117,148 @@ module.exports = {
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
-        if (filter.pooc !== "pooc") {
-            q.pooc = filter.pooc;
+        if (!_.isUndefined(filter.mutual)) {
+            if (filter.mutual !== "MutualParticular")
+                q.mutual = filter.mutual;
+        }
+        if (!_.isUndefined(filter.centralPayment)) {
+            if (filter.centralPayment !== "centralNoCentral")
+                q.centralPayment = (filter.centralPayment === "true") ? true : false;
+        }
+        sails.log(q);
+
+        Historic.find(q)
+                .exec(function (err, historics) {
+                    if (err) {
+                        sails.log("false");
+                    } else {
+                        sails.log("HISTORICS", historics);
+                        var totalGeneral = 0;
+                        var heading = [
+                            {caption: "RUT_EMPRESA", type: "number"},
+                            {caption: "RAZON_SOCIAL.", type: "string"},
+                            {caption: "MES", type: "number"},
+                            {caption: "SERVICIO", type: "number"},
+                            {caption: "SUCURSAL", type: "number"},
+                            {caption: "APELLIDO_PATERNO", type: "number"},
+                            {caption: "APELLIDO_MATERNO", type: "number"},
+                            {caption: "APELLIDO_NOMBRES", type: "number"},
+                            {caption: "RUT_TRABAJADOR", type: "number"},
+                            {caption: "SOL_CENTRO_COSTO", type: "number"},
+                            {caption: "RESPONSABLE_SOLICITUD", type: "number"},
+                            {caption: "FECHA_EVALUACION", type: "number"},
+                            {caption: "BATERIAS", type: "number"},
+                            {caption: "EXAMEN_ADICIONALES", type: "number"},
+                            {caption: "TARIFA PSICOSENSOMETRICOS", type: "number"},
+                            {caption: "TOTAL_GENERAL", type: "number"},
+                            {caption: "OBS", type: "number"}, ];
+
+
+                        var rows = [];
+
+                        historics.forEach(function (historic) {
+                            var row =
+                                    row.push(historic.companyRut);
+                            row.push(historic.companyName);
+
+
+                        });
+
+
+
+                        var conf = {};
+
+                        conf.name = "Detalle";
+                        conf.cols = heading;
+                        conf.rows = rows;
+                        sails.log("CONF", conf);
+
+                        var result = excel.execute(conf);
+
+                        res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+                        res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+                        res.end(result, 'binary');
+                    }
+                });
+    },
+    excelCobro: function (req, res) {
+
+        var excel = require('excel-export');
+        sails.log(req.body);
+
+        var moment = require("moment");
+        var _ = require("underscore");
+        var filter = JSON.parse(req.body.filter);
+
+
+        var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
+        var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
+        var q = {registerDate: {'>=': begin, '<=': end}};
+        if (!_.isUndefined(filter.company)) {
+            q.company = filter.company.id;
+        }
+        if (!_.isUndefined(filter.mutual)) {
+            if (filter.mutual !== "MutualParticular")
+                q.mutual = filter.mutual;
+        }
+        if (!_.isUndefined(filter.centralPayment)) {
+            if (filter.centralPayment !== "centralNoCentral")
+                q.centralPayment = (filter.centralPayment === "true") ? true : false;
         }
         sails.log(q);
         Exam.find().exec(function (err, exams) {
             Historic.find(q)
-                    .populate("exam")
-                    .populate("patient")
-                    .populate("company")
                     .exec(function (err, historics) {
                         if (err) {
                             sails.log("false");
                         } else {
+                            sails.log("HISTORICS", historics);
                             var totalGeneral = 0;
+                            var heading = [{caption: "CANT.", type: "number"},
+                                {caption: "CATEGORIA.", type: "string"},
+                                {caption: "VALOR EXAMEN", type: "number"},
+                                {caption: "TOTAL", type: "number"}];
+                            var rows = [];
                             exams.forEach(function (exam) {
                                 exam.count = 0;
                                 exam.total = 0;
                             });
                             historics.forEach(function (historic) {
-                                var exam = _.findWhere(exams, {id: historic.exam.id})
+                                var exam = _.findWhere(exams, {id: historic.exam});
                                 if (!_.isUndefined(exam)) {
                                     exam.count++;
-                                    exam.total = exam.count * exam.cost;
-                                    totalGeneral += exam.cost
+                                    exam.total += (historic.centralPayment) ? historic.examCost : historic.examParticularCost;
+                                    totalGeneral += (historic.centralPayment) ? historic.examCost : historic.examParticularCost;
                                 }
-                                historic.txtName = historic.patient.name + " " + historic.patient.lastName;
-                                historic.txtPatientRut = historic.patient.rut;
-                                historic.txtExamName = historic.exam.name;
+
+                            });
+                            sails.log("EXAMS", exams);
+                            exams.forEach(function (exam) {
+                                var row = [];
+                                row.push(exam.count);
+                                row.push(exam.name);
+                                row.push(exam.cost);
+                                row.push(exam.total);
+                                rows.push(row);
                             });
 
-                            var dataset = exams;
-                            dataset.push({count: "", name: "", cost: "Total", total: totalGeneral});
+                            var conf = {};
 
+                            conf.name = "Detalle";
+                            conf.cols = heading;
+                            conf.rows = rows;
+                            sails.log("CONF", conf);
 
+                            var result = excel.execute(conf);
 
-//Array of objects representing heading rows (very top)
-                            var heading = [
-                                ['CANT.', 'CATEGORIA', 'VALOR EXAMEN', 'TOTAL'] // <-- It can be only values
-                            ];
-
-//Here you specify the export structure
-                            var specification = {
-                                count: {// <- the key should match the actual data key
-
-                                    width: 120 // <- width in pixels
-                                },
-                                name: {
-                                    width: '10' // <- width in chars (when the number is passed as string)
-                                },
-                                cost: {
-                                    width: "10"
-                                },
-                                total: {
-                                    width: "10"
-                                }
-                            }
-
-// The data set should have the following shape (Array of Objects)
-// The order of the keys is irrelevant, it is also irrelevant if the
-// dataset contains more fields as the report is build based on the
-// specification provided above. But you should have all the fields
-// that are listed in the report specification
-
-
-// Create the excel report.
-// This function will return Buffer
-                            var report = excel.buildExport(
-                                    [// <- Notice that this is an array. Pass multiple sheets to create multi sheet report
-                                        {
-                                            name: 'Resumen', // <- Specify sheet name (optional)
-                                            heading: heading, // <- Raw heading array (optional)
-                                            specification: specification, // <- Report specification
-                                            data: dataset // <-- Report data
-                                        }
-                                    ]
-                                    );
-
-// You can then return this straight
-                            res.attachment("report.xlsx"); // This is sails.js specific (in general you need to set headers)
-                            return res.send(report);
+                            res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+                            res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+                            res.end(result, 'binary');
                         }
                     });
         });
     },
-    excelTodo: function (req, res) {
+    excelDetalle: function (req, res) {
 
         var excelDos = require('excel-export');
         sails.log(req.body);
@@ -213,22 +274,24 @@ module.exports = {
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
-        if (filter.centralPayment !== "centralPayment") {
-            q.pooc = filter.pooc;
+        if (!_.isUndefined(filter.mutual)) {
+            if (filter.mutual !== "MutualParticular")
+                q.mutual = filter.mutual;
+        }
+        if (!_.isUndefined(filter.centralPayment)) {
+            if (filter.centralPayment !== "centralNoCentral")
+                q.centralPayment = (filter.centralPayment === "true") ? true : false;
         }
         sails.log(q);
         Exam.find().exec(function (err, exams) {
             Historic.find(q)
-                    .populate("exam")
-                    .populate("patient")
-                    .populate("company", {centralPayment: true})
                     .exec(function (err, historics) {
                         if (err) {
                             sails.log("false");
                         } else {
 
                             var allHeadingTxt = [{caption: "Centralizada", type: "string", width: 40}, {caption: "Empresa", type: "string"}, {caption: "Rut", type: "string"}];
-                            var allCompanies = [];
+                            var allCompanies = []; //para almacenar compañias completas
                             var refHeading = ["CENTRALIZADA", "EMPRESA", "RUT"];
 
                             var companyArray = {};
@@ -279,49 +342,61 @@ module.exports = {
                                 }()});
                             historics.forEach(function (historic) {
 
-                                company = _.findWhere(allCompanies, {Empresa: historic.company.name})
+                                company = _.findWhere(allCompanies, {Empresa: historic.companyName})
                                 sails.log("COMPANY", company);
                                 if (_.isUndefined(company)) {
-                                    allCompanies.push({Empresa: historic.company.name});
+                                    allCompanies.push({Empresa: historic.companyName});
                                     var newRow = [];
-                                    newRow.push(historic.company.centralPayment ? "SI" : "NO");
-                                    newRow.push(historic.company.name);
-                                    newRow.push(historic.company.rut);
+                                    newRow.push(historic.centralPayment ? "SI" : "NO");
+                                    newRow.push(historic.companyName);
+                                    newRow.push(historic.companyRut);
                                     for (i = 3; i < refHeading.length; i++) {
                                         newRow.push(0);
                                     }
-                                    companyArray[historic.company.name] = newRow;
-                                    var countIndex = _.indexOf(refHeading, historic.exam.id + "Count");
-                                    var priceIndex = _.indexOf(refHeading, historic.exam.id + "Price");
+                                    companyArray[historic.companyName] = newRow;
+                                    var countIndex = _.indexOf(refHeading, historic.exam + "Count");
+                                    var priceIndex = _.indexOf(refHeading, historic.exam + "Price");
                                     var totalIndex = _.indexOf(refHeading, "Total");
-                                    companyArray[historic.company.name][countIndex] += 1;
-                                    companyArray[historic.company.name][priceIndex] += historic.exam.cost;
-                                    companyArray[historic.company.name][totalIndex] += historic.exam.cost;
+                                    companyArray[historic.companyName][countIndex] += 1;
+                                    companyArray[historic.companyName][priceIndex] += (historic.mutual === "Mutual") ? historic.examCost : historic.examParticularCost;
+                                    companyArray[historic.companyName][totalIndex] += (historic.mutual === "Mutual") ? historic.examCost : historic.examParticularCost;
 
                                 } else {
-                                    var countIndex = _.indexOf(refHeading, historic.exam.id + "Count");
-                                    var priceIndex = _.indexOf(refHeading, historic.exam.id + "Price");
+                                    var countIndex = _.indexOf(refHeading, historic.exam + "Count");
+                                    var priceIndex = _.indexOf(refHeading, historic.exam + "Price");
                                     var totalIndex = _.indexOf(refHeading, "Total");
-                                    companyArray[historic.company.name][countIndex] += 1;
-                                    companyArray[historic.company.name][priceIndex] += historic.exam.cost;
-                                    companyArray[historic.company.name][totalIndex] += historic.exam.cost;
-
+                                    companyArray[historic.companyName][countIndex] += 1;
+                                    companyArray[historic.companyName][priceIndex] += (historic.mutual === "Mutual") ? historic.examCost : historic.examParticularCost;
+                                    companyArray[historic.companyName][totalIndex] += (historic.mutual === "Mutual") ? historic.examCost : historic.examParticularCost;
                                 }
                             });
-//                            companyArray.foreEach(function(arr){
-//                                var acumulador = 0;
-//                                for (i=)
-//                            })
+//
                             sails.log("CompanyArray", companyArray);
 
 
 
-                            var conf = {};
 
+                            var conf = {};
+                            var mainTotal = [];
                             conf.name = "mysheet";
                             conf.cols = allHeadingTxt;
                             conf.rows = _.values(companyArray);
 
+                            sails.log("CONF", conf);
+
+                            for (i = 0; i < conf.cols.length; i++) {
+                                mainTotal.push(0);
+                            }
+                            for (i = 0; i < conf.rows.length; i++) {
+                                for (j = 3; j < conf.rows[0].length; j++) {
+                                    mainTotal[j] += conf.rows[i][j];
+                                }
+                            }
+                            mainTotal[0] = "";
+                            mainTotal[1] = "";
+                            mainTotal[2] = "TOTAL";
+                            conf.rows.push(mainTotal);
+                            sails.log("CONF", conf);
                             var result = excelDos.execute(conf);
 
                             res.setHeader('Content-Type', 'application/vnd.openxmlformats');
