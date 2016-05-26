@@ -4,7 +4,7 @@
 angular.module('CompanyModule').controller('CompanyController',
         ['$scope', "$timeout", "$http", function ($scope, $timeout, $http) {
                 $scope.newCompany = {};
-                $scope.company = {};
+                $scope.company = null;
                 $scope.isSaving = false;
 
                 /**
@@ -35,7 +35,9 @@ angular.module('CompanyModule').controller('CompanyController',
 
                         $scope.isSaving = false;
                         if (data) {
-                            $scope.company = $.extend($scope.newCompany, data);
+                            $scope.company = $.extend({}, data);
+                            $scope.company.centralPayment = $scope.company.centralPayment ? 1 : 0;
+                            $scope.$apply($scope.company)
                             msg("Empresa creada exitosamente", "", "success");
                             $('#createCompanyModal').modal("hide");
                             $scope.newCompany.error = false
