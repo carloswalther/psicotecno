@@ -24,13 +24,13 @@ module.exports = {
         // verifica a donde redireccionar según el privilegio del usuario logeado
         if (!_.isUndefined(req.session.usuario)) {
             if (req.session.usuario.rol === "Administrador") {
-                return res.redirect("/historic");
+                return res.redirect("/historic/reportIndex");
             }
             if (req.session.usuario.rol === "Secretaria") {
-
+                return res.redirect("/historic");
             }
             if (req.session.usuario.rol === "Tecnico") {
-
+                return res.redirect("/exam");
             }
         }
         if (_.isUndefined(data)) {
