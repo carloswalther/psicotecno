@@ -65,6 +65,7 @@ angular.module('PatientModule').controller('PatientController',
                     $scope.isSaving = false
                 };
                 $scope.getFiles = function () {
+                    $scope.files = [];
                     io.socket.get("/archivo", {patient: $scope.patient.id}, function (files) {
                         $scope.files = files;
                         console.log(files);
@@ -91,6 +92,8 @@ angular.module('PatientModule').controller('PatientController',
                     file.upload.then(function (response) {
                         $timeout(function () {
                             file.result = response.data;
+                            $scope.files.push($.extend({}, response.data));
+                            $scope.$apply($scope.files)
                         });
                     }, function (response) {
                         if (response.status > 0)
@@ -99,7 +102,7 @@ angular.module('PatientModule').controller('PatientController',
                         // Math.min is to fix IE which reports 200% sometimes
                         file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
                     });
-                }
+                };
             }
         ]);
 
