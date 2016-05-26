@@ -237,12 +237,16 @@
                 <div class="col-md-4">
                     <h3 style="margin-top: 0px;">Toma de Examenes <i class="glyphicon glyphicon-list-alt"></i></h3>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-4">
-                    <input type="text" ng-model="filter" placeholder="Buscar por nombre">
+                    <input type="text" class="form-control" ng-model="filter" placeholder="Filtrar Paceinte...">
                 </div>
-                <div class="pull-right">
-                    <input type="date" ng-model="date">
-                    <button type="button" class="btn btn-sm btn-success" ng-click="getHistorics();">Cargar Fecha</button>
+                <div class="col-md-4">
+                    <input type="date" class="form-control" ng-model="date">
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-sm btn-success form-control" ng-click="getHistorics();">Cargar Fecha</button>
                 </div>
     		
                 
@@ -263,9 +267,9 @@
     					</thead> 
     					<tbody> 
                             <tr ng-class="{true: 'success'}[historic.processed]" ng-repeat="historic in historics" ng-show="filterName(historic)"> 
-    							<td>{{historic.patient.name}} {{historic.patient.lastName}}</td>
-    							<td>{{historic.company.name}}</td>
-    							<td>{{historic.exam.name}}</td>
+    							<td>{{historic.patientName}} {{historic.patientLastName}}</td>
+    							<td>{{historic.companyName}}</td>
+    							<td>{{historic.examName}}</td>
     							<td>{{historic.cc}}</td>
                                 <td>{{historic.respApplication}}</td>
     							

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>controllers/UsuarioController.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/:: Policy.html">:: Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: controllers/UsuarioController.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * UsuarioController
+ *
+ * @description :: Server-side logic for managing usuarios
+ * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ */
+
+module.exports = {
+    /**
+     *
+     * @param {type} req
+     * @param {type} res
+     * @returns {} dependiendo del caso redirecciona a distintas rutas del sistema.
+     * @description Realia la validación de usuario y contraseña y carga en objeto session
+     * los datos del usuario para validaciones y registro de quien realiza operaciones
+     */
+    login: function (req, res) {
+        var bcrypt = require(&quot;bcrypt&quot;);
+        var _ = require(&quot;underscore&quot;);
+        var data = req.body;
+
+        sails.log(&quot;POST:&quot;, req.body);
+        sails.log(&quot;SESSION:&quot;, req.session);
+        // verifica a donde redireccionar según el privilegio del usuario logeado
+        if (!_.isUndefined(req.session.usuario)) {
+            if (req.session.usuario.rol === &quot;Administrador&quot;) {
+                return res.redirect(&quot;/historic&quot;);
+            }
+            if (req.session.usuario.rol === &quot;Secretaria&quot;) {
+
+            }
+            if (req.session.usuario.rol === &quot;Tecnico&quot;) {
+
+            }
+        }
+        if (_.isUndefined(data)) {
+            return res.view({layout: &quot;layout_login&quot;})
+        } else {
+
+            if (_.isUndefined(data.userName) || _.isUndefined(data.password)) {
+                console.log(&quot;no viene usuario y pass&quot;);
+                req.session.msg = {res: false, msg: &quot;No tiene usuario y/o contraseña&quot;, style: &quot;watning&quot;, obj: []};
+                return res.view({layout: &quot;layout_login&quot;, msg: {res: false, msg: &quot;No tiene usuario y/o contraseña&quot;, style: &quot;watning&quot;, obj: []}});
+            }
+
+            Usuario.findOne({userName: data.userName}).exec(function (err, user) {
+                var _ = require(&quot;underscore&quot;);
+                if (err)
+                    return res.view({layout: &quot;layout_login&quot;});
+                if (!user) {
+                    console.log(&quot;usuario no existe&quot;);
+                    return res.view({layout: &quot;layout_login&quot;});
+                }
+                bcrypt.compare(data.password, user.password, function (err, valid) {
+                    if (err) {
+                        return res.view({layout: &quot;layout_login&quot;, msg: {res: false, msg: &quot;Error al consultar en la base de datos&quot;, style: &quot;danger&quot;, obj: [err]}});
+                    }
+                    if (!valid) {
+                        sails.log.warn(&quot;password no coniside&quot;)
+
+                        req.session.msg = {res: false, msg: &quot;Password incorrecto&quot;, style: &quot;danger&quot;, obj: [err]};
+                        return res.view({layout: &quot;layout_login&quot;, msg: {res: false, msg: &quot;Password incorrecto&quot;, style: &quot;danger&quot;, obj: [err]}});
+                    } else {
+                        req.session.authenticated = true;
+                        sails.log(&quot;usuario:&quot;, user);
+                        req.session.usuario = user;
+                        sails.log(&quot;password correcto&quot;);
+                        if (user.rol === &quot;Administrador&quot;) {
+                            return res.redirect(&quot;/historic/reportIndex&quot;);
+                        }
+                        if (user.rol === &quot;Secretaria&quot;) {
+                            return res.redirect(&quot;/historic&quot;);
+                        }
+                        if (user.rol === &quot;Tecnico&quot;) {
+                            return res.redirect(&quot;/exam&quot;);
+                        }
+                    }
+                });
+            });
+        }
+    },
+    logout: function (req, res) {
+        delete req.session.usuario;
+        req.session.authenticated = false;
+        return res.redirect(&quot;/usuario/login&quot;);
+    },
+    /**
+     *
+     * @param {stirng} req.body.password string de contraseña sin encriptar
+     * @param {type} res
+     * @returns {unresolved} objeto de respuesta true / false según corresponda
+     */
+    setPassword: function (req, res) {
+        var _ = require(&quot;underscore&quot;);
+        if (_.isUndefined(req.body)) {
+            return res.send(
+                    {
+                        res: false,
+                        msg: &quot;No viene password para setear&quot;,
+                        style: &quot;danger&quot;,
+                        obj: []
+                    });
+        } else {
+            if (_.isUndefined(req.body.password)) {
+                return res.send(
+                        {res: false,
+                            msg: &quot;No viene password para setear&quot;,
+                            style: &quot;danger&quot;,
+                            obj: []
+                        });
+            } else {
+                Usuario.update({id: req.session.usuario.id}, {password: password},
+                        function (err, usuario) {
+                            if (err) {
+                                return res.send(
+                                        {
+                                            res: false,
+                                            msg: &quot;Error al cambiar contraseña&quot;,
+                                            style: &quot;danger&quot;,
+                                            obj: [err]
+                                        });
+                            } else {
+                                delete usuario.password;
+                                return res.send(
+                                        {
+                                            res: true,
+                                            msg: &quot;Cambio Exitoso&quot;,
+                                            style: &quot;success&quot;,
+                                            obj: [usuario]
+                                        });
+                            }
+                        });
+            }
+        }
+
+    },
+    /**
+     *
+     * @param {type} req
+     * @param {type} res
+     * @returns {undefined}
+     * @description vista base de usuarios sin objetos pre cargados
+     */
+    index: function (req, res) {
+        res.view();
+    },
+    /**
+     *
+     * @param {objeto paginacion} req
+     * @param {type} res
+     * @returns [Usuario]
+     * @description Soicita lista par adesplegar en paginación, esta lleva atributos
+     * utiles para una correcta paginación.
+     */
+    list: function (req, res) {
+        sails.log(&quot;obteniendo usuarios&quot;)
+        Usuario.find().sort(&quot;nombre ASC&quot;).exec(function (err, usuarios) {
+            if (err) {
+                return res.send(false);
+            } else {
+                usuarios.forEach(function (usuario) {
+                    delete usuario.password;
+                })
+                sails.log(usuarios);
+                return res.send(usuarios);
+
+            }
+        });
+    },
+    /**
+     *
+     * @param {usuario} req
+     * @param {type} res
+     * @returns {undefined}
+     * @description Crea un usuario, asociando privilegio y contraseña encriptada
+     */
+    create: function (req, res) {
+        {
+            Usuario.create(req.body.usuario).exec(function (err, usuario) {
+                if (err) {
+                    sails.log(err);
+                    return res.send(false);
+                } else {
+                    return res.send(usuario);
+                }
+
+            });
+        }
+    },
+    /**
+     *
+     * @param {Usuario} req
+     * @param {type} res
+     * @returns [Usuario] retorna a pagina de mantenedor &#x27;lista&#x27;
+     * @description Modifica todos los datos de un objeto usuario y guarda en la
+     * base de datos
+     */
+    edit: function (req, res) {
+        Usuario.update(req.body.usuario.id, req.body.usuario).exec(function (err, usuarios) {
+            if (err) {
+                return res.send(false);
+            } else {
+                return res.send(true);
+            }
+        });
+
+    },
+    /**
+     *
+     * @param {type} req
+     * @param {type} res
+     * @returns {undefined}
+     * @description Elimina el usuario
+     * BLANDO: si tiene asociada alguna Torre de la cual es Lider
+     */
+    delete: function (req, res) {
+        Usuario.destroy(req.body.usuario.id).exec(function (err, usuario) {
+            if (err) {
+                sails.log(err)
+                return res.send(false);
+            } else {
+                sails.log(usuario);
+                return res.send(true);
+            }
+        })
+    }
+
+};
+
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

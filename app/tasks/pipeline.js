@@ -49,6 +49,7 @@ var jsFilesToInject = [
     'vendor/angular-bootstrap/ui-bootstrap.min.js',
     'vendor/angular-rut/dist/angular-rut.js',
     'vendor/angular-i18n/angular-locale_es-cl.js',
+    'vendor/ng-file-upload/ng-file-upload.js',
 //'vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
     // 'vendor/angular-bootstrap3-datepicker/dist/ng-bs3-datepicker.min.js',
 // All of the rest of your client-side js files
@@ -62,9 +63,18 @@ var jsFilesToInject = [
     '/js/app/exam/examModule.js',
     '/js/app/exam/examDirectives.js',
     '/js/app/exam/examController.js',
+    '/js/app/exam/examEditModule.js',
+    '/js/app/exam/examEditDirectives.js',
+    '/js/app/exam/examEditController.js',
     '/js/app/patient/patientModule.js',
     '/js/app/patient/patientDirectives.js',
     '/js/app/patient/patientController.js',
+    '/js/app/usuario/usuarioModule.js',
+    '/js/app/usuario/usuarioDirectives.js',
+    '/js/app/usuario/usuarioController.js',
+    '/js/app/company/companyModule.js',
+    '/js/app/company/companyDirectives.js',
+    '/js/app/company/companyController.js',
 //'js/**/*.js',
             // Use the "exclude" operator to ignore files
             // '!js/ignore/these/files/*.js'

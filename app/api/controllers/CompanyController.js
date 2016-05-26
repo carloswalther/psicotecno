@@ -14,7 +14,6 @@ module.exports = {
         });
 
     },
-
     create: function (req, res) {
         sails.log(req.body.company);
         Company.create(req.body.company).exec(function (err, data) {
@@ -25,9 +24,17 @@ module.exports = {
             }
         });
     },
-
-    index: function (req,res){
+    index: function (req, res) {
         return res.view();
+    },
+    edit: function (req, res) {
+        Company.update(req.body.company.id, req.body.company).exec(function (err, data) {
+            if (err) {
+                return res.send(false);
+            } else {
+                return res.send(true);
+            }
+        });
     }
 };
 

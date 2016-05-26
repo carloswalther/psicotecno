@@ -1,0 +1,1 @@
+angular.module('CompanyModule', ["angucomplete-alt", 'ui.bootstrap', 'platanus.rut']);

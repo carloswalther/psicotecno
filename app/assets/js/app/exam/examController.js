@@ -97,7 +97,7 @@ angular.module('ExamModule').controller('ExamController',
                     if ($scope.filter.trim() === "")
                         return true;
                     var find = $scope.filter.toLowerCase();
-                    return (historic.patient.name + " " + historic.patient.lastName).toLowerCase().indexOf(find) !== -1;
+                    return (historic.patientName + " " + historic.patientLastName).toLowerCase().indexOf(find) !== -1;
                 }
             }
         ]);

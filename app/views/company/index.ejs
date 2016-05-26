@@ -1,85 +1,109 @@
-    <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="PatientModule" ng-controller="PatientController" ng-cloak>
-        <!--Modal de Resultado-->
-        <div class="modal fade" id="createPatientModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <form role="form" data-toggle="validator">
-                    <div class="modal-content">
-                        <div class="modal-header">
+    <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="CompanyModule" ng-controller="CompanyController" ng-cloak>
+    	<!--Modal de Resultado-->
+    	<div class="modal fade" id="createCompanyModal" tabindex="-1" role="dialog">
+    		<div class="modal-dialog" role="document">
+    			<form role="form" data-toggle="validator">
+    				<div class="modal-content">
+    					<div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Ingreso Rápido de Empresa</h4>
+    						<h4 class="modal-title" id="myModalLabel">Ingreso de Empresa</h4>
+    					</div>
+    					<div class="modal-body">
+    						<div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" class="form-control" ng-model="newCompany.name" placeholder="Nombre">
                         </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input class="form-control" placeholder="Nombre" name="name"></input>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input class="form-control" placeholder="RUT" name="rut"></input>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label>Pago Centralizado <input type="checkbox" class="form-control" ng-model="newCompany.centralPayment" placeholder="Nombre"></label>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row" ng-show="newPatient.error">
-                                <div class="alert alert-danger" style="margin:15px">
-                                    <strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
-                                </div>
-                            </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <input type="text" class="form-control"  ng-rut rut-format="live"  ng-model="newCompany.rut" placeholder="Rut">
+                            El rut debe ser valido
                         </div>
-
-                        <div class=" form-group modal-footer">
-                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
+                        
+                    </div>
+                    <br>
+                     <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <label>Pago Centralizado</label> <input type="checkbox" class="form-control" ng-model="newCompany.centralPayment" placeholder="Nombre">
+                        </div>
+                        
+                    </div>
+                    <div class="row" ng-show="newCompany.error">
+                        <div class="alert alert-danger" style="margin:15px">
+                            <strong>Error!</strong> No se puede crear esta Empresa, probablemente ya existe, intente buscarlo nuevamente
                         </div>
                     </div>
-                </form>
+    					</div>
+
+    					<div class=" form-group modal-footer">
+    						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+    						<button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
+    					</div>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
             </div>
-        </div>
-        <!-- Fin Modal Resultado-->
-        <div class="col-md-12">
+    	<!-- Fin Modal Resultado-->
+        
+       	<div class="col-md-12">
         <div class="row">
-            <h3>Crear/Editar Empresa <i class="glyphicon glyphicon-user"></i></h3>
+    		<h3>Crear/Editar Empresas <i class="glyphicon glyphicon-user"></i></h3>
         </div>
         <hr>
         <div class="row">
             <div class="col-md-4">
-                <input class="form-control pull-left" placeholder="Búsqueda"></input>
+                   <div class="padded-row"> 
+  <angucomplete-alt id="company"
+              
+              placeholder="Buscar Empresa"
+              pause="500"
+              text-searching="Buscando..."
+              text-no-results="No hay resultado"
+              selected-object="addCompany"
+              remote-url="/company/findAll?s="
+              remote-url-data-field=""
+              title-field="name"
+              description-field="rut"
+              input-class="form-control form-control-small"
+              match-class="highlight"
+              class="ng-isolate-scope"
+              />
+          </div>
             </div>
-            <div class="col-md-8">
-                <button type="button" class="btn btn-success pull-right" ng-click="openNewPatient()">Crear</button>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-success pull-right form-control" ng-click="openNewCompany()">Crear</button>
             </div>
         </div>
-            <br>
-            <div class="row">
-                <div class=" col-sm-12 ">
-                    <table class="table table-hover table-bordered"> 
-                        <thead> 
-                            <tr> 
-
-                                <th>Nombre</th> 
-                                <th>Rut</th>
-                                <th>Pago Centralizado</th>
+    		<br>
+    		<div class="row">
+    			<div class=" col-sm-12 ">
+    				<table class="table table-hover table-bordered"> 
+    					<thead> 
+    						<tr> 
+    							<th>Nombre</th>
+                                <th>Rut</th> 
+    							<th>Pago Central</th> 
                                 <th>Acciones</th>
-                            </tr> 
-                        </thead> 
-                        <tbody> 
-                            <tr> 
-                                <td><input class="form-control"></input></td>
-                                <td><input class="form-control"></input></td>
-                                <td><center> - </center></td>
-                                <td><center><button class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button></center></td>
-                            </tr> 
-                        </tbody> 
-                    </table>
-                </div>
-            </div>
-        </div>
+    						</tr> 
+    					</thead> 
+    					<tbody> 
+                            <tr ng-show="company"> 
+                                <td><input ng-model="company.name" ng-blur="editCompany()" class="form-control"></td>
+    							<td><input ng-model="company.rut" ng-blur="editCompany()" class="form-control"></td>
+                                        <td><select convert-to-number class="form-control" ng-model="company.centralPayment" ng-blur="editCompany()">
+                                                <option value="1">Pago Central<option>
+                                                <option value="0">Pago No Central<option>
+                                    </select></td>
+                                <td><center><button  class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
+                                <button ng-click="openFiles(patient)" class="btn btn-success"><i class="glyphicon glyphicon-file"></i></button></center></td>
+    						</tr> 
+    					</tbody> 
+    				</table>
+    			</div>
+    		</div>
+            <form id="downloadFile" target="_blank" action="/archivo/download" method="post">
+                <input type="hidden" id="patientId" name="patientId" value="">
+            </form>
+    	</div>
 
     </div>  

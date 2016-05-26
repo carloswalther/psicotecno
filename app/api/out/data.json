@@ -1,0 +1,633 @@
+{
+    "project": {},
+    "files": {
+        "controllers/ArchivoController.js": {
+            "name": "controllers/ArchivoController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "controllers/CompanyController.js": {
+            "name": "controllers/CompanyController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "controllers/ExamController.js": {
+            "name": "controllers/ExamController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "controllers/HistoricController.js": {
+            "name": "controllers/HistoricController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "controllers/PatientController.js": {
+            "name": "controllers/PatientController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "controllers/UsuarioController.js": {
+            "name": "controllers/UsuarioController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "models/Archivo.js": {
+            "name": "models/Archivo.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "models/Company.js": {
+            "name": "models/Company.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "models/Exam.js": {
+            "name": "models/Exam.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "models/Historic.js": {
+            "name": "models/Historic.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "models/Patient.js": {
+            "name": "models/Patient.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "models/Rol.js": {
+            "name": "models/Rol.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "models/Usuario.js": {
+            "name": "models/Usuario.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "policies/sessionAuth.js": {
+            "name": "policies/sessionAuth.js",
+            "modules": {
+                ":: Policy": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "responses/badRequest.js": {
+            "name": "responses/badRequest.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "responses/forbidden.js": {
+            "name": "responses/forbidden.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "responses/notFound.js": {
+            "name": "responses/notFound.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "responses/ok.js": {
+            "name": "responses/ok.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "responses/serverError.js": {
+            "name": "responses/serverError.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        ":: Policy": {
+            "name": ":: Policy",
+            "submodules": {},
+            "elements": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "policies/sessionAuth.js",
+            "line": 1,
+            "description": "sessionAuth",
+            "docs": ":: http://sailsjs.org/#!/documentation/concepts/Policies"
+        }
+    },
+    "classes": {},
+    "elements": {},
+    "classitems": [
+        {
+            "file": "controllers/ArchivoController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing archivoes",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "controllers/CompanyController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing companies",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "controllers/ExamController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing exams",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "controllers/HistoricController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing historics",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "controllers/PatientController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing patients",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "controllers/UsuarioController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing usuarios",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "controllers/UsuarioController.js",
+            "line": 9,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "dependiendo del caso redirecciona a distintas rutas del sistema."
+            },
+            "description": "Realia la validación de usuario y contraseña y carga en objeto session\n los datos del usuario para validaciones y registro de quien realiza operaciones",
+            "class": ""
+        },
+        {
+            "file": "controllers/UsuarioController.js",
+            "line": 87,
+            "params": [
+                {
+                    "name": "req.body.password",
+                    "description": "string de contraseña sin encriptar",
+                    "type": "Stirng"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "objeto de respuesta true / false según corresponda",
+                "type": "Unresolved"
+            },
+            "class": ""
+        },
+        {
+            "file": "controllers/UsuarioController.js",
+            "line": 137,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "description": "vista base de usuarios sin objetos pre cargados",
+            "class": ""
+        },
+        {
+            "file": "controllers/UsuarioController.js",
+            "line": 147,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Objeto paginacion"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "[Usuario]"
+            },
+            "description": "Soicita lista par adesplegar en paginación, esta lleva atributos\n utiles para una correcta paginación.",
+            "class": ""
+        },
+        {
+            "file": "controllers/UsuarioController.js",
+            "line": 170,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Usuario"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "description": "Crea un usuario, asociando privilegio y contraseña encriptada",
+            "class": ""
+        },
+        {
+            "file": "controllers/UsuarioController.js",
+            "line": 190,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Usuario"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "[Usuario] retorna a pagina de mantenedor 'lista'"
+            },
+            "description": "Modifica todos los datos de un objeto usuario y guarda en la\n base de datos",
+            "class": ""
+        },
+        {
+            "file": "controllers/UsuarioController.js",
+            "line": 208,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "description": "Elimina el usuario\n BLANDO: si tiene asociada alguna Torre de la cual es Lider",
+            "class": ""
+        },
+        {
+            "file": "models/Archivo.js",
+            "line": 1,
+            "description": ":: TODO: You might write a short summary of how this model works and what it represents here.",
+            "docs": ":: http://sailsjs.org/#!documentation/models",
+            "class": ""
+        },
+        {
+            "file": "models/Company.js",
+            "line": 1,
+            "description": ":: TODO: You might write a short summary of how this model works and what it represents here.",
+            "docs": ":: http://sailsjs.org/#!documentation/models",
+            "class": ""
+        },
+        {
+            "file": "models/Exam.js",
+            "line": 1,
+            "description": ":: TODO: You might write a short summary of how this model works and what it represents here.",
+            "docs": ":: http://sailsjs.org/#!documentation/models",
+            "class": ""
+        },
+        {
+            "file": "models/Historic.js",
+            "line": 1,
+            "description": ":: TODO: You might write a short summary of how this model works and what it represents here.",
+            "docs": ":: http://sailsjs.org/#!documentation/models",
+            "class": ""
+        },
+        {
+            "file": "models/Patient.js",
+            "line": 1,
+            "description": ":: TODO: You might write a short summary of how this model works and what it represents here.",
+            "docs": ":: http://sailsjs.org/#!documentation/models",
+            "class": ""
+        },
+        {
+            "file": "models/Rol.js",
+            "line": 1,
+            "description": ":: TODO: You might write a short summary of how this model works and what it represents here.",
+            "docs": ":: http://sailsjs.org/#!documentation/models",
+            "class": ""
+        },
+        {
+            "file": "models/Usuario.js",
+            "line": 1,
+            "description": ":: TODO: You might write a short summary of how this model works and what it represents here.",
+            "docs": ":: http://sailsjs.org/#!documentation/models",
+            "class": ""
+        },
+        {
+            "file": "responses/badRequest.js",
+            "line": 1,
+            "description": "400 (Bad Request) Handler\n\nUsage:\nreturn res.badRequest();\nreturn res.badRequest(data);\nreturn res.badRequest(data, 'some/specific/badRequest/view');\n\ne.g.:\n```\nreturn res.badRequest(\n  'Please choose a valid `password` (6-12 characters)',\n  'trial/signup'\n);\n```",
+            "class": "",
+            "module": ":: Policy"
+        },
+        {
+            "file": "responses/forbidden.js",
+            "line": 1,
+            "description": "403 (Forbidden) Handler\n\nUsage:\nreturn res.forbidden();\nreturn res.forbidden(err);\nreturn res.forbidden(err, 'some/specific/forbidden/view');\n\ne.g.:\n```\nreturn res.forbidden('Access denied.');\n```",
+            "class": "",
+            "module": ":: Policy"
+        },
+        {
+            "file": "responses/notFound.js",
+            "line": 1,
+            "description": "404 (Not Found) Handler\n\nUsage:\nreturn res.notFound();\nreturn res.notFound(err);\nreturn res.notFound(err, 'some/specific/notfound/view');\n\ne.g.:\n```\nreturn res.notFound();\n```\n\nNOTE:\nIf a request doesn't match any explicit routes (i.e. `config/routes.js`)\nor route blueprints (i.e. \"shadow routes\", Sails will call `res.notFound()`\nautomatically.",
+            "class": "",
+            "module": ":: Policy"
+        },
+        {
+            "file": "responses/ok.js",
+            "line": 1,
+            "description": "200 (OK) Response\n\nUsage:\nreturn res.ok();\nreturn res.ok(data);\nreturn res.ok(data, 'auth/login');",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "- pass string to render specified view",
+                    "type": "String|Object"
+                }
+            ],
+            "class": "",
+            "module": ":: Policy"
+        },
+        {
+            "file": "responses/serverError.js",
+            "line": 1,
+            "description": "500 (Server Error) Response\n\nUsage:\nreturn res.serverError();\nreturn res.serverError(err);\nreturn res.serverError(err, 'some/specific/error/view');\n\nNOTE:\nIf something throws in a policy or controller, or an internal\nerror is encountered, Sails will call `res.serverError()`\nautomatically.",
+            "class": "",
+            "module": ":: Policy"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: help",
+            "line": " controllers/ArchivoController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " controllers/CompanyController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " controllers/ExamController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " controllers/HistoricController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " controllers/PatientController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " controllers/UsuarioController.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " controllers/UsuarioController.js:9"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " controllers/UsuarioController.js:87"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " controllers/UsuarioController.js:137"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " controllers/UsuarioController.js:147"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " controllers/UsuarioController.js:170"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " controllers/UsuarioController.js:190"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " controllers/UsuarioController.js:208"
+        },
+        {
+            "message": "unknown tag: docs",
+            "line": " models/Archivo.js:1"
+        },
+        {
+            "message": "unknown tag: docs",
+            "line": " models/Company.js:1"
+        },
+        {
+            "message": "unknown tag: docs",
+            "line": " models/Exam.js:1"
+        },
+        {
+            "message": "unknown tag: docs",
+            "line": " models/Historic.js:1"
+        },
+        {
+            "message": "unknown tag: docs",
+            "line": " models/Patient.js:1"
+        },
+        {
+            "message": "unknown tag: docs",
+            "line": " models/Rol.js:1"
+        },
+        {
+            "message": "unknown tag: docs",
+            "line": " models/Usuario.js:1"
+        },
+        {
+            "message": "unknown tag: docs",
+            "line": " policies/sessionAuth.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing archivoes",
+            "line": " controllers/ArchivoController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing companies",
+            "line": " controllers/CompanyController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing exams",
+            "line": " controllers/ExamController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing historics",
+            "line": " controllers/HistoricController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing patients",
+            "line": " controllers/PatientController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing usuarios",
+            "line": " controllers/UsuarioController.js:1"
+        },
+        {
+            "message": "Missing item type\nRealia la validación de usuario y contraseña y carga en objeto session\n los datos del usuario para validaciones y registro de quien realiza operaciones",
+            "line": " controllers/UsuarioController.js:9"
+        },
+        {
+            "message": "Missing item type",
+            "line": " controllers/UsuarioController.js:87"
+        },
+        {
+            "message": "Missing item type\nvista base de usuarios sin objetos pre cargados",
+            "line": " controllers/UsuarioController.js:137"
+        },
+        {
+            "message": "Missing item type\nSoicita lista par adesplegar en paginación, esta lleva atributos\n utiles para una correcta paginación.",
+            "line": " controllers/UsuarioController.js:147"
+        },
+        {
+            "message": "Missing item type\nCrea un usuario, asociando privilegio y contraseña encriptada",
+            "line": " controllers/UsuarioController.js:170"
+        },
+        {
+            "message": "Missing item type\nModifica todos los datos de un objeto usuario y guarda en la\n base de datos",
+            "line": " controllers/UsuarioController.js:190"
+        },
+        {
+            "message": "Missing item type\nElimina el usuario\n BLANDO: si tiene asociada alguna Torre de la cual es Lider",
+            "line": " controllers/UsuarioController.js:208"
+        },
+        {
+            "message": "Missing item type\n:: TODO: You might write a short summary of how this model works and what it represents here.",
+            "line": " models/Archivo.js:1"
+        },
+        {
+            "message": "Missing item type\n:: TODO: You might write a short summary of how this model works and what it represents here.",
+            "line": " models/Company.js:1"
+        },
+        {
+            "message": "Missing item type\n:: TODO: You might write a short summary of how this model works and what it represents here.",
+            "line": " models/Exam.js:1"
+        },
+        {
+            "message": "Missing item type\n:: TODO: You might write a short summary of how this model works and what it represents here.",
+            "line": " models/Historic.js:1"
+        },
+        {
+            "message": "Missing item type\n:: TODO: You might write a short summary of how this model works and what it represents here.",
+            "line": " models/Patient.js:1"
+        },
+        {
+            "message": "Missing item type\n:: TODO: You might write a short summary of how this model works and what it represents here.",
+            "line": " models/Rol.js:1"
+        },
+        {
+            "message": "Missing item type\n:: TODO: You might write a short summary of how this model works and what it represents here.",
+            "line": " models/Usuario.js:1"
+        },
+        {
+            "message": "Missing item type\n400 (Bad Request) Handler\n\nUsage:\nreturn res.badRequest();\nreturn res.badRequest(data);\nreturn res.badRequest(data, 'some/specific/badRequest/view');\n\ne.g.:\n```\nreturn res.badRequest(\n  'Please choose a valid `password` (6-12 characters)',\n  'trial/signup'\n);\n```",
+            "line": " responses/badRequest.js:1"
+        },
+        {
+            "message": "Missing item type\n403 (Forbidden) Handler\n\nUsage:\nreturn res.forbidden();\nreturn res.forbidden(err);\nreturn res.forbidden(err, 'some/specific/forbidden/view');\n\ne.g.:\n```\nreturn res.forbidden('Access denied.');\n```",
+            "line": " responses/forbidden.js:1"
+        },
+        {
+            "message": "Missing item type\n404 (Not Found) Handler\n\nUsage:\nreturn res.notFound();\nreturn res.notFound(err);\nreturn res.notFound(err, 'some/specific/notfound/view');\n\ne.g.:\n```\nreturn res.notFound();\n```\n\nNOTE:\nIf a request doesn't match any explicit routes (i.e. `config/routes.js`)\nor route blueprints (i.e. \"shadow routes\", Sails will call `res.notFound()`\nautomatically.",
+            "line": " responses/notFound.js:1"
+        },
+        {
+            "message": "Missing item type\n200 (OK) Response\n\nUsage:\nreturn res.ok();\nreturn res.ok(data);\nreturn res.ok(data, 'auth/login');",
+            "line": " responses/ok.js:1"
+        },
+        {
+            "message": "Missing item type\n500 (Server Error) Response\n\nUsage:\nreturn res.serverError();\nreturn res.serverError(err);\nreturn res.serverError(err, 'some/specific/error/view');\n\nNOTE:\nIf something throws in a policy or controller, or an internal\nerror is encountered, Sails will call `res.serverError()`\nautomatically.",
+            "line": " responses/serverError.js:1"
+        }
+    ]
+}

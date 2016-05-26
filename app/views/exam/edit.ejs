@@ -1,0 +1,108 @@
+<script>    
+   appVars = {
+            exams: <%- JSON.stringify(exams) %> //examenes para option
+
+        }
+
+</script>
+<div  class="row" style="margin-top: 70px;padding: 20;" ng-app="ExamEditModule" ng-controller="ExamEditController" ng-cloak>
+    	<!--Modal de Resultado-->
+    	<div class="modal fade" id="createExamModal" tabindex="-1" role="dialog">
+    		<div class="modal-dialog" role="document">
+    			<form role="form" data-toggle="validator">
+    				<div class="modal-content">
+    					<div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    						<h4 class="modal-title" id="myModalLabel">Ingreso de Examen</h4>
+    					</div>
+    					<div class="modal-body">
+    						<div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <label>Orden</label> <input type="number" class="form-control" ng-model="newExam.order" placeholder="1 - n entre mas alto mas abajo queda">
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <label>Nombre</label> <input type="text" class="form-control" ng-model="newExam.name" placeholder="Nombre del examen">
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <label>Costo</label> <input type="text" class="form-control" ng-model="newExam.cost" placeholder="Precio Mutual">
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <label>Costo Particular</label> <input type="text" class="form-control" ng-model="newExam.particularCost" placeholder="Precio particular">
+                        </div>
+                        
+                    </div>
+                    <br>
+                    
+    					</div>
+
+    					<div class=" form-group modal-footer">
+    						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+    						<button type="submit" class="btn btn-success pull-rigth" ng-click="creaateExam()" ng-disabled="isSaving">Crear</button>
+    					</div>
+    				</div>
+    			</div>
+                </form>
+    		
+    	</div>
+            </div>
+    	<!-- Fin Modal Resultado-->
+        
+       	<div class="col-md-12">
+        <div class="row">
+            <h3>Crear/Editar Exámenes</h3>
+<!--    		<h3>Crear/Editar Exámenes <i class="glyphicon glyphicon-user"></i></h3>-->
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" class="form-control" ng-model="examFilterName" placeholder="Filtrar examen...">
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-success pull-right form-control" ng-click="openNewExam()">Crear</button>
+            </div>
+        </div>
+    		<br>
+    		<div class="row">
+    			<div class=" col-sm-12 ">
+    				<table class="table table-hover table-bordered"> 
+    					<thead> 
+    						<tr> 
+                                <th>Orden</th>
+    							<th>Nombre</th>
+                                <th>Costo</th> 
+    							<th>Costo Privado</th> 
+                                <th>Acciones</th>
+    						</tr> 
+    					</thead> 
+    					<tbody> 
+                            <tr ng-show="exams && filterName(exam)" ng-repeat="exam in exams" > 
+                                <td><input ng-model="exam.order" ng-blur="editExam(exam,true)" class="form-control"></td>
+    							<td><input ng-model="exam.name" ng-blur="editExam(exam)" class="form-control"></td>
+                                <td><input ng-model="exam.cost" ng-blur="editExam(exam)" class="form-control"></td>        
+                                <td><input ng-model="exam.particularCost" ng-blur="editExam(exam)" class="form-control"></td>        
+                                <td><center><button  ng-click="deleteExam(exam)" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
+                                </center></td>
+    						</tr> 
+    					</tbody> 
+    				</table>
+    			</div>
+    		</div>
+            <form id="downloadFile" target="_blank" action="/archivo/download" method="post">
+                <input type="hidden" id="patientId" name="patientId" value="">
+            </form>
+    	</div>
+
+    </div>  

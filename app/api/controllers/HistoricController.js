@@ -7,9 +7,9 @@
 
 module.exports = {
     index: function (req, res) {
-        Exam.find().exec(function (err, exams) {
+        Exam.find().sort("order ASC").exec(function (err, exams) {
             return res.view({exams: exams});
-        })
+        });
     },
     create: function (req, res) {
         var newHistoric = req.body.historic;
@@ -80,6 +80,9 @@ module.exports = {
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
+        if (!_.isUndefined(filter.processed)) {
+            q.processed = true;
+        }
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
@@ -114,6 +117,9 @@ module.exports = {
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
+        if (!_.isUndefined(filter.processed)) {
+            q.processed = true;
+        }
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
@@ -135,33 +141,47 @@ module.exports = {
                         sails.log("HISTORICS", historics);
                         var totalGeneral = 0;
                         var heading = [
-                            {caption: "RUT_EMPRESA", type: "number"},
+                            {caption: "RUT_EMPRESA", type: "string"},
                             {caption: "RAZON_SOCIAL.", type: "string"},
-                            {caption: "MES", type: "number"},
-                            {caption: "SERVICIO", type: "number"},
-                            {caption: "SUCURSAL", type: "number"},
-                            {caption: "APELLIDO_PATERNO", type: "number"},
-                            {caption: "APELLIDO_MATERNO", type: "number"},
-                            {caption: "APELLIDO_NOMBRES", type: "number"},
-                            {caption: "RUT_TRABAJADOR", type: "number"},
-                            {caption: "SOL_CENTRO_COSTO", type: "number"},
-                            {caption: "RESPONSABLE_SOLICITUD", type: "number"},
-                            {caption: "FECHA_EVALUACION", type: "number"},
-                            {caption: "BATERIAS", type: "number"},
-                            {caption: "EXAMEN_ADICIONALES", type: "number"},
+                            {caption: "MES", type: "string"},
+                            {caption: "SERVICIO", type: "string"},
+                            {caption: "SUCURSAL", type: "string"},
+                            {caption: "APELLIDO_PATERNO", type: "string"},
+                            {caption: "APELLIDO_MATERNO", type: "string"},
+                            {caption: "NOMBRE", type: "string"},
+                            {caption: "RUT_TRABAJADOR", type: "stirng"},
+                            {caption: "SOL_CENTRO_COSTO", type: "string"},
+                            {caption: "RESPONSABLE_SOLICITUD", type: "string"},
+                            {caption: "FECHA_EVALUACION", type: "string"},
+                            {caption: "BATERIAS", type: "string"},
+                            {caption: "EXAMEN_ADICIONALES", type: "string"},
                             {caption: "TARIFA PSICOSENSOMETRICOS", type: "number"},
-                            {caption: "TOTAL_GENERAL", type: "number"},
-                            {caption: "OBS", type: "number"}, ];
+                            {caption: "TOTAL_GENERAL", type: "string"},
+                            {caption: "OBS", type: "string"}];
 
 
                         var rows = [];
 
                         historics.forEach(function (historic) {
-                            var row =
-                                    row.push(historic.companyRut);
+                            var row = [];
+                            row.push(historic.companyRut);
                             row.push(historic.companyName);
-
-
+                            row.push(moment(new Date(historic.registerDate)).format("DD-MM-YY"));
+                            row.push("PSICOSENSOMÉTRICO");
+                            row.push("ANTOFAGASTA");
+                            row.push(historic.patientLastName);
+                            row.push(_.isNull(historic.patientSecondLastName) ? "" : historic.patientSecondLastName);
+                            row.push(historic.patientName + " " + _.isNull(historic.patientSecondName) ? "" : historic.patientSecondName);
+                            row.push(historic.patientRut);
+                            row.push(_.isNull(historic.cc) ? "" : historic.cc);
+                            row.push(_.isNull(historic.respApplication) ? "" : historic.respApplication);
+                            row.push((moment(new Date(historic.registerDate)).format("DD-MM-YY")));
+                            row.push(historic.examName);
+                            row.push("");
+                            row.push(historic.examCost);
+                            row.push("");
+                            row.push("");
+                            rows.push(row);
                         });
 
 
@@ -194,6 +214,9 @@ module.exports = {
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
+        if (!_.isUndefined(filter.processed)) {
+            q.processed = true;
+        }
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
@@ -206,11 +229,11 @@ module.exports = {
                 q.centralPayment = (filter.centralPayment === "true") ? true : false;
         }
         sails.log(q);
-        Exam.find().exec(function (err, exams) {
+        Exam.find().sort("order ASC").exec(function (err, exams) {
             Historic.find(q)
                     .exec(function (err, historics) {
                         if (err) {
-                            sails.log("false");
+                            sails.log(err);
                         } else {
                             sails.log("HISTORICS", historics);
                             var totalGeneral = 0;
@@ -271,6 +294,9 @@ module.exports = {
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
+        if (!_.isUndefined(filter.processed)) {
+            q.processed = true;
+        }
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
@@ -283,7 +309,7 @@ module.exports = {
                 q.centralPayment = (filter.centralPayment === "true") ? true : false;
         }
         sails.log(q);
-        Exam.find().exec(function (err, exams) {
+        Exam.find().sort("order ASC").exec(function (err, exams) {
             Historic.find(q)
                     .exec(function (err, historics) {
                         if (err) {

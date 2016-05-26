@@ -12,17 +12,17 @@ module.exports = {
             enum: ["Secretaria", "Tecnico", "Administrador"]
         },
         nombre: "string",
-        apellido:"string",
+        apellido: "string",
         userName: {
             type: "string",
             unique: true
         },
         password: "string"
-        
-        
-        /*getFullNombre: function () {
-            return this.nombre;
-        }*/
+
+
+                /*getFullNombre: function () {
+                 return this.nombre;
+                 }*/
     },
     beforeCreate: function (values, next) {
         console.log(values);
@@ -45,6 +45,12 @@ module.exports = {
         } else {
             next();
         }
+    },
+    toJSON: function () {
+        var obj = this.toObject();
+        delete obj.password;
+        return obj;
     }
+
 };
 

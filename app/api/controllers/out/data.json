@@ -1,0 +1,362 @@
+{
+    "project": {},
+    "files": {
+        "ArchivoController.js": {
+            "name": "ArchivoController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "CompanyController.js": {
+            "name": "CompanyController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "ExamController.js": {
+            "name": "ExamController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "HistoricController.js": {
+            "name": "HistoricController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "PatientController.js": {
+            "name": "PatientController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "UsuarioController.js": {
+            "name": "UsuarioController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {},
+    "elements": {},
+    "classitems": [
+        {
+            "file": "ArchivoController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing archivoes",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "ArchivoController.js",
+            "line": 9,
+            "description": "Returns this model's attributes as...",
+            "itemtype": "method",
+            "name": "download",
+            "return": {
+                "description": "Archivo",
+                "type": "Object"
+            },
+            "class": ""
+        },
+        {
+            "file": "CompanyController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing companies",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "ExamController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing exams",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "HistoricController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing historics",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "PatientController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing patients",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "UsuarioController.js",
+            "line": 1,
+            "description": ":: Server-side logic for managing usuarios",
+            "help": ":: See http://sailsjs.org/#!/documentation/concepts/Controllers",
+            "class": ""
+        },
+        {
+            "file": "UsuarioController.js",
+            "line": 9,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "dependiendo del caso redirecciona a distintas rutas del sistema."
+            },
+            "description": "Realia la validación de usuario y contraseña y carga en objeto session\n los datos del usuario para validaciones y registro de quien realiza operaciones",
+            "class": ""
+        },
+        {
+            "file": "UsuarioController.js",
+            "line": 87,
+            "params": [
+                {
+                    "name": "req.body.password",
+                    "description": "string de contraseña sin encriptar",
+                    "type": "Stirng"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "objeto de respuesta true / false según corresponda",
+                "type": "Unresolved"
+            },
+            "class": ""
+        },
+        {
+            "file": "UsuarioController.js",
+            "line": 137,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "description": "vista base de usuarios sin objetos pre cargados",
+            "class": ""
+        },
+        {
+            "file": "UsuarioController.js",
+            "line": 147,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Objeto paginacion"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "[Usuario]"
+            },
+            "description": "Soicita lista par adesplegar en paginación, esta lleva atributos\n utiles para una correcta paginación.",
+            "class": ""
+        },
+        {
+            "file": "UsuarioController.js",
+            "line": 170,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Usuario"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "description": "Crea un usuario, asociando privilegio y contraseña encriptada",
+            "class": ""
+        },
+        {
+            "file": "UsuarioController.js",
+            "line": 190,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Usuario"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "[Usuario] retorna a pagina de mantenedor 'lista'"
+            },
+            "description": "Modifica todos los datos de un objeto usuario y guarda en la\n base de datos",
+            "class": ""
+        },
+        {
+            "file": "UsuarioController.js",
+            "line": 208,
+            "params": [
+                {
+                    "name": "req",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "res",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "description": "Elimina el usuario\n BLANDO: si tiene asociada alguna Torre de la cual es Lider",
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: help",
+            "line": " ArchivoController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " CompanyController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " ExamController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " HistoricController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " PatientController.js:1"
+        },
+        {
+            "message": "unknown tag: help",
+            "line": " UsuarioController.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " UsuarioController.js:9"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " UsuarioController.js:87"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " UsuarioController.js:137"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " UsuarioController.js:147"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " UsuarioController.js:170"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " UsuarioController.js:190"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " UsuarioController.js:208"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing archivoes",
+            "line": " ArchivoController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing companies",
+            "line": " CompanyController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing exams",
+            "line": " ExamController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing historics",
+            "line": " HistoricController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing patients",
+            "line": " PatientController.js:1"
+        },
+        {
+            "message": "Missing item type\n:: Server-side logic for managing usuarios",
+            "line": " UsuarioController.js:1"
+        },
+        {
+            "message": "Missing item type\nRealia la validación de usuario y contraseña y carga en objeto session\n los datos del usuario para validaciones y registro de quien realiza operaciones",
+            "line": " UsuarioController.js:9"
+        },
+        {
+            "message": "Missing item type",
+            "line": " UsuarioController.js:87"
+        },
+        {
+            "message": "Missing item type\nvista base de usuarios sin objetos pre cargados",
+            "line": " UsuarioController.js:137"
+        },
+        {
+            "message": "Missing item type\nSoicita lista par adesplegar en paginación, esta lleva atributos\n utiles para una correcta paginación.",
+            "line": " UsuarioController.js:147"
+        },
+        {
+            "message": "Missing item type\nCrea un usuario, asociando privilegio y contraseña encriptada",
+            "line": " UsuarioController.js:170"
+        },
+        {
+            "message": "Missing item type\nModifica todos los datos de un objeto usuario y guarda en la\n base de datos",
+            "line": " UsuarioController.js:190"
+        },
+        {
+            "message": "Missing item type\nElimina el usuario\n BLANDO: si tiene asociada alguna Torre de la cual es Lider",
+            "line": " UsuarioController.js:208"
+        }
+    ]
+}

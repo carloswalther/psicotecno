@@ -15,6 +15,10 @@ module.exports = {
         historics: {
             collection: "historic",
             via: "patient"
+        },
+        archivos: {
+            collection: "archivo",
+            via: "patient"
         }
     }
 };

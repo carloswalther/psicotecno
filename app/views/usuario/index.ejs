@@ -1,57 +1,57 @@
-    <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="PatientModule" ng-controller="PatientController" ng-cloak>
+    <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="UsuarioModule" ng-controller="UsuarioController" ng-cloak>
         <!--Modal de Resultado-->
-        <div class="modal fade" id="createPatientModal" tabindex="-1" role="dialog">
+        <div class="modal fade" id="createUsuarioModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <form role="form" data-toggle="validator">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Ingreso Rápido de Usuario</h4>
+                            <h4 class="modal-title" id="myModalLabel">Creación de Usuario</h4>
                         </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input class="form-control" placeholder="Usuario" name="username"></input>
+                                    <input class="form-control" placeholder="Usuario" name="username" ng-model="newUsuario.userName">
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input class="form-control" placeholder="Nombre" name="nombre"></input>
+                                    <input class="form-control" placeholder="Nombre" name="nombre" ng-model="newUsuario.nombre">                                
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input class="form-control" placeholder="Apellido" name="apellido"></input>
+                                    <input class="form-control" placeholder="Apellido" name="apellido" ng-model="newUsuario.apellido"></input>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input class="form-control" placeholder="Password" type="password" name="password"></input>
+                                    <input class="form-control" placeholder="Password" type="password" name="password" ng-model="newUsuario.password">
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <select class="form-control" name="rol">
-                                        <option value="#">Administrador</option>
-                                        <option value="#">Secretaria</option>
-                                        <option value="#">Tecnico</option>
+                                    <select class="form-control" name="rol" ng-model="newUsuario.rol">
+                                        <option value="Administrador">Administrador</option>
+                                        <option value="Secretaria">Secretaria</option>
+                                        <option value="Tecnico">Tecnico</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="row" ng-show="newPatient.error">
+                            <div class="row" ng-show="newUsuario.error">
                                 <div class="alert alert-danger" style="margin:15px">
-                                    <strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
+                                    <strong>Error!</strong> No se puede crear este usuario, probablemente ya existe, intente buscarlo nuevamente
                                 </div>
                             </div>
                         </div>
 
                         <div class=" form-group modal-footer">
                             <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
+                            <button type="submit" class="btn btn-success pull-rigth" ng-click="saveUsuario()" ng-disabled="isSaving">Crear</button>
                         </div>
                     </div>
                 </form>
@@ -65,10 +65,10 @@
         <hr>
         <div class="row">
             <div class="col-md-4">
-                <input class="form-control pull-left" placeholder="Búsqueda"></input>
+                <input ng-model="userFilterName" type="text" class="form-control pull-left" placeholder="Filtrar Usuarios..."></input>
             </div>
-            <div class="col-md-8">
-                <button type="button" class="btn btn-success pull-right" ng-click="openNewPatient()">Crear</button>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-success pull-right form-control" ng-click="openNewUsuario()">Crear</button>
             </div>
         </div>
             <br>
@@ -86,18 +86,18 @@
                             </tr> 
                         </thead> 
                         <tbody> 
-                            <tr> 
-                                <td><input class="form-control"></input></td>
-                                <td><input class="form-control"></input></td>
-                                <td><input class="form-control"></input></td>
-                                <td><input class="form-control" disabled></input></td>
-                                <td><select class="form-control">
-                                        <option>Administrador</option>
-                                        <option>Secretaria</option>
-                                        <option>Tecnico</option>
+                            <tr ng-repeat="usuario in usuarios" ng-show="filterName(usuario)"> 
+                                <td><input ng-model="usuario.userName" class="form-control" ng-blur="edit(usuario)"></td>
+                                <td><input ng-model="usuario.nombre"class="form-control" ng-blur="edit(usuario)"></td>
+                                <td><input ng-model="usuario.apellido" class="form-control" ng-blur="edit(usuario)"></td>
+                                <td><input type="password" ng-model="usuario.password" ng-blur="edit(usuario)" class="form-control"></td>
+                                <td><select ng-model="usuario.rol" class="form-control" ng-blur="edit(usuario)">
+                                        <option value="Administrador">Administrador</option>
+                                        <option value="Secretaria">Secretaria</option>
+                                        <option value="Tecnico">Tecnico</option>
                                     </select>
                                 </td>
-                                <td><center><button class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button></center></td>
+                                <td><center><button ng-click="delete(usuario)"class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button></center></td>
                             </tr> 
                         </tbody> 
                     </table>

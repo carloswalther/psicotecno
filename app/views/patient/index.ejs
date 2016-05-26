@@ -1,0 +1,181 @@
+    <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="PatientModule" ng-controller="PatientController" ng-cloak>
+    	<!--Modal de Resultado-->
+    	<div class="modal fade" id="createPatientModal" tabindex="-1" role="dialog">
+    		<div class="modal-dialog" role="document">
+    			<form role="form" data-toggle="validator">
+    				<div class="modal-content">
+    					<div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    						<h4 class="modal-title" id="myModalLabel">Ingreso Rápido de Paciente</h4>
+    					</div>
+    					<div class="modal-body">
+    						<div class="row">
+    							<div class="col-md-12">
+    								<input ng-model="newPatient.name" class="form-control" placeholder="Nombre">
+    							</div>
+    						</div>
+                            <br>
+                            <div class="row">
+    							<div class="col-md-12">
+    								<input ng-model="newPatient.secondName" class="form-control" placeholder="Segundo Nombre"></input>
+    							</div>
+    						</div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input ng-model="newPatient.lastName" class="form-control" placeholder="Apellido Paterno"></input>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input ng-model="newPatient.secondLastName" class="form-control" placeholder="Apellido Materno"></input>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input ng-model="newPatient.rut" class="form-control" placeholder="RUT" id="rut_validator"></input>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="newPatient.error">
+    							<div class="alert alert-danger" style="margin:15px">
+    								<strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
+    							</div>
+    						</div>
+    					</div>
+
+    					<div class=" form-group modal-footer">
+    						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+    						<button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
+    					</div>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
+    	<!-- Fin Modal Resultado-->
+        
+        <!--Modal de Resultado-->
+    	<div class="modal fade" id="file" tabindex="-1" role="dialog">
+    		<div class="modal-dialog" role="document">
+    			<form role="form" data-toggle="validator">
+    				<div class="modal-content">
+    					<div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    						<h4 class="modal-title" id="myModalLabel">Archivos del paciente {{patient.name}} {{patient.lastName}}</h4>
+    					</div>
+    					<div class="modal-body">
+                           <form name="myForm">
+    <fieldset>
+     
+     
+      <br>Archivo a subir
+      <input type="file" ngf-select ng-model="picFile" name="file"    
+             accept="*" ngf-max-size="10MB" required
+             ngf-model-invalid="errorFile">
+      <i ng-show="myForm.file.$error.required">*required</i><br>
+      <i ng-show="myForm.file.$error.maxSize">File too large 
+          {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+      <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb"> <button class="btn btn-danger form-control" ng-click="picFile = null" ng-show="picFile">Remove</button>
+      <br>
+      
+      <button class="btn btn-success form-control" 
+              ng-click="uploadPic(picFile)">Subir Archivo</button>
+      <span class="progress" ng-show="picFile.progress >= 0">
+        <div style="width:{{picFile.progress}}%" 
+            ng-bind="picFile.progress + '%'"></div>
+      </span>
+      <span ng-show="picFile.result">Archivo subido exitosamente</span>
+      <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+    </fieldset>
+    <br>
+  </form>
+                            <table class="table">
+                                <thead>
+                                    <th>Archivo</th>
+                                    <th>Fecha</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="file in files">
+                                        <!--<td><a href="/archivo/download?id={{file.id}}" target="_blank"><button class="btn btn-success"><i class="glyphicon glyphicon-download"></i></button></a></td>-->
+                                <td><a href="/archivo/download?id={{file.id}}" target="_blank"> {{file.filename}}</a></td>
+                                        
+                                        <td>{{file.createdAt |date:"dd-MM-yy"}}</td>
+                                    </tr>    
+                                </tbody>
+                            </table>
+    					</div>
+
+    					<div class=" form-group modal-footer">
+    						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+    						
+    					</div>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
+    	<!-- Fin Modal Resultado-->
+    	<div class="col-md-12">
+        <div class="row">
+    		<h3>Crear/Editar Paciente <i class="glyphicon glyphicon-user"></i></h3>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                  <div class="padded-row"> 
+<!--                         <label>Buscador de Items</label>-->
+        <angucomplete-alt id="patientSearch"
+              
+              placeholder="Buscar Paciente"
+              pause="500"
+              text-searching="Buscando..."
+              text-no-results="No hay resultado"
+              selected-object="addPatient"
+              remote-url="/patient/findAll?s="
+              remote-url-data-field=""
+              title-field="name,lastName"
+              description-field="rut"
+              input-class="form-control form-control-small"
+              match-class="highlight"
+              class="ng-isolate-scope"
+              />
+            </div>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-success pull-right form-control" ng-click="openNewPatient()">Crear</button>
+            </div>
+        </div>
+    		<br>
+    		<div class="row">
+    			<div class=" col-sm-12 ">
+    				<table class="table table-hover table-bordered"> 
+    					<thead> 
+    						<tr> 
+    							<th>Nombre</th>
+                                <th>Segundo Nombre</th> 
+    							<th>Apellido Paterno</th> 
+    							<th>Apellido Materno</th> 
+    							<th>RUT</th>
+                                <th>Acciones</th>
+    						</tr> 
+    					</thead> 
+    					<tbody> 
+                            <tr ng-show="patient"> 
+                                <td><input ng-model="patient.name" ng-blur="editPatient()" class="form-control"></td>
+    							<td><input ng-model="patient.secondName" ng-blur="editPatient()" class="form-control"></td>
+    							<td><input ng-model="patient.lastName" ng-blur="editPatient()"class="form-control"></td>
+    							<td><input ng-model="patient.secondLastName" ng-blur="editPatient()"class="form-control"></td>
+                                <td><input ng-model="patient.rut" ng-blur="editPatient()" class="form-control"></td>
+                                <td><center>
+                                <button ng-click="openFiles(patient)" class="btn btn-success"><i class="glyphicon glyphicon-file"></i></button></center></td>
+    						</tr> 
+    					</tbody> 
+    				</table>
+    			</div>
+    		</div>
+            <form id="downloadFile" target="_blank" action="/archivo/download" method="post">
+                <input type="hidden" id="patientId" name="patientId" value="">
+            </form>
+    	</div>
+
+    </div>  

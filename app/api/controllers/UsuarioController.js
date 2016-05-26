@@ -37,20 +37,19 @@ module.exports = {
             return res.view({layout: "layout_login"})
         } else {
 
-            if (_.isUndefined(data.email) || _.isUndefined(data.password)) {
+            if (_.isUndefined(data.userName) || _.isUndefined(data.password)) {
                 console.log("no viene usuario y pass");
                 req.session.msg = {res: false, msg: "No tiene usuario y/o contraseña", style: "watning", obj: []};
                 return res.view({layout: "layout_login", msg: {res: false, msg: "No tiene usuario y/o contraseña", style: "watning", obj: []}});
             }
 
-            Usuario.findOne({userName: data.email}).exec(function (err, user) {
-                var _ = require("underscore")
+            Usuario.findOne({userName: data.userName}).exec(function (err, user) {
+                var _ = require("underscore");
                 if (err)
-                    return res.view({layout: "layout_login", msg: {res: false, msg: "Error al consultar en la base de datos", style: "danger", obj: [err]}});
+                    return res.view({layout: "layout_login"});
                 if (!user) {
                     console.log("usuario no existe");
-                    req.session.msg = {res: false, msg: "Usuario no existe", style: "warning", obj: []};
-                    return res.view({layout: "layout_login", msg: {res: false, msg: "Error al consultar en la base de datos", style: "danger", obj: [err]}});
+                    return res.view({layout: "layout_login"});
                 }
                 bcrypt.compare(data.password, user.password, function (err, valid) {
                     if (err) {
@@ -67,18 +66,23 @@ module.exports = {
                         req.session.usuario = user;
                         sails.log("password correcto");
                         if (user.rol === "Administrador") {
-                            return res.redirect("/historic");
+                            return res.redirect("/historic/reportIndex");
                         }
                         if (user.rol === "Secretaria") {
                             return res.redirect("/historic");
                         }
                         if (user.rol === "Tecnico") {
-                            return res.redirect("/historic");
+                            return res.redirect("/exam");
                         }
                     }
                 });
             });
         }
+    },
+    logout: function (req, res) {
+        delete req.session.usuario;
+        req.session.authenticated = false;
+        return res.redirect("/usuario/login");
     },
     /**
      *
@@ -148,57 +152,19 @@ module.exports = {
      * @description Soicita lista par adesplegar en paginación, esta lleva atributos
      * utiles para una correcta paginación.
      */
-    /*list: function (req, res) {
-        var search = req.body.searchPhrase;
-        var current = req.body.current;
-        var rowCount = req.body.rowCount;
-        var sort = req.body.sort;
-
-        var w = {
-            or: [
-                {nombre: {'contains': search}},
-                {userName: {'contains': search}},
-                {rol: {'contains': search}}
-            ]
-        };
-
-
-
-        //Sorts
-        var sortTxt = "eliminado ASC id DESC";
-        for (var col in sort) { //nombre[ASC]
-            sortTxt = col + " " + sort[col]; // nombre ASC
-        }
-        ;
-        var QL = {};
-        QL.where = w;
-        QL.sort = sortTxt;
-        if (!(rowCount === '-1')) {
-            QL.skip = (current - 1) * rowCount;
-            QL.limit = rowCount;
-        }
-
-        Usuario.find(QL).exec(function (err, usuarios) {
+    list: function (req, res) {
+        sails.log("obteniendo usuarios")
+        Usuario.find().sort("nombre ASC").exec(function (err, usuarios) {
             if (err) {
-                sails.log(err);
+                return res.send(false);
+            } else {
+                usuarios.forEach(function (usuario) {
+                    delete usuario.password;
+                })
+                sails.log(usuarios);
+                return res.send(usuarios);
+
             }
-
-            for (var i = 0; i < usuarios.length; i++) {
-                if (usuarios[i].eliminado)
-                    usuarios[i].status = 3;
-
-            }
-            ;
-
-            Usuario.count(w, function (err, count) {
-                if (err) {
-                    sails.log(err);
-                }
-                var json = {rows: usuarios, current: current * 1, rowCount: rowCount * 1, total: count};
-
-                return res.json(json);
-            });
-
         });
     },
     /**
@@ -208,20 +174,15 @@ module.exports = {
      * @returns {undefined}
      * @description Crea un usuario, asociando privilegio y contraseña encriptada
      */
-    crear: function (req, res) {
-        if (req.method.toUpperCase() == "GET") {
-            var rolesArr = ["Administrador", "Secretaria", "Tecnico"];
-            res.view({roles: rolesArr});
-        } else {
-            Usuario.create(req.body).exec(function (err, usuario) {
+    create: function (req, res) {
+        {
+            Usuario.create(req.body.usuario).exec(function (err, usuario) {
                 if (err) {
                     sails.log(err);
-                    req.session.msg = {msg: "Error al crear el Usuario, correo electrónico ya está en uso", style: "danger", obj: [err]};
+                    return res.send(false);
                 } else {
-                    req.session.msg = {msg: "Usuario creado correctamente", style: "success"};
+                    return res.send(usuario);
                 }
-
-                return res.redirect("/usuario/");
 
             });
         }
@@ -234,31 +195,15 @@ module.exports = {
      * @description Modifica todos los datos de un objeto usuario y guarda en la
      * base de datos
      */
-    editar: function (req, res) {
-        if (req.method.toUpperCase() == "GET") {
-            var id = req.param("id");
-            Usuario.findOne(id).exec(function (err, usr) {
-                if (err)
-                    sails.log(err);
-                var rolesArr = ["Administrador", "Lider Torre", "Lider Pais"];
-                res.view({roles: rolesArr, usuario: usr});
-            });
-        } else {
-            if (req.body.password == "")
-                delete req.body.password;
+    edit: function (req, res) {
+        Usuario.update(req.body.usuario.id, req.body.usuario).exec(function (err, usuarios) {
+            if (err) {
+                return res.send(false);
+            } else {
+                return res.send(true);
+            }
+        });
 
-            Usuario.update(req.body.id, req.body).exec(function (err, usuarios) {
-                if (err) {
-                    sails.log(err);
-                    req.session.msg = {msg: "Error al editar el Usuario, correo electrónico ya está en uso", style: "danger", obj: [err]};
-                } else {
-                    req.session.msg = {msg: "Usuario editado correctamente", style: "success"};
-                }
-
-                return res.redirect("/usuario/");
-
-            });
-        }
     },
     /**
      *
@@ -268,32 +213,17 @@ module.exports = {
      * @description Elimina el usuario
      * BLANDO: si tiene asociada alguna Torre de la cual es Lider
      */
-    /*eliminar: function (req, res) {
-        var id = req.param("id");
-        Torre.count({jefeDeTorre: id}).exec(function (err, countT) {
-            if (countT != 0) {
-                Usuario.update(id, {eliminado: true}).exec(function (err, usuarios) {
-                    if (err) {
-                        sails.log(err);
-                        req.session.msg = {msg: "Error al eliminar el Usuario", style: "danger", obj: [err]};
-                    } else {
-                        req.session.msg = {msg: "Usuario eliminado correctamente de forma 'blanda'", style: "success"};
-                    }
-                    return res.redirect("/usuario/");
-                });
+    delete: function (req, res) {
+        Usuario.destroy(req.body.usuario.id).exec(function (err, usuario) {
+            if (err) {
+                sails.log(err)
+                return res.send(false);
             } else {
-                Usuario.destroy(id).exec(function (err, usuarios) {
-                    if (err) {
-                        sails.log(err);
-                        req.session.msg = {msg: "Error al eliminar el Usuario", style: "danger", obj: [err]};
-                    } else {
-                        req.session.msg = {msg: "Usuario eliminado correctamente de forma 'dura'", style: "success"};
-                    }
-                    return res.redirect("/usuario/");
-                });
+                sails.log(usuario);
+                return res.send(true);
             }
-        });
+        })
+    }
 
-    }*/
 };
 

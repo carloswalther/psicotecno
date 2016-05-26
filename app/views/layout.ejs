@@ -57,29 +57,48 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/historic">Ingreso</a></li>
+                    <% if ((req.session.usuario.rol === "Administrador") || (req.session.usuario.rol === "Secretaria")){%>
+                        <li><a href="/historic">Ingreso</a></li>
+                    <%}%>
+                    <% if ((req.session.usuario.rol === "Administrador") || (req.session.usuario.rol === "Tecnico")){%>
                     <li><a href="/exam">Por Tomar</a></li>
+                                        <%}%>
+                    <% if (req.session.usuario.rol === "Administrador"){%>
                     <li><a href="/historic/reportIndex">Reporte</a></li>
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             Mantenedores <b class="caret"></b>
                         </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/patient/edit">Pacientes</a></li>
+                        <li><a href="/usuario/index">Usuarios</a></li>
+                        <li><a href="/patient/index">Pacientes</a></li>
                         <li><a href="/company/index">Empresas</a></li>
-                        <li><a href="/exam/index">Exámenes</a></li>
+                        <li><a href="/exam/edit">Exámenes</a></li>
                       </ul>
                     </li>
-                    <li><a href="" target="_blank">Mis Cotizaciones</a></li>
+                    <%}%>
+                     <% if (req.session.usuario.rol === "Secretaria"){%>
                     
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Mantenedores <b class="caret"></b>
+                        </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/patient/index">Pacientes</a></li>
+                        <li><a href="/company/index">Empresas</a></li>
+                      </ul>
+                    </li>
+                    <%}%>
                 </ul>
                 
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Carlos Walther <span class="badge">10</span><b class="caret"></b>
+                            <%= req.session.usuario.nombre%> <%= req.session.usuario.apellido%>
+                            ( <%= req.session.usuario.rol%> )
                         </a>
                     </li>
+                    <li><a href="/usuario/logout">Salir</a></li>
                 </ul>
             </div>
         </div>
@@ -158,6 +177,7 @@
     <script src="/vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="/vendor/angular-rut/dist/angular-rut.js"></script>
     <script src="/vendor/angular-i18n/angular-locale_es-cl.js"></script>
+    <script src="/vendor/ng-file-upload/ng-file-upload.js"></script>
     <script src="/js/app/historic/historicModule.js"></script>
     <script src="/js/app/historic/historicDirectives.js"></script>
     <script src="/js/app/historic/historicController.js"></script>
@@ -167,9 +187,18 @@
     <script src="/js/app/exam/examModule.js"></script>
     <script src="/js/app/exam/examDirectives.js"></script>
     <script src="/js/app/exam/examController.js"></script>
+    <script src="/js/app/exam/examEditModule.js"></script>
+    <script src="/js/app/exam/examEditDirectives.js"></script>
+    <script src="/js/app/exam/examEditController.js"></script>
     <script src="/js/app/patient/patientModule.js"></script>
     <script src="/js/app/patient/patientDirectives.js"></script>
     <script src="/js/app/patient/patientController.js"></script>
+    <script src="/js/app/usuario/usuarioModule.js"></script>
+    <script src="/js/app/usuario/usuarioDirectives.js"></script>
+    <script src="/js/app/usuario/usuarioController.js"></script>
+    <script src="/js/app/company/companyModule.js"></script>
+    <script src="/js/app/company/companyDirectives.js"></script>
+    <script src="/js/app/company/companyController.js"></script>
     <!--SCRIPTS END-->
     <script>
         function msg(title,message,type){

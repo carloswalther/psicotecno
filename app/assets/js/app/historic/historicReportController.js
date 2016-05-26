@@ -7,7 +7,8 @@ angular.module('HistoricReportModule').controller('HistoricReportController',
                     from: new Date(),
                     to: new Date(),
                     centralPayment: "centralNoCentral",
-                    mutual: "MutualParticular"
+                    mutual: "MutualParticular",
+                    processed: true
                 };
                 $scope.lastFilter = $.extend({}, $scope.filter);
                 $scope.newPatient = {};
@@ -25,7 +26,6 @@ angular.module('HistoricReportModule').controller('HistoricReportController',
                     if (data) {
                         $scope.historics = data;
                     } else {
-
                         msg('Problema al cargar historico', '', 'warning');
                     }
                     $scope.$apply();

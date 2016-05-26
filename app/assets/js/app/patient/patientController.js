@@ -2,29 +2,11 @@
 
 
 angular.module('PatientModule').controller('PatientController',
-        ['$scope', "$http", function ($scope, $http) {
+        ['$scope', 'Upload', "$timeout", "$http", function ($scope, Upload, $timeout, $http) {
                 $scope.newPatient = {};
-                $scope.historics = [];
-
-                $scope.newHistoric = {};
-                $scope.newHistoric.patient = {};
-                $scope.newHistoric.company = {};
-                $scope.newHistoric.exam = {};
-                $scope.newHistoric.registerDate = new Date();
-
-
-                //$scope.exams = appVars.exams;
-
-
-                io.socket.post("/historic/getAll", {date: new Date()}, function (data) {
-                    if (data.err) {
-                        msg('Problema al cargar historico', '', 'warning');
-                    } else {
-                        $scope.historics = data;
-                    }
-                    $scope.$apply();
-                });
-
+                $scope.patient = null;
+                $scope.files = [];
+                $scope.fileId = "";
 
                 /**
                  *
@@ -34,11 +16,11 @@ angular.module('PatientModule').controller('PatientController',
                 $scope.addPatient = function (selected) {
                     // verifica que elevento sea el de capturar un elemento
                     if (!_.isUndefined(selected)) {
-                        $scope.newHistoric.patient = $.extend({}, selected.originalObject)
+                        $scope.patient = $.extend({}, selected.originalObject);
                         //$scope.itemSelected = selected.originalObject;
                     }
                 };
-            
+
 
                 $scope.openNewPatient = function () {
 
@@ -46,28 +28,78 @@ angular.module('PatientModule').controller('PatientController',
                     $scope.isSaving = false
                 };
 
+
+
+
                 $scope.savePatient = function () {
-                    $scope.isSaving = true
-                    io.socket.post("/patient/create", {patient: $scope.newPatient}, function (data) {   
+                    $scope.isSaving = true;
+                    io.socket.post("/patient/create", {patient: $scope.newPatient}, function (data) {
                         if (data) {
-                            $scope.newHistoric.patient = $.extend($scope.newPatient, data);
-                            $("#patient_value").val(data.name + " " + data.lastName);
+                            $scope.patient = $.extend({}, data);
                             msg("Paciente creado exitosamente", "", "success");
                             $('#createPatientModal').modal("hide");
                             $scope.newPatient.error = false
-                            
-
                         } else {
                             $scope.newPatient.error = true;
-                            $scope.$apply($scope.newPatient)
                             //msg("Paciente no se pudo creear", "", "danger");
                         }
 
                     });
                 };
 
+                $scope.editPatient = function () {
+                    $scope.isSaving = true;
+                    io.socket.post("/patient/edit", {patient: $scope.patient}, function (data) {
+                        if (data) {
+                            msg("Paciente editado exitosamente", "", "success");
+                        } else {
+                            msg("Error al editar paciente", "", "danger");
 
+                        }
 
+                    });
+                };
+                $scope.openFiles = function () {
+                    $scope.getFiles();
+                    $('#file').modal("show");
+                    $scope.isSaving = false
+                };
+                $scope.getFiles = function () {
+                    io.socket.get("/archivo", {patient: $scope.patient.id}, function (files) {
+                        $scope.files = files;
+                        console.log(files);
+                        $scope.$apply($scope.files);
+                    });
+                };
+                $scope.download = function (id) {
+                    $scope.fileId = id;
+                    $("#patientId").val(id);
+                    $("#downloadFile").submit();
+
+                    //$scope.$apply($scope.fileId);
+
+                };
+
+                $scope.picFile = null;
+                $scope.uploadPic = function (file) {
+                    file.upload = Upload.upload({
+                        url: '/patient/uploadFile',
+                        method: 'POST',
+                        data: {patient: $scope.patient.id, file: file},
+                    });
+
+                    file.upload.then(function (response) {
+                        $timeout(function () {
+                            file.result = response.data;
+                        });
+                    }, function (response) {
+                        if (response.status > 0)
+                            $scope.errorMsg = response.status + ': ' + response.data;
+                    }, function (evt) {
+                        // Math.min is to fix IE which reports 200% sometimes
+                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+                }
             }
         ]);
 

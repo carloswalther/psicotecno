@@ -7,6 +7,7 @@
 
 module.exports = {
     attributes: {
+        order: "integer",
         name: "string",
         cost: "integer",
         particularCost: "integer",
