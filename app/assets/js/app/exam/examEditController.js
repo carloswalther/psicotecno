@@ -13,6 +13,7 @@ angular.module('ExamEditModule').controller('ExamEditController',
                         particularCost: $scope.newExam.particularCost}, function (exam) {
                         if (exam) {
                             console.log(exam);
+                            $scope.newExam = {};
                             $scope.getAllExams();
                             msg("Examen creado exitosamente", "", "success");
                         } else {

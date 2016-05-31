@@ -44,6 +44,7 @@ angular.module('CompanyModule').controller('CompanyController',
                             $scope.$apply($scope.company)
                             msg("Empresa creada exitosamente", "", "success");
                             $('#createCompanyModal').modal("hide");
+                            $scope.newCompany = {};
                             $scope.newCompany.error = false
                         } else {
                             $scope.newCompany.error = true;

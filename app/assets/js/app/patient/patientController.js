@@ -40,6 +40,7 @@ angular.module('PatientModule').controller('PatientController',
                             $scope.$apply($scope.patient);
                             msg("Paciente creado exitosamente", "", "success");
                             $('#createPatientModal').modal("hide");
+                            $scope.newPatient = {};
                             $scope.newPatient.error = false
                         } else {
 
