@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-    migrate: "alter",
+    //migrate: "alter",
     attributes: {
         name: "string",
         secondName: "string",
