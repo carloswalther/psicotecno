@@ -54,6 +54,7 @@ var jsFilesToInject = [
     // 'vendor/angular-bootstrap3-datepicker/dist/ng-bs3-datepicker.min.js',
 // All of the rest of your client-side js files
     // will be injected here in no particular order.
+    'vendor/checklist-model/checklist-model.js',
     '/js/app/historic/historicModule.js',
     '/js/app/historic/historicDirectives.js',
     '/js/app/historic/historicController.js',

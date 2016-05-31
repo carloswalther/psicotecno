@@ -17,37 +17,42 @@
                             <br>
                             <div class="row">
     							<div class="col-md-12">
-    								<input ng-model="newPatient.secondName" class="form-control" placeholder="Segundo Nombre"></input>
+    								<input ng-model="newPatient.secondName" class="form-control" placeholder="Segundo Nombre">
     							</div>
     						</div>
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input ng-model="newPatient.lastName" class="form-control" placeholder="Apellido Paterno"></input>
+                                    <input ng-model="newPatient.lastName" class="form-control" placeholder="Apellido Paterno">
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input ng-model="newPatient.secondLastName" class="form-control" placeholder="Apellido Materno"></input>
+                                    <input ng-model="newPatient.secondLastName" class="form-control" placeholder="Apellido Materno">
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input ng-model="newPatient.rut" class="form-control" placeholder="RUT" id="rut_validator"></input>
+                                    <input ng-model="newPatient.rut" ng-rut rut-format="live"  class="form-control" placeholder="RUT" >
                                 </div>
                             </div>
                             <div class="row" ng-show="newPatient.error">
     							<div class="alert alert-danger" style="margin:15px">
-    								<strong>Error!</strong> No se puede crear este paciente, probablemente ya existe, intente buscarlo nuevamente
+    								<strong>Error!</strong> Ya existe un paciente con este rut
+    							</div>
+    						</div>
+                             <div class="row" ng-show="isNull(newPatient.rut)">
+    							<div class="alert alert-danger" style="margin:15px">
+    								<strong>Error!</strong> El rut no es valido
     							</div>
     						</div>
     					</div>
-
+{{newPatient}}
     					<div class=" form-group modal-footer">
     						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
-    						<button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
+    						<button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving && validatePatient();">Crear</button>
     					</div>
     				</div>
     			</form>

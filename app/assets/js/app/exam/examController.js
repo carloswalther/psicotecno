@@ -2,7 +2,8 @@
 
 
 angular.module('ExamModule').controller('ExamController',
-        ['$scope', "$http", function ($scope, $http) {
+        ['$scope', 'Upload', "$timeout", "$http", function ($scope, Upload, $timeout, $http) {
+                $scope.filter = "";
                 $scope.newPatient = {};
                 $scope.historics = [];
                 $scope.date = new Date();
@@ -11,6 +12,13 @@ angular.module('ExamModule').controller('ExamController',
                 $scope.newHistoric.company = {};
                 $scope.newHistoric.exam = {};
                 $scope.newHistoric.registerDate = new Date();
+                //file section
+                $scope.files = [];
+                $scope.fileId = "";
+                $scope.patientId = null;
+
+                //multiple exams
+                $scope.examsToRegister = [];
 
                 $scope.editHistoric = {};
 
@@ -50,6 +58,7 @@ angular.module('ExamModule').controller('ExamController',
                                 $scope.editHistoric = {};
                                 msg("Exito al guardar los resultados", "", "success");
                                 $(createResultModal).modal("hide");
+                                $scope.getHistorics();
                                 $scope.$apply();
                             } else {
                                 msg("No se pudo editar", "", "warning");
@@ -89,6 +98,16 @@ angular.module('ExamModule').controller('ExamController',
 
                 $scope.openNewResult = function (historic) {
                     $scope.editHistoric = historic;
+                    $scope.editHistoric.type = "single";
+
+                    $('#createResultModal').modal("show");
+                    //$scope.isSaving = false
+                };
+                $scope.openNewResultMultiple = function () {
+                    $scope.editHistoric = {};
+                    $scope.editHistoric.type = "multiple";
+                    $scope.editHistoric.ids = $scope.examsToRegister;
+
                     $('#createResultModal').modal("show");
                     //$scope.isSaving = false
                 };
@@ -98,7 +117,72 @@ angular.module('ExamModule').controller('ExamController',
                         return true;
                     var find = $scope.filter.toLowerCase();
                     return (historic.patientName + " " + historic.patientLastName).toLowerCase().indexOf(find) !== -1;
-                }
+                };
+
+                //file section
+
+                $scope.openFiles = function (patient) {
+                    console.log("patinet", patient)
+                    $scope.getFiles(patient.id);
+                    $('#file').modal("show");
+                    $scope.isSaving = false
+                };
+
+                $scope.getFiles = function (patientId) {
+                    $scope.files = [];
+                    $scope.patientId = patientId;
+                    io.socket.get("/archivo", {patient: patientId}, function (files) {
+                        $scope.files = files;
+                        console.log(files);
+                        $scope.$apply($scope.files);
+                    });
+                };
+
+                $scope.download = function (id) {
+                    $scope.fileId = id;
+                    $("#patientId").val(id);
+                    $("#downloadFile").submit();
+
+                    //$scope.$apply($scope.fileId);
+
+                };
+                $scope.picFile = null;
+                $scope.uploadPic = function (file) {
+                    file.upload = Upload.upload({
+                        url: '/patient/uploadFile',
+                        method: 'POST',
+                        data: {patient: $scope.patientId, file: file},
+                    });
+
+                    file.upload.then(function (response) {
+                        $timeout(function () {
+                            file.result = response.data;
+                            $scope.files.push($.extend({}, response.data));
+                            $scope.$apply($scope.files);
+                        });
+                    }, function (response) {
+                        if (response.status > 0)
+                            $scope.errorMsg = response.status + ': ' + response.data;
+//                        else {
+//                            console.log("archivo subido", response);
+//                            $scope.files.push($.extend({}, response.data));
+//                            $scope.$apply($scope.files);
+//                        }
+                    }, function (evt) {
+                        // Math.min is to fix IE which reports 200% sometimes
+                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+
+                    });
+                };
+                $scope.getRowClass = function (historic) {
+                    if (!_.isNull(historic.edad) && !_.isNull(historic.conclusion)) {
+                        return "success";
+                    }
+                    if (!_.isNull(historic.edad)) {
+                        return "warning";
+                    }
+                    return;
+                };
             }
         ]);
 

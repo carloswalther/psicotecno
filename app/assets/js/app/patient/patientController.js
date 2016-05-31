@@ -33,20 +33,28 @@ angular.module('PatientModule').controller('PatientController',
 
                 $scope.savePatient = function () {
                     $scope.isSaving = true;
+
                     io.socket.post("/patient/create", {patient: $scope.newPatient}, function (data) {
                         if (data) {
                             $scope.patient = $.extend({}, data);
+                            $scope.$apply($scope.patient);
                             msg("Paciente creado exitosamente", "", "success");
                             $('#createPatientModal').modal("hide");
                             $scope.newPatient.error = false
                         } else {
+
                             $scope.newPatient.error = true;
+                            $scope.$apply($scope.newPatient)
                             //msg("Paciente no se pudo creear", "", "danger");
                         }
-
                     });
                 };
-
+                $scope.isNull = function (obj) {
+                    if (_.isNull(obj))
+                        return true;
+                    else
+                        return false;
+                }
                 $scope.editPatient = function () {
                     $scope.isSaving = true;
                     io.socket.post("/patient/edit", {patient: $scope.patient}, function (data) {
@@ -59,6 +67,16 @@ angular.module('PatientModule').controller('PatientController',
 
                     });
                 };
+                $scope.validatePatient = function () {
+                    if (!_.isEmpty($scope.newPatient.name) ||
+                            !_.isEmpty($scope.newPatient.lastName) ||
+                            !_.isEmpty($scope.newPatient.rut)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
                 $scope.openFiles = function () {
                     $scope.getFiles();
                     $('#file').modal("show");
@@ -86,7 +104,7 @@ angular.module('PatientModule').controller('PatientController',
                     file.upload = Upload.upload({
                         url: '/patient/uploadFile',
                         method: 'POST',
-                        data: {patient: $scope.patient.id, file: file},
+                        data: {patient: $scope.patient.id, file: file}
                     });
 
                     file.upload.then(function (response) {

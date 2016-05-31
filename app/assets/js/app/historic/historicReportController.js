@@ -7,13 +7,14 @@ angular.module('HistoricReportModule').controller('HistoricReportController',
                     from: new Date(),
                     to: new Date(),
                     centralPayment: "centralNoCentral",
-                    mutual: "MutualParticular",
-                    processed: true
+                    mutual: "MutualParticular"
+
                 };
                 $scope.lastFilter = $.extend({}, $scope.filter);
                 $scope.newPatient = {};
                 $scope.historics = [];
                 $scope.nameFilter = "";
+                $scope.companyNameFilter = "";
                 $scope.newHistoric = {};
                 $scope.newHistoric.patient = {};
                 $scope.newHistoric.company = {};
@@ -77,12 +78,12 @@ angular.module('HistoricReportModule').controller('HistoricReportController',
                     var find = $scope.nameFilter.toLowerCase();
                     return (user.patientName + " " + user.patientSecondName + " " + user.patientLastName + " " + user.patientSecondLasttName).toLowerCase().indexOf(find) !== -1;
                 };
-                $scope.companyFilter = function (user) {
-                    if ($scope.companyFilter.trim() === "")
-                        return true;
-                    var find = $scope.companyFilter.toLowerCase();
-                    return (user.patientName + " " + user.patientSecondName + " " + user.patientLastName + " " + user.patientSecondLasttName).toLowerCase().indexOf(find) !== -1;
-                };
+//                $scope.companyFilter = function (user) {
+//                    if ($scope.companyNameFilter.trim() === "")
+//                        return true;
+//                    var find = $scope.companyNameFilter.toLowerCase();
+//                    return
+//                };
 
                 $scope.clarAll = function () {
 

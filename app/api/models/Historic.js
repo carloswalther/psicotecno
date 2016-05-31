@@ -38,7 +38,7 @@ module.exports = {
         //Sección de resutados
         edad: "integer",
         estudios: "string",
-        aniosEstudio: "string",
+        aniosEstudio: "integer",
         raven: "integer",
         epqN: "integer",
         epqQ: "integer",

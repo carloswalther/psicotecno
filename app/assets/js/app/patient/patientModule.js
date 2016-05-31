@@ -1,1 +1,1 @@
-angular.module('PatientModule', ["ngFileUpload", "angucomplete-alt", 'ui.bootstrap']);
+angular.module('PatientModule', ["ngFileUpload", "angucomplete-alt", 'ui.bootstrap', 'platanus.rut']);

@@ -5,7 +5,69 @@
         }
     </script>
     <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="ExamModule" ng-controller="ExamController" ng-cloak>
-    	<!--Modal de Resultado-->
+    	 <!--Modal de Subida Archivos-->
+    	<div class="modal fade" id="file" tabindex="-1" role="dialog">
+    		<div class="modal-dialog" role="document">
+    			<form role="form" data-toggle="validator">
+    				<div class="modal-content">
+    					<div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    						<h4 class="modal-title" id="myModalLabel">Archivos del paciente {{patient.name}} {{patient.lastName}}</h4>
+    					</div>
+    					<div class="modal-body">
+                           <form name="myForm">
+                            <fieldset>
+
+
+                              <br>Archivo a subir
+                              <input type="file" ngf-select ng-model="picFile" name="file"    
+                                     accept="*" ngf-max-size="10MB" required
+                                     ngf-model-invalid="errorFile">
+                              <i ng-show="myForm.file.$error.required">*required</i><br>
+                              <i ng-show="myForm.file.$error.maxSize">File too large 
+                                  {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                              <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb"> <button class="btn btn-danger form-control" ng-click="picFile = null" ng-show="picFile">Remove</button>
+                              <br>
+
+                              <button class="btn btn-success form-control" 
+                                      ng-click="uploadPic(picFile)">Subir Archivo</button>
+                              <span class="progress" ng-show="picFile.progress >= 0">
+                                <div style="width:{{picFile.progress}}%" 
+                                    ng-bind="picFile.progress + '%'"></div>
+                              </span>
+                              <span ng-show="picFile.result">Archivo subido exitosamente</span>
+                              <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+                            </fieldset>
+                            <br>
+                          </form>
+                            <table class="table">
+                                <thead>
+                                    <th>Archivo</th>
+                                    <th>Fecha</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="file in files">
+                                        <!--<td><a href="/archivo/download?id={{file.id}}" target="_blank"><button class="btn btn-success"><i class="glyphicon glyphicon-download"></i></button></a></td>-->
+                                <td><a href="/archivo/download?id={{file.id}}" target="_blank"> {{file.filename}}</a></td>
+                                        
+                                        <td>{{file.createdAt |date:"dd-MM-yy"}}</td>
+                                    </tr>    
+                                </tbody>
+                            </table>
+    					</div>
+
+    					<div class=" form-group modal-footer">
+    						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+    						
+    					</div>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
+    	<!-- Fin Modal Subida Archivos-->
+        
+        
+        <!--Modal de Resultado-->
     	<div class="modal fade" id="createResultModal" tabindex="-1" role="dialog">
     		<div class="modal-dialog" role="document">
                 <form role="form" ng-submit="saveHistoric(registerExamForm.$valid)" name="registerExamForm" data-toggle="validator" novalidate>
@@ -19,6 +81,7 @@
     							<div class="col-md-12">
     								<div class="form-group">
     									<div class="row">
+                                            <input name="edad" ng-model="editHistoric.type" type="hidden"/>
     										<div class="col-md-4">
     											<label>Edad (*)</label> 
     										</div>
@@ -43,6 +106,7 @@
                                                     <option value="E. Básica Incompleta">E. Básica Incompleta</option>
                                                     <option value="E. Básica Completa">E. Básica Completa</option>
                                                     <option value="E. Media Incompleta">E. Media Incompleta</option>
+                                                    <option value="E. Media Copleta">E. Media Completa</option>
                                                     <option value="T. Superior Incompleto">T. Superior Incompleto</option>
                                                     <option value="T. Superior Completo">T. Superior Completo</option>
                                                     <option value="E. Superior Incompleta">E. Superior Incompleta</option>
@@ -62,12 +126,7 @@
     											<label>Años de Estudio (*)</label>
     										</div>
     										<div class="col-md-8">
-                                                <select name="aniosEstudio" ng-model="editHistoric.aniosEstudio" class="form-control" required>
-                                                    <option value="1ERO - 8VO Básico">1ERO - 8VO Básico</option>
-                                                    <option value="1ERO - 5TO Medio">1ERO - 5TO Medio</option>
-                                                    <option value="1-2 Años">1-2 Años</option>
-                                                    <option value="1-7 Años">1-7 Años</option>
-                                                </select>
+                                                <input type="number" name="aniosEstudio" ng-model="editHistoric.aniosEstudio" class="form-control" required/>
                                             </div>
     									</div>
                                         <div class="row" style="margin: 0 0 0 0;">
@@ -256,26 +315,35 @@
     			<div class=" col-sm-12 " ng-show="historics.length > 0">
     				<table class="table table-hover table-bordered"> 
     					<thead> 
-    						<tr> 
-    							<th class="col-sm-2">Paciente</th> 
+    						<tr>
+                                <th class="col-sm-1">
+
+<button ng-disabled="examsToRegister.length==0" type="button" ng-click="openNewResultMultiple()" class="btn btn-sm btn-info center-block">Ingresar Seleccionados</button></th>
+    							<th class="col-sm-2">Paciente</th>
+                                <th class="col-sm-2">Rut</th>
     							<th class="col-sm-2">Empresa</th> 
     							<th class="col-sm-2">Examen</th> 
-    							<th class="col-sm-2">Centro de Costo</th>
-    							<th class="col-sm-2">Solicita Estado</th>
-    							<th class="col-sm-2">Ingresar Resultado</th>  
+    							<th class="col-sm-2">Ingresar Resultado</th> 
+                                <th class="col-sm-1">Archivos</th>  
     						</tr> 
     					</thead> 
     					<tbody> 
-                            <tr ng-class="{true: 'success'}[historic.processed]" ng-repeat="historic in historics" ng-show="filterName(historic)"> 
-    							<td>{{historic.patientName}} {{historic.patientLastName}}</td>
-    							<td>{{historic.companyName}}</td>
-    							<td>{{historic.examName}}</td>
-    							<td>{{historic.cc}}</td>
-                                <td>{{historic.respApplication}}</td>
-    							
+                            <tr ng-class="getRowClass(historic)" ng-repeat="historic in historics" ng-show="filterName(historic)"> 
+    							<td>
+                                   
+                                    <input type="checkbox"
+                                        checklist-model="examsToRegister"                                        
+                                        checklist-value="historic.id">
+                                </td>
+                                <td>{{historic.patientName}} {{historic.patientSecondName}} {{historic.patientLastName}} {{historic.patientSecondLastName}}</td>
+    							<td>{{historic.patientRut}}</td>
+                                <td>{{historic.companyName}}</td>
+    							<td>{{historic.examName}}</td> 
     							<td><button ng-show="!historic.processed" type="button" ng-click="openNewResult(historic)" class="btn btn-sm btn-info center-block" data-dismiss="modal">Ingresar Resultado</button>
                                 <button ng-show="historic.processed" type="button" ng-click="openNewResult(historic)" class="btn btn-sm btn-warning center-block" data-dismiss="modal">Editar Resultado</button></td>
-    						</tr> 
+                                <td><center>
+                                <button ng-click="openFiles(historic.patient)" class="btn btn-success"><i class="glyphicon glyphicon-file"></i></button></center></td>
+                            </tr> 
     					</tbody> 
     				</table>
     			</div>
@@ -287,5 +355,4 @@
     			</div>
     		</div>
     	</div>
-
     </div>

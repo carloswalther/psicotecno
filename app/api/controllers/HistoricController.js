@@ -37,15 +37,28 @@ module.exports = {
         });
     },
     edit: function (req, res) {
-        sails.log("a guardar: ", req.body.historic)
-        Historic.update({id: req.body.historic.id}, req.body.historic).exec(function (err, historic) {
-            if (err) {
-                return res.send(false)
-            } else {
-                sails.log("Edit Historic:", historic);
-                return res.send(historic);
-            }
-        });
+        sails.log("a guardar: ", req.body.historic);
+        var historic = req.body.historic;
+        if (historic.type === "single") {
+            Historic.update({id: req.body.historic.id}, req.body.historic).exec(function (err, historic) {
+                if (err) {
+                    return res.send(false)
+                } else {
+                    sails.log("Edit Historic:", historic);
+                    return res.send(historic);
+                }
+            });
+        }
+        if (historic.type === "multiple") {
+            Historic.update({id: req.body.historic.ids}, req.body.historic).exec(function (err, historic) {
+                if (err) {
+                    return res.send(false);
+                } else {
+                    sails.log("Edit Historic:", historic);
+                    return res.send(historic);
+                }
+            });
+        }
     },
     getAll: function (req, res) {
         var moment = require("moment");
@@ -80,9 +93,9 @@ module.exports = {
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
-        if (!_.isUndefined(filter.processed)) {
-            q.processed = true;
-        }
+//        if (!_.isUndefined(filter.processed)) {
+//            q.processed = true;
+//        }
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
@@ -117,9 +130,9 @@ module.exports = {
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
-        if (!_.isUndefined(filter.processed)) {
-            q.processed = true;
-        }
+//        if (!_.isUndefined(filter.processed)) {
+//            q.processed = true;
+//        }
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
@@ -196,7 +209,7 @@ module.exports = {
                         var result = excel.execute(conf);
 
                         res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-                        res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+                        res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Detalle.xlsx");
                         res.end(result, 'binary');
                     }
                 });
@@ -214,9 +227,9 @@ module.exports = {
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
-        if (!_.isUndefined(filter.processed)) {
-            q.processed = true;
-        }
+//        if (!_.isUndefined(filter.processed)) {
+//            q.processed = true;
+//        }
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
@@ -275,7 +288,7 @@ module.exports = {
                             var result = excel.execute(conf);
 
                             res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-                            res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+                            res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Facturacion.xlsx");
                             res.end(result, 'binary');
                         }
                     });
@@ -294,9 +307,9 @@ module.exports = {
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
-        if (!_.isUndefined(filter.processed)) {
-            q.processed = true;
-        }
+//        if (!_.isUndefined(filter.processed)) {
+//            q.processed = true;
+//        }
         if (!_.isUndefined(filter.company)) {
             q.company = filter.company.id;
         }
@@ -426,7 +439,7 @@ module.exports = {
                             var result = excelDos.execute(conf);
 
                             res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-                            res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+                            res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Cobro.xlsx");
                             res.end(result, 'binary');
                         }
                     });

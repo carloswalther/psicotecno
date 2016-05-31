@@ -261,27 +261,27 @@
   <table class="table">
     <thead>
         <th>Nombre</th>
+        <th>Rut</th>
         <th>Empresa</th>
         <th>Examen</th>
-        <th>Centro de Costo</th>
-        <th>Responsable Solicitud</th>
         <th>Cargo</th>
         <th>PO/CO</th>
         <th>Tipo</th>
         <th>Fecha</th>
+        <th>Borrar</th>
         
     </thead>
     <tbody>
         <tr ng-repeat="historic in historics">
             <td>{{historic.patientName}} {{historic.patientSecondName}} {{historic.patientLastName}} {{historic.patientSecondLastName}}</td>
+            <td>{{historic.patientRut}}</td>
             <td>{{historic.companyName}}</td>
             <td>{{historic.examName}}</td>
-            <td>{{historic.cc}}</td>
-            <td>{{historic.respApplication}}</td>
             <td>{{historic.position}}</td>
             <td>{{historic.pooc}}</td>
             <td>{{historic.mutual}}</td>
             <td>{{historic.registerDate |date:"dd-MM-yy" }}</td>
+            <td><button ng-click="deleteHistoric(historic)" class="btn-sm btn-danger"><i class="glyphicon glyphicon-remove-sign"></i></button></td>
         </tr>
     </tbody>
   </table>

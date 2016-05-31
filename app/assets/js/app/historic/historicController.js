@@ -63,7 +63,8 @@ angular.module('HistoricModule').controller('HistoricController',
                             if (data) {
                                 var historic = $.extend(data, $scope.newHistoric);
                                 $scope.historics.push(historic);
-                                $scope.clarAll();
+                                //$scope.clarAll();
+                                $scope.newHistoric.exam = null;
                                 $scope.$apply();
                             } else {
                                 msg("No se pudo crear", "", "warning");
@@ -73,6 +74,22 @@ angular.module('HistoricModule').controller('HistoricController',
                         msg("Hay campos obligatorios que no se han llenador", "", "warning");
                     }
 
+                };
+
+                $scope.deleteHistoric = function (historic) {
+                    console.log(historic)
+                    if (confirm("¿Seguro que quieres eliminar este registro?:" + historic.patientName + ", " + historic.examName)) {
+                        io.socket.delete("/historic/" + historic.id, function (data) {
+                            console.log(data);
+                            if (data) {
+                                var index = $scope.historics.indexOf(data);
+                                $scope.historics.splice(index);
+                                msg("Registro eliminado exitosamente", "", "success");
+                            } else {
+                                msg("No se pudo eliminar el registro", "", "warning");
+                            }
+                        });
+                    }
                 };
                 $scope.clarAll = function () {
                     delete $scope.newHistoric.respApplication;
@@ -123,48 +140,37 @@ angular.module('HistoricModule').controller('HistoricController',
                             $("#patient_value").val(data.name + " " + data.lastName);
                             msg("Paciente creado exitosamente", "", "success");
                             $('#createPatientModal').modal("hide");
+                            $scope.newPatient = {};
                             $scope.newPatient.error = false
-
-
                         } else {
                             $scope.newPatient.error = true;
                             $scope.$apply($scope.newPatient)
                             //msg("Paciente no se pudo creear", "", "danger");
                         }
-
-
                     });
                 };
 
-
-
                 $scope.openNewCompany = function () {
-
                     $('#createCompanyModal').modal("show");
-
                 };
 
                 $scope.saveCompany = function () {
 
                     $scope.isSaving = true;
                     io.socket.post("/company/create", {company: $scope.newCompany}, function (data) {
-
                         $scope.isSaving = false;
                         if (data) {
                             $scope.newHistoric.company = $.extend($scope.newCompany, data);
                             $("#company_value").val(data.name + " " + data.rut);
                             msg("Empresa creada exitosamente", "", "success");
                             $('#createCompanyModal').modal("hide");
-                            $scope.newCompany.error = false
-
-
+                            $scope.newCompany = {};
+                            $scope.newCompany.error = false;
                         } else {
                             $scope.newCompany.error = true;
                             $scope.$apply($scope.newCompany)
                             //msg("Empresa no se pudo creear", "", "danger");
                         }
-
-
                     });
                 };
                 //Validation of all form for quitation

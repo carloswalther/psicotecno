@@ -6,7 +6,7 @@ angular.module('CompanyModule').controller('CompanyController',
                 $scope.newCompany = {};
                 $scope.company = null;
                 $scope.isSaving = false;
-
+                $scope.companies = [];
                 /**
                  *
                  * @param {type} selected objeto seleccionado compañia de la lista
@@ -21,6 +21,10 @@ angular.module('CompanyModule').controller('CompanyController',
                     }
                 };
 
+                io.socket.post("/company/getAll", {}, function (data) {
+                    $scope.companies = data;
+                    $scope.$apply($scope.companies);
+                });
 
                 $scope.openNewCompany = function () {
 

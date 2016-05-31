@@ -1,1 +1,1 @@
-angular.module('ExamModule', ["angucomplete-alt", 'ui.bootstrap']);
+angular.module('ExamModule', ["ngFileUpload", "angucomplete-alt", 'ui.bootstrap', "checklist-model"]);

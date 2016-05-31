@@ -14,6 +14,12 @@ module.exports = {
         });
 
     },
+    getAll: function (req, res) {
+        Company.find().sort("name ASC").exec(function (err, companies) {
+            sails.log(companies)
+            return res.send(companies);
+        });
+    },
     create: function (req, res) {
         sails.log(req.body.company);
         Company.create(req.body.company).exec(function (err, data) {

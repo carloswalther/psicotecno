@@ -6,10 +6,13 @@
  */
 
 module.exports = {
+    migrate: "alter",
     attributes: {
         name: "string",
         secondName: "string",
-        rut: "string",
+        rut: {
+            unique: true,
+            type: "string"},
         lastName: "string",
         secondLastName: "string",
         historics: {

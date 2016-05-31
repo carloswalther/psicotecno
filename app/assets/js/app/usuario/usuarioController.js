@@ -67,6 +67,7 @@ angular.module('UsuarioModule').controller('UsuarioController',
                             msg("Usuario creado exitosamente", "", "success");
                             $scope.usuarios.push(usuario);
                             $scope.$apply($scope.usuarios);
+                            $scope.newUsuario = {};
                             $('#createUsuarioModal').modal("hide");
                             $scope.isSaving = false
                         } else {

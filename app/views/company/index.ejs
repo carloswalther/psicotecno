@@ -15,7 +15,7 @@
                             <input type="text" class="form-control" ng-model="newCompany.name" placeholder="Nombre">
                         </div>
                         <div class="col-sm-12 col-lg-6">
-                            <input type="text" class="form-control"  ng-rut rut-format="live"  ng-model="newCompany.rut" placeholder="Rut">
+                            <input type="text" class="form-control"  ng-rut rut-format="live" ng-model="newCompany.rut" placeholder="Rut">
                             El rut debe ser valido
                         </div>
                         
@@ -82,17 +82,17 @@
     						<tr> 
     							<th>Nombre</th>
                                 <th>Rut</th> 
-    							<th>Pago Central</th> 
+    							<th>Tipo de Empresa</th> 
                                 <th>Acciones</th>
     						</tr> 
     					</thead> 
     					<tbody> 
                             <tr ng-show="company"> 
-                                <td><input ng-model="company.name" ng-blur="editCompany()" class="form-control"></td>
-    							<td><input ng-model="company.rut" ng-blur="editCompany()" class="form-control"></td>
+                                <td><input type="text" ng-model="company.name" ng-blur="editCompany()" class="form-control"></td>
+    							<td><input type="text" ng-model="company.rut" ng-blur="editCompany()" class="form-control"></td>
                                         <td><select convert-to-number class="form-control" ng-model="company.centralPayment" ng-blur="editCompany()">
-                                                <option value="1">Pago Central<option>
-                                                <option value="0">Pago No Central<option>
+                                                <option value="1">Central</option>
+                                                <option value="0">No Central</aoption>
                                     </select></td>
                                 <td><center><button ng-click="" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
                                 </center></td>
@@ -105,5 +105,17 @@
                 <input type="hidden" id="patientId" name="patientId" value="">
             </form>
     	</div>
+        <br>
+        <table class="table">
+            <thead>
+            <th>Nombre Empresa</th>
+            <th>Rut</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="comp in companies">
+                <td>{{comp.name}}</td>
+                <td>{{comp.rut}}</td>
+            </tr>
+        </table>
 
     </div>  
