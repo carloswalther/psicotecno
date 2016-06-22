@@ -1,0 +1,1 @@
+angular.module('dailyReportModule', ["angucomplete-alt", 'ui.bootstrap', 'platanus.rut']);

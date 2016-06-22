@@ -233,8 +233,8 @@
                 </div>
                 <div class="col-sm-3"> 
                     <select class="form-control" ng-model="newHistoric.pooc"> 
-                            <option selected value="PO">PO</option>
-                            <option value="OC">OC</option>
+                            <option value="PO">PO</option>
+                            <option selected value="OC">OC</option>
                     </select>
                 </div>
             </div>
@@ -260,26 +260,33 @@
 <div class="table-responsive">
   <table class="table">
     <thead>
-        <th>Nombre</th>
+        <th>
+            <div class="row">
+                <div class="col-sm-4">Nombre</div>
+                <div class="col-sm-8"><input type="text" class="form-control" ng-model="filter" placeholder="Filtrar Paceinte..."></div>
+            </div>
+            
+                    
+              </th>
         <th>Rut</th>
         <th>Empresa</th>
         <th>Examen</th>
         <th>Cargo</th>
         <th>PO/CO</th>
-        <th>Tipo</th>
+        
         <th>Fecha</th>
         <th>Borrar</th>
         
     </thead>
     <tbody>
-        <tr ng-repeat="historic in historics">
+        <tr ng-repeat="historic in historics" ng-show="filterName(historic)">
             <td>{{historic.patientName}} {{historic.patientSecondName}} {{historic.patientLastName}} {{historic.patientSecondLastName}}</td>
-            <td>{{historic.patientRut}}</td>
+            <td>{{historic.patientRut | rut}}</td>
             <td>{{historic.companyName}}</td>
             <td>{{historic.examName}}</td>
             <td>{{historic.position}}</td>
             <td>{{historic.pooc}}</td>
-            <td>{{historic.mutual}}</td>
+            
             <td>{{historic.registerDate |date:"dd-MM-yy" }}</td>
             <td><button ng-click="deleteHistoric(historic)" class="btn-sm btn-danger"><i class="glyphicon glyphicon-remove-sign"></i></button></td>
         </tr>

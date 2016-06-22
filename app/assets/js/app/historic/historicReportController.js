@@ -23,6 +23,7 @@ angular.module('HistoricReportModule').controller('HistoricReportController',
                 $scope.newHistoric.registerDate = new Date();
 
 
+
                 io.socket.post("/historic/report", {filter: $scope.filter}, function (data) {
                     if (data) {
                         $scope.historics = data;
@@ -84,6 +85,16 @@ angular.module('HistoricReportModule').controller('HistoricReportController',
 //                    var find = $scope.companyNameFilter.toLowerCase();
 //                    return
 //                };
+                /*
+                 * Verifica si no hay texto en el campo de compañia y lo borra
+                 */
+
+                $scope.deleteIfEmpty = function () {
+                    if ($("#company_value").val() === "") {
+                        console.log("borrando objeto company");
+                        $scope.clarAll();
+                    }
+                };
 
                 $scope.clarAll = function () {
 

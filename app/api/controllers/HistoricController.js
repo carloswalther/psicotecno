@@ -6,9 +6,25 @@
  */
 
 module.exports = {
+    findAll: function (req, res) {
+        var s = req.param('s');
+        var q = {or: [{patientName: {contains: s}}, {patientLastName: {contains: s}}, {patientRut: {contains: s}}]};
+        Historic.find(q).exec(function (err, patients) {
+            return res.send(patients);
+        });
+    },
     index: function (req, res) {
         Exam.find().sort("order ASC").exec(function (err, exams) {
             return res.view({exams: exams});
+        });
+    },
+    getHistoricByPatient: function (req, res) {
+        var patient = req.body.patient;
+        Historic.find({patientRut: patient.patientRut}).sort("registerDate ASC").exec(function (err, historics) {
+            if (err)
+                return res.send(false);
+            else
+                return res.send(historics);
         });
     },
     create: function (req, res) {
@@ -16,17 +32,14 @@ module.exports = {
         newHistoric.companyName = newHistoric.company.name;
         newHistoric.companyRut = newHistoric.company.rut;
         newHistoric.centralPayment = newHistoric.company.centralPayment;
-
         newHistoric.patientRut = newHistoric.patient.rut;
         newHistoric.patientName = newHistoric.patient.name;
         newHistoric.patientSecondName = newHistoric.patient.secondName;
         newHistoric.patientLastName = newHistoric.patient.lastName;
         newHistoric.patientSecondLastName = newHistoric.patient.secondLastName;
-
         newHistoric.examName = newHistoric.exam.name;
         newHistoric.examCost = newHistoric.exam.cost;
         newHistoric.examParticularCost = newHistoric.exam.particularCost;
-
         Historic.create(req.body.historic).exec(function (err, historic) {
             if (err) {
                 return res.send(false)
@@ -82,14 +95,19 @@ module.exports = {
     reportIndex: function (req, res) {
 
         return res.view();
+    },
+    reportDaily: function (req, res) {
 
+        return res.view();
+    },
+    reportPatient: function (req, res) {
+
+        return res.view();
     },
     report: function (req, res) {
         var moment = require("moment");
         var _ = require("underscore");
         var filter = req.body.filter;
-
-
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
@@ -117,16 +135,68 @@ module.exports = {
                     }
                 })
     },
+    dailyExcelGeneral: function (req, res) {
+        var excel = require('excel-export');
+        sails.log(req.body);
+        var moment = require("moment");
+        moment.locale("es");
+        var chileanRut = require("chilean-rut");
+        var _ = require("underscore");
+        var filter = JSON.parse(req.body.filter);
+        var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
+        var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
+        var q = {registerDate: {'>=': begin, '<=': end}};
+        sails.log(q);
+        Historic.find(q)
+                .exec(function (err, historics) {
+                    if (err) {
+                        sails.log("false");
+                    } else {
+                        sails.log("HISTORICS", historics);
+                        var totalGeneral = 0;
+                        var heading = [
+                            {caption: "Fecha", type: "string"},
+                            {caption: "Nombre.", type: "string"},
+                            {caption: "Rut", type: "string"},
+                            {caption: "Empresa", type: "string"},
+                            {caption: "Rut Empresa", type: "string"}];
+                        var rows = [];
+                        historics.forEach(function (historic) {
+                            var row = [];
+                            row.push(moment(new Date(historic.registerDate)).format("DD/MM/YYYY"));
+                            var tempName = "";
+                            tempName += _.isNull(historic.patientName) ? "" : historic.patientName;
+                            tempName += _.isNull(historic.patientSecondName) ? "" : " " + historic.patientSecondName;
+                            tempName += _.isNull(historic.patientLastName) ? "" : " " + historic.patientLastName;
+                            tempName += _.isNull(historic.patientSecondLastName) ? "" : " " + historic.patientSecondLastName;
+                            row.push(tempName);
+                            row.push(chileanRut.format(historic.patientRut.substr(0, historic.patientRut.length - 1))
+                                    + "-" + historic.patientRut.substr(historic.patientRut.length - 1, 1));
+                            row.push(historic.companyName);
+                            row.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
+                                    + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+                            rows.push(row);
+                        });
+                        var conf = {};
+                        conf.name = "General";
+                        conf.cols = heading;
+                        conf.rows = rows;
+                        var result = excel.execute(conf);
+                        res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+                        res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla General.xlsx");
+                        res.end(result, 'binary');
+                    }
+                });
+    },
     excelConPaciente: function (req, res) {
 
         var excel = require('excel-export');
         sails.log(req.body);
-
         var moment = require("moment");
+        moment.locale("es");
+        var chileanRut = require("chilean-rut");
         var _ = require("underscore");
         var filter = JSON.parse(req.body.filter);
-
-
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
@@ -145,7 +215,6 @@ module.exports = {
                 q.centralPayment = (filter.centralPayment === "true") ? true : false;
         }
         sails.log(q);
-
         Historic.find(q)
                 .exec(function (err, historics) {
                     if (err) {
@@ -171,24 +240,26 @@ module.exports = {
                             {caption: "TARIFA PSICOSENSOMETRICOS", type: "number"},
                             {caption: "TOTAL_GENERAL", type: "string"},
                             {caption: "OBS", type: "string"}];
-
-
                         var rows = [];
-
                         historics.forEach(function (historic) {
                             var row = [];
-                            row.push(historic.companyRut);
+                            row.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
+                                    + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
                             row.push(historic.companyName);
-                            row.push(moment(new Date(historic.registerDate)).format("DD-MM-YY"));
+                            row.push(moment(new Date(historic.registerDate)).format("MMMM"));
                             row.push("PSICOSENSOMÉTRICO");
                             row.push("ANTOFAGASTA");
                             row.push(historic.patientLastName);
                             row.push(_.isNull(historic.patientSecondLastName) ? "" : historic.patientSecondLastName);
-                            row.push(historic.patientName + " " + _.isNull(historic.patientSecondName) ? "" : historic.patientSecondName);
-                            row.push(historic.patientRut);
+                            var tempName = "";
+                            tempName += _.isNull(historic.patientName) ? "" : historic.patientName;
+                            tempName += _.isNull(historic.patientSecondName) ? "" : " " + historic.patientSecondName;
+                            row.push(tempName);
+                            row.push(chileanRut.format(historic.patientRut.substr(0, historic.patientRut.length - 1))
+                                    + "-" + historic.patientRut.substr(historic.patientRut.length - 1, 1));
                             row.push(_.isNull(historic.cc) ? "" : historic.cc);
                             row.push(_.isNull(historic.respApplication) ? "" : historic.respApplication);
-                            row.push((moment(new Date(historic.registerDate)).format("DD-MM-YY")));
+                            row.push((moment(new Date(historic.registerDate)).format("DD/MM/YYYY")));
                             row.push(historic.examName);
                             row.push("");
                             row.push(historic.examCost);
@@ -196,18 +267,12 @@ module.exports = {
                             row.push("");
                             rows.push(row);
                         });
-
-
-
                         var conf = {};
-
                         conf.name = "Detalle";
                         conf.cols = heading;
                         conf.rows = rows;
                         sails.log("CONF", conf);
-
                         var result = excel.execute(conf);
-
                         res.setHeader('Content-Type', 'application/vnd.openxmlformats');
                         res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Detalle.xlsx");
                         res.end(result, 'binary');
@@ -218,12 +283,9 @@ module.exports = {
 
         var excel = require('excel-export');
         sails.log(req.body);
-
         var moment = require("moment");
         var _ = require("underscore");
         var filter = JSON.parse(req.body.filter);
-
-
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
@@ -277,16 +339,12 @@ module.exports = {
                                 row.push(exam.total);
                                 rows.push(row);
                             });
-
                             var conf = {};
-
                             conf.name = "Detalle";
                             conf.cols = heading;
                             conf.rows = rows;
                             sails.log("CONF", conf);
-
                             var result = excel.execute(conf);
-
                             res.setHeader('Content-Type', 'application/vnd.openxmlformats');
                             res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Facturacion.xlsx");
                             res.end(result, 'binary');
@@ -298,12 +356,10 @@ module.exports = {
 
         var excelDos = require('excel-export');
         sails.log(req.body);
-
         var moment = require("moment");
         var _ = require("underscore");
+        var chileanRut = require("chilean-rut");
         var filter = JSON.parse(req.body.filter);
-
-
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
         var q = {registerDate: {'>=': begin, '<=': end}};
@@ -332,12 +388,10 @@ module.exports = {
                             var allHeadingTxt = [{caption: "Centralizada", type: "string", width: 40}, {caption: "Empresa", type: "string"}, {caption: "Rut", type: "string"}];
                             var allCompanies = []; //para almacenar compañias completas
                             var refHeading = ["CENTRALIZADA", "EMPRESA", "RUT"];
-
                             var companyArray = {};
                             exams.forEach(function (exam) {
                                 exam.count = 0;
                                 exam.total = 0;
-
                                 refHeading.push(exam.id + "Count");
                                 allHeadingTxt.push({caption: exam.name, type: "number",
                                     beforeCellWrite: function () {
@@ -350,7 +404,6 @@ module.exports = {
                                             }
                                         }
                                     }()});
-
                             });
                             exams.forEach(function (exam) {
 
@@ -388,7 +441,8 @@ module.exports = {
                                     var newRow = [];
                                     newRow.push(historic.centralPayment ? "SI" : "NO");
                                     newRow.push(historic.companyName);
-                                    newRow.push(historic.companyRut);
+                                    newRow.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
+                                            + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
                                     for (i = 3; i < refHeading.length; i++) {
                                         newRow.push(0);
                                     }
@@ -399,7 +453,6 @@ module.exports = {
                                     companyArray[historic.companyName][countIndex] += 1;
                                     companyArray[historic.companyName][priceIndex] += (historic.mutual === "Mutual") ? historic.examCost : historic.examParticularCost;
                                     companyArray[historic.companyName][totalIndex] += (historic.mutual === "Mutual") ? historic.examCost : historic.examParticularCost;
-
                                 } else {
                                     var countIndex = _.indexOf(refHeading, historic.exam + "Count");
                                     var priceIndex = _.indexOf(refHeading, historic.exam + "Price");
@@ -411,18 +464,12 @@ module.exports = {
                             });
 //
                             sails.log("CompanyArray", companyArray);
-
-
-
-
                             var conf = {};
                             var mainTotal = [];
                             conf.name = "mysheet";
                             conf.cols = allHeadingTxt;
                             conf.rows = _.values(companyArray);
-
                             sails.log("CONF", conf);
-
                             for (i = 0; i < conf.cols.length; i++) {
                                 mainTotal.push(0);
                             }
@@ -437,7 +484,6 @@ module.exports = {
                             conf.rows.push(mainTotal);
                             sails.log("CONF", conf);
                             var result = excelDos.execute(conf);
-
                             res.setHeader('Content-Type', 'application/vnd.openxmlformats');
                             res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Cobro.xlsx");
                             res.end(result, 'binary');

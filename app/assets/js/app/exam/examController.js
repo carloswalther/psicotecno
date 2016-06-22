@@ -176,6 +176,8 @@ angular.module('ExamModule').controller('ExamController',
                 };
                 $scope.getRowClass = function (historic) {
                     if (!_.isNull(historic.edad) && !_.isNull(historic.conclusion)) {
+                        if (historic.conclusion === "Conclusión Pendiente")
+                            return "warning";
                         return "success";
                     }
                     if (!_.isNull(historic.edad)) {

@@ -162,7 +162,7 @@
     											<label>EPWORTH</label>
     										</div>
     										<div class="col-md-8">
-                                                <input class="form-control" min=1 max=24 ng-model="editHistoric.epworth" type="number" placeholder="1 - 24" />
+                                                <input class="form-control" min=0 max=24 ng-model="editHistoric.epworth" type="number" placeholder="0 - 24" />
     										</div>
     									</div>
     									<br>
@@ -241,6 +241,7 @@
     										</div>
     										<div class="col-md-8">
     											<select ng-model="editHistoric.conclusion" class="form-control">
+                                                    <option value="Conclusión Pendiente">Conclusión Pendiente</option>
                                                     <option value="Recomendable">Recomendable</option>
                                                     <option value="Recomendable con obs.">Recomendable con obs.</option>
                                                     <option value="N.R.T.">N.R.T.</option>
@@ -336,7 +337,7 @@
                                         checklist-value="historic.id">
                                 </td>
                                 <td>{{historic.patientName}} {{historic.patientSecondName}} {{historic.patientLastName}} {{historic.patientSecondLastName}}</td>
-    							<td>{{historic.patientRut}}</td>
+    							<td>{{historic.patientRut | rut }}</td>
                                 <td>{{historic.companyName}}</td>
     							<td>{{historic.examName}}</td> 
     							<td><button ng-show="!historic.processed" type="button" ng-click="openNewResult(historic)" class="btn btn-sm btn-info center-block" data-dismiss="modal">Ingresar Resultado</button>

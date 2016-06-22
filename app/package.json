@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "bcrypt": "^0.8.6",
+    "chilean-rut": "^1.0.24",
     "ejs": "~0.8.4",
     "excel-export": "^0.5.1",
     "express-mysql-session": "^1.0.0",
@@ -29,7 +30,8 @@
     "sails-disk": "~0.10.0",
     "sails-mysql": "^0.12.1",
     "skipper-disk": "^0.5.4",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "xlsjs": "^0.7.5"
   },
   "scripts": {
     "debug": "node debug app.js",

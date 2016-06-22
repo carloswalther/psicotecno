@@ -10,7 +10,7 @@ angular.module('HistoricModule').controller('HistoricController',
                 $scope.newHistoric.patient = {};
                 $scope.newHistoric.company = {};
                 $scope.newHistoric.exam = {};
-                $scope.newHistoric.pooc = "PO";
+                $scope.newHistoric.pooc = "OC";
                 $scope.newHistoric.mutual = "Mutual";
                 $scope.newHistoric.registerDate = new Date();
 
@@ -98,6 +98,12 @@ angular.module('HistoricModule').controller('HistoricController',
                     $scope.newHistoric.company = {};
                     $scope.newHistoric.exam = {};
                     $scope.newHistoric.mutual = "Mutual";
+                    $scope.newHistoric.pooc = "OC";
+                    $scope.newHistoric.mutual = "Mutual";
+                    $scope.newHistoric.respApplication = "";
+                    $scope.newHistoric.cc = "";
+                    $scope.newHistoric.position = "";
+
                     $("#patient_value").val("");
                     $("#company_value").val("");
                 };
@@ -123,8 +129,14 @@ angular.module('HistoricModule').controller('HistoricController',
                     }
 
                     return state;
-                }
+                };
 
+                $scope.filterName = function (historic) {
+                    if ($scope.filter.trim() === "")
+                        return true;
+                    var find = $scope.filter.toLowerCase();
+                    return (historic.patientName + " " + historic.patientLastName).toLowerCase().indexOf(find) !== -1;
+                };
                 $scope.openNewPatient = function () {
 
                     $('#createPatientModal').modal("show");

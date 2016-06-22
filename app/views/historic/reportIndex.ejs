@@ -145,7 +145,7 @@
   <div class="padded-row"> 
    <div class="col-sm-2"> 
       <angucomplete-alt id="company"
-              
+              input-changed="deleteIfEmpty"
               placeholder="Buscar Empresa"
               pause="500"
               text-searching="Buscando..."
@@ -267,7 +267,7 @@
         <th>Precio</th>
         <th>Cargo</th>
         <th>PO/CO</th>
-        <th>Tipo</th>
+        
         <th>Fecha</th>
     </thead>
     <tbody>
@@ -280,7 +280,6 @@
             <td>{{(historic.mutual =="Mutual" ? historic.examCost : historic.examParticularCost) | currency:"":0}}</td>
             <td>{{historic.position}}</td>
             <td>{{historic.pooc}}</td>
-            <td>{{historic.mutual}}</td>
             <td>{{historic.registerDate |date:"dd-MM-yy" }}</td>
         </tr>
     </tbody>

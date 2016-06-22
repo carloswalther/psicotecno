@@ -99,6 +99,7 @@
                                 <thead>
                                     <th>Archivo</th>
                                     <th>Fecha</th>
+                                    <th>Borrar</th>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="file in files">
@@ -106,6 +107,7 @@
                                 <td><a href="/archivo/download?id={{file.id}}" target="_blank"> {{file.filename}}</a></td>
                                         
                                         <td>{{file.createdAt |date:"dd-MM-yy"}}</td>
+                                        <td><button ng-click="deleteFile(file)" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></button></center></td>
                                     </tr>    
                                 </tbody>
                             </table>

@@ -63,8 +63,11 @@
                     <% if ((req.session.usuario.rol === "Administrador") || (req.session.usuario.rol === "Tecnico")){%>
                     <li><a href="/exam">Por Tomar</a></li>
                                         <%}%>
+                    <li><a href="/historic/reportDaily">Planilla Diaria</a></li>
+                    <li><a href="/historic/reportPatient">Historico Paciente</a></li>
                     <% if (req.session.usuario.rol === "Administrador"){%>
                     <li><a href="/historic/reportIndex">Reporte</a></li>
+                    
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             Mantenedores <b class="caret"></b>
@@ -185,6 +188,9 @@
     <script src="/js/app/historic/historicReportModule.js"></script>
     <script src="/js/app/historic/historicReportDirectives.js"></script>
     <script src="/js/app/historic/historicReportController.js"></script>
+    <script src="/js/app/historic/dailyReportModule.js"></script>
+    <script src="/js/app/historic/dailyReportDirectives.js"></script>
+    <script src="/js/app/historic/dailyReportController.js"></script>
     <script src="/js/app/exam/examModule.js"></script>
     <script src="/js/app/exam/examDirectives.js"></script>
     <script src="/js/app/exam/examController.js"></script>

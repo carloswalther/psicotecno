@@ -1,0 +1,74 @@
+<style>
+    .search{
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+}
+    
+</style>
+<script>
+
+   </script>
+
+  
+  
+<div  class="row" style="margin-top: 70px;padding: 20;" ng-app="dailyReportModule" ng-controller="dailyReportController" ng-cloak>
+     
+    <div class="row search">
+      
+    <div class="col-sm-9">
+            
+                     <div class="padded-row"> 
+<!--                         <label>Buscador de Items</label>-->
+<angucomplete-alt id="patient"
+              
+              placeholder="Buscar Paciente"
+              pause="500"
+              text-searching="Buscando..."
+              text-no-results="No hay resultado"
+              selected-object="addPatient"
+              remote-url="/historic/findAll?s="
+              remote-url-data-field=""
+              title-field="patientName,patientLastName"
+              description-field="patientRut"
+              input-class="form-control form-control-small"
+              match-class="highlight"
+              class="ng-isolate-scope"
+              />
+          </div>
+          
+  
+  </div>    
+    <div class="col-sm-3 pull-right"> 
+    
+        <button type="button" class="btn btn-success  form-control" ng-click="findHistoricByPatient()" >Buscar</button>
+    </div>   
+       
+       
+</div> 
+
+<div class="table-responsive" ng-show="historics.length > 0">
+  <table class="table">
+    <thead>
+        <th>Nombre<br>
+        </th>
+        <th>Rut
+        </th>
+        <th>Empresa
+        </th>
+        <th>Examen</th>
+        <th>Fecha</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="historic in historics" >
+            <td>{{historic.patientName}} {{historic.patientSecondName}} {{historic.patientLastName}} {{historic.patientSecondLastName}}</td>
+            <td>{{historic.patientRut|rut}}</td> 
+            <td>{{historic.companyName}}</td>
+            <td>{{historic.examName}}</td>
+            <td>{{historic.registerDate |date:"dd-MM-yy" }}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>     
+</div>
+

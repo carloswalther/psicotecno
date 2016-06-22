@@ -99,6 +99,18 @@ angular.module('PatientModule').controller('PatientController',
                     //$scope.$apply($scope.fileId);
 
                 };
+                $scope.deleteFile = function (file) {
+                    io.socket.post("/archivo/deleteFile", {file: file}, function (res) {
+                        if (res) {
+                            var index = $scope.files.indexOf(file);
+                            $scope.files.splice(index);
+
+                            $scope.$apply($scope.files);
+                        } else {
+                            console.log("no se pudo eliminar")
+                        }
+                    });
+                };
 
                 $scope.picFile = null;
                 $scope.uploadPic = function (file) {

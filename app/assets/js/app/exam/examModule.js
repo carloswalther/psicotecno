@@ -1,1 +1,1 @@
-angular.module('ExamModule', ["ngFileUpload", "angucomplete-alt", 'ui.bootstrap', "checklist-model"]);
+angular.module('ExamModule', ["ngFileUpload", "angucomplete-alt", 'ui.bootstrap', "checklist-model", 'platanus.rut']);
