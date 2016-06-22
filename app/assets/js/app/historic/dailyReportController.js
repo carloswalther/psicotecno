@@ -7,10 +7,17 @@ angular.module('dailyReportModule').controller('dailyReportController',
                     from: new Date(),
                     to: new Date(),
                 };
+                $scope.nameFilter = "";
                 $scope.lastFilter = $.extend({}, $scope.filter);
                 $scope.patient = {};
                 $scope.historics = [];
 
+                $scope.filterName = function (historic) {
+                    if ($scope.nameFilter.trim() === "")
+                        return true;
+                    var find = $scope.nameFilter.toLowerCase();
+                    return (historic.patientName + " " + historic.patientLastName).toLowerCase().indexOf(find) !== -1;
+                };
                 /**
                  *
                  * @param {type} selected objeto seleccionado

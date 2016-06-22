@@ -68,7 +68,7 @@
         <th>Fecha</th>
     </thead>
     <tbody>
-        <tr ng-repeat="historic in historics" >
+        <tr ng-repeat="historic in historics" ng-show="filterName(historic)" >
             <td>{{historic.patientName}} {{historic.patientSecondName}} {{historic.patientLastName}} {{historic.patientSecondLastName}}</td>
             <td>{{historic.companyName}}</td>
             <td>{{historic.examName}}</td>
