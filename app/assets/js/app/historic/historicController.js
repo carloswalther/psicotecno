@@ -137,10 +137,13 @@ angular.module('HistoricModule').controller('HistoricController',
                     if ($scope.filter.trim() === "")
                         return true;
                     var find = $scope.filter.toLowerCase();
-                    return (historic.patientName + " "
-                            + _.isUndefined(historic.patientSecondLastName) ? "" : historic.patientSecondLastName + " " +
-                            _.isUndefined(historic.patientLastName) ? "" : historic.patientLastName + " " +
-                            _.isUndefined(historic.patientSecondLastName ? "" : historic.patientSeondLastName)).toLowerCase().indexOf(find) !== -1;
+                    var searchFrace = historic.patientName + " "
+                    searchFrace += _.isUndefined(historic.patientSecondName) ? "" : " " + historic.patientSecondName;
+                    searchFrace += _.isUndefined(historic.patientLastName) ? "" : " " + historic.patientLastName;
+                    searchFrace += _.isUndefined(historic.patientSecondLastName) ? "" : " " + historic.patientSecondLastName;
+                    searchFrace = searchFrace.toLowerCase();
+                    console.log(searchFrace);
+                    return (searchFrace.indexOf(find) !== -1);
                 };
                 $scope.openNewPatient = function () {
 

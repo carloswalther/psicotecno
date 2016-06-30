@@ -220,13 +220,13 @@
 </div> 
 <div class="row">
     <div class="col-sm-12"> 
-        <div class="well" ng-class="{bgDanger:newHistoric.company.centralPayment}">
+        <div class="well" >
             <div class="row">
                 <div class="col-sm-3"> 
-                    <input type="text"  class="form-control" ng-model="newHistoric.cc" placeholder="Centro de Costo">
+                    <input type="text"  ng-class="{bgCentralizada:newHistoric.company.centralPayment}" class="form-control" ng-model="newHistoric.cc" placeholder="Centro de Costo">
                 </div>
                 <div class="col-sm-3"> 
-                    <input type="text"  class="form-control" ng-model="newHistoric.respApplication" placeholder="Responsable Solicitud">
+                    <input type="text"  ng-class="{bgCentralizada:newHistoric.company.centralPayment}" class="form-control" ng-model="newHistoric.respApplication" placeholder="Responsable Solicitud">
                 </div>
                 <div class="col-sm-3"> 
                     <input type="text"  class="form-control" ng-model="newHistoric.position" placeholder="Cargo">

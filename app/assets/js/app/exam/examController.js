@@ -116,7 +116,13 @@ angular.module('ExamModule').controller('ExamController',
                     if ($scope.filter.trim() === "")
                         return true;
                     var find = $scope.filter.toLowerCase();
-                    return (historic.patientName + " " + historic.patientSecondLastName + " " + historic.patientLastName + " " + historic.patientSecondLastName).toLowerCase().indexOf(find) !== -1;
+                    var searchFrace = historic.patientName + " "
+                    searchFrace += _.isUndefined(historic.patientSecondName) ? "" : " " + historic.patientSecondName;
+                    searchFrace += _.isUndefined(historic.patientLastName) ? "" : " " + historic.patientLastName;
+                    searchFrace += _.isUndefined(historic.patientSecondLastName) ? "" : " " + historic.patientSecondLastName;
+                    searchFrace = searchFrace.toLowerCase();
+                    console.log(searchFrace);
+                    return (searchFrace.indexOf(find) !== -1);
                 };
 
                 //file section

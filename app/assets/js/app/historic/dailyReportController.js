@@ -13,10 +13,16 @@ angular.module('dailyReportModule').controller('dailyReportController',
                 $scope.historics = [];
 
                 $scope.filterName = function (historic) {
-                    if ($scope.nameFilter.trim() === "")
+                    if ($scope.filter.trim() === "")
                         return true;
-                    var find = $scope.nameFilter.toLowerCase();
-                    return (historic.patientName + " " + historic.patientLastName).toLowerCase().indexOf(find) !== -1;
+                    var find = $scope.filter.toLowerCase();
+                    var searchFrace = historic.patientName + " "
+                    searchFrace += _.isUndefined(historic.patientSecondName) ? "" : " " + historic.patientSecondName;
+                    searchFrace += _.isUndefined(historic.patientLastName) ? "" : " " + historic.patientLastName;
+                    searchFrace += _.isUndefined(historic.patientSecondLastName) ? "" : " " + historic.patientSecondLastName;
+                    searchFrace = searchFrace.toLowerCase();
+                    console.log(searchFrace);
+                    return (searchFrace.indexOf(find) !== -1);
                 };
                 /**
                  *
