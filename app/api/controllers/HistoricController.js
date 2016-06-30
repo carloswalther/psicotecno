@@ -145,7 +145,7 @@ module.exports = {
         var filter = JSON.parse(req.body.filter);
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
-        var q = {registerDate: {'>=': begin, '<=': end}};
+        var q = {registerDate: {'>=': begin, '<=': end}, mutual: "Mutual"};
         sails.log(q);
         Historic.find(q)
                 .exec(function (err, historics) {
@@ -159,7 +159,9 @@ module.exports = {
                             {caption: "Nombre.", type: "string"},
                             {caption: "Rut", type: "string"},
                             {caption: "Empresa", type: "string"},
-                            {caption: "Rut Empresa", type: "string"}];
+                            {caption: "Rut Empresa", type: "string"},
+                            {caption: "OC/PO", type: "string"},
+                            {caption: "Examen", type: "string"}];
                         var rows = [];
                         historics.forEach(function (historic) {
                             var row = [];
@@ -175,6 +177,8 @@ module.exports = {
                             row.push(historic.companyName);
                             row.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
                                     + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+                            row.push(historic.pooc);
+                            row.push(historic.examName);
                             rows.push(row);
                         });
                         var conf = {};

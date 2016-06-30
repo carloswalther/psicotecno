@@ -38,7 +38,19 @@ module.exports = {
             if (err) {
                 return res.send(false);
             } else {
-                return res.send(true);
+                if (!_.isEmpty(data)) {
+                    var newCo = data[0];
+                    var historic = {};
+                    historic.companyName = newCo.name;
+                    historic.companyRut = newCo.rut;
+
+                    Historic.update({company: req.body.company.id}, historic)
+                            .exec(function (err, historics) {
+                                return res.send(true);
+                            });
+                } else {
+                    return res.send(false);
+                }
             }
         });
     }

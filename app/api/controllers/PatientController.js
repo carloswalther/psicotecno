@@ -12,7 +12,6 @@ module.exports = {
         Patient.find(q).exec(function (err, patients) {
             return res.send(patients);
         });
-
     },
     create: function (req, res) {
         sails.log(req.body.patient);
@@ -27,9 +26,25 @@ module.exports = {
     edit: function (req, res) {
         Patient.update(req.body.patient.id, req.body.patient).exec(function (err, data) {
             if (err) {
+
                 return res.send(false);
             } else {
-                return res.send(true);
+                if (!_.isEmpty(data)) {
+                    var newPatient = data[0];
+                    var historic = {};
+                    historic.patientName = newPatient.name;
+                    historic.patientSecondName = newPatient.secondName;
+                    historic.patientLastName = newPatient.lastName;
+                    historic.patientSecondLastName = newPatient.secondLastName;
+                    historic.patientRut = newPatient.rut;
+                    Historic.update({patient: req.body.patient.id}, historic)
+                            .exec(function (err, historics) {
+                                return res.send(true);
+                            });
+                } else {
+                    return res.send(false);
+                }
+
             }
         });
     },
@@ -58,7 +73,6 @@ module.exports = {
             archivo.filename = uploadedFiles[0].filename;
             archivo.path = uploadedFiles[0].fd;
             archivo.patient = req.body.patient;
-
             Archivo.create(archivo).exec(function (err, file) {
                 if (err) {
                     return res.send(false);
@@ -66,7 +80,6 @@ module.exports = {
                     return res.ok(file);
                 }
             });
-
             //return res.ok();
         }
 

@@ -54,3 +54,6 @@ button{
 .input-quotation-body{
     max-width: 60px;
 }
+.bgDanger{
+        background: red;
+}

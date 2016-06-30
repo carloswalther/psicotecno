@@ -100,16 +100,24 @@ angular.module('PatientModule').controller('PatientController',
 
                 };
                 $scope.deleteFile = function (file) {
-                    io.socket.post("/archivo/deleteFile", {file: file}, function (res) {
-                        if (res) {
-                            var index = $scope.files.indexOf(file);
-                            $scope.files.splice(index);
+                    if (confirm("seguro que deseas eliminar ", file.name)) {
+                        io.socket.post("/archivo/deleteFile", {file: file}, function (res) {
+                            if (res) {
+                                var index = $scope.files.indexOf(file);
+                                if (index === 0) {
+                                    $scope.files.shift();
+                                } else {
+                                    $scope.files.splice(index);
+                                }
 
-                            $scope.$apply($scope.files);
-                        } else {
-                            console.log("no se pudo eliminar")
-                        }
-                    });
+
+                                $scope.$apply($scope.files);
+                            } else {
+                                console.log("no se pudo eliminar")
+                            }
+                        });
+                    }
+
                 };
 
                 $scope.picFile = null;

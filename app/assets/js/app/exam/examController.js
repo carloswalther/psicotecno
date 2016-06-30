@@ -116,7 +116,7 @@ angular.module('ExamModule').controller('ExamController',
                     if ($scope.filter.trim() === "")
                         return true;
                     var find = $scope.filter.toLowerCase();
-                    return (historic.patientName + " " + historic.patientLastName).toLowerCase().indexOf(find) !== -1;
+                    return (historic.patientName + " " + historic.patientSecondLastName + " " + historic.patientLastName + " " + historic.patientSecondLastName).toLowerCase().indexOf(find) !== -1;
                 };
 
                 //file section

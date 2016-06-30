@@ -5,10 +5,12 @@ angular.module('HistoricModule').controller('HistoricController',
         ['$scope', "$http", function ($scope, $http) {
                 $scope.newPatient = {};
                 $scope.historics = [];
-
+                $scope.filter = "";
                 $scope.newHistoric = {};
                 $scope.newHistoric.patient = {};
                 $scope.newHistoric.company = {};
+                $scope.newHistoric.company.centralPayment = false;
+
                 $scope.newHistoric.exam = {};
                 $scope.newHistoric.pooc = "OC";
                 $scope.newHistoric.mutual = "Mutual";
@@ -135,7 +137,10 @@ angular.module('HistoricModule').controller('HistoricController',
                     if ($scope.filter.trim() === "")
                         return true;
                     var find = $scope.filter.toLowerCase();
-                    return (historic.patientName + " " + historic.patientLastName).toLowerCase().indexOf(find) !== -1;
+                    return (historic.patientName + " "
+                            + _.isUndefined(historic.patientSecondLastName) ? "" : historic.patientSecondLastName + " " +
+                            _.isUndefined(historic.patientLastName) ? "" : historic.patientLastName + " " +
+                            _.isUndefined(historic.patientSecondLastName ? "" : historic.patientSeondLastName)).toLowerCase().indexOf(find) !== -1;
                 };
                 $scope.openNewPatient = function () {
 

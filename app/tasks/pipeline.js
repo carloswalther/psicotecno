@@ -16,11 +16,11 @@ var tmpPath = '.tmp/public/';
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-    'styles/**/*.css',
     'vendor/bootstrap/dist/css/bootstrap.min.css',
     'vendor/bootstrap/dist/css/bootstrap-theme.min.css',
     'vendor/angucomplete-alt/angucomplete-alt.css',
     'vendor/angular-bootstrap/ui-bootstrap-csp.css',
+    'styles/**/*.css',
 //'vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
             //'vendor/angular-material/angular-material.min.css'
 ];
