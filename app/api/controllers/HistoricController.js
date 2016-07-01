@@ -110,7 +110,7 @@ module.exports = {
         var filter = req.body.filter;
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
-        var q = {registerDate: {'>=': begin, '<=': end}};
+        var q = {registerDate: {'>=': begin, '<': end}};
 //        if (!_.isUndefined(filter.processed)) {
 //            q.processed = true;
 //        }
@@ -145,7 +145,7 @@ module.exports = {
         var filter = JSON.parse(req.body.filter);
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
-        var q = {registerDate: {'>=': begin, '<=': end}, mutual: "Mutual"};
+        var q = {registerDate: {'>=': begin, '<': end}, mutual: "Mutual"};
         sails.log(q);
         Historic.find(q)
                 .exec(function (err, historics) {
@@ -203,7 +203,7 @@ module.exports = {
         var filter = JSON.parse(req.body.filter);
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
-        var q = {registerDate: {'>=': begin, '<=': end}};
+        var q = {registerDate: {'>=': begin, '<': end}};
 //        if (!_.isUndefined(filter.processed)) {
 //            q.processed = true;
 //        }
@@ -247,8 +247,14 @@ module.exports = {
                         var rows = [];
                         historics.forEach(function (historic) {
                             var row = [];
-                            row.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
-                                    + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+//                            row.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
+//                                    + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+                            if (_.isNull(historic.companyRut)) {
+                                row.push("");
+                            } else {
+                                row.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
+                                        + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+                            }
                             row.push(historic.companyName);
                             row.push(moment(new Date(historic.registerDate)).format("MMMM"));
                             row.push("PSICOSENSOMÉTRICO");
@@ -259,8 +265,14 @@ module.exports = {
                             tempName += _.isNull(historic.patientName) ? "" : historic.patientName;
                             tempName += _.isNull(historic.patientSecondName) ? "" : " " + historic.patientSecondName;
                             row.push(tempName);
-                            row.push(chileanRut.format(historic.patientRut.substr(0, historic.patientRut.length - 1))
-                                    + "-" + historic.patientRut.substr(historic.patientRut.length - 1, 1));
+//                            row.push(chileanRut.format(historic.patientRut.substr(0, historic.patientRut.length - 1))
+//                                    + "-" + historic.patientRut.substr(historic.patientRut.length - 1, 1));
+                            if (_.isNull(historic.patientRut)) {
+                                row.push("");
+                            } else {
+                                row.push(chileanRut.format(historic.patientRut.substr(0, historic.patientRut.length - 1))
+                                        + "-" + historic.patientRut.substr(historic.patientRut.length - 1, 1));
+                            }
                             row.push(_.isNull(historic.cc) ? "" : historic.cc);
                             row.push(_.isNull(historic.respApplication) ? "" : historic.respApplication);
                             row.push((moment(new Date(historic.registerDate)).format("DD/MM/YYYY")));
@@ -292,7 +304,7 @@ module.exports = {
         var filter = JSON.parse(req.body.filter);
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
-        var q = {registerDate: {'>=': begin, '<=': end}};
+        var q = {registerDate: {'>=': begin, '<': end}};
 //        if (!_.isUndefined(filter.processed)) {
 //            q.processed = true;
 //        }
@@ -366,7 +378,7 @@ module.exports = {
         var filter = JSON.parse(req.body.filter);
         var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
         var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
-        var q = {registerDate: {'>=': begin, '<=': end}};
+        var q = {registerDate: {'>=': begin, '<': end}};
 //        if (!_.isUndefined(filter.processed)) {
 //            q.processed = true;
 //        }
@@ -445,8 +457,12 @@ module.exports = {
                                     var newRow = [];
                                     newRow.push(historic.centralPayment ? "SI" : "NO");
                                     newRow.push(historic.companyName);
-                                    newRow.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
-                                            + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+                                    if (_.isNull(historic.companyRut)) {
+                                        newRow.push("");
+                                    } else {
+                                        newRow.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
+                                                + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+                                    }
                                     for (i = 3; i < refHeading.length; i++) {
                                         newRow.push(0);
                                     }
