@@ -287,7 +287,7 @@
             <td>{{historic.position}}</td>
             <td>{{historic.pooc}}</td>
             
-            <td>{{historic.registerDate |date:"dd-MM-yy" }}</td>
+            <td>{{historic.registerDate |date:"dd-MM-yy":"-0300" }}</td>
             <td><button ng-click="deleteHistoric(historic)" class="btn-sm btn-danger"><i class="glyphicon glyphicon-remove-sign"></i></button></td>
         </tr>
     </tbody>

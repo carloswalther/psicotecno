@@ -109,8 +109,6 @@ angular.module('PatientModule').controller('PatientController',
                                 } else {
                                     $scope.files.splice(index);
                                 }
-
-
                                 $scope.$apply($scope.files);
                             } else {
                                 console.log("no se pudo eliminar")

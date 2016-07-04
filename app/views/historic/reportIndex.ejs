@@ -280,7 +280,7 @@
             <td>{{(historic.mutual =="Mutual" ? historic.examCost : historic.examParticularCost) | currency:"":0}}</td>
             <td>{{historic.position}}</td>
             <td>{{historic.pooc}}</td>
-            <td>{{historic.registerDate |date:"dd-MM-yy" }}</td>
+            <td>{{historic.registerDate |date:"dd-MM-yy":"-0300" }}</td>
         </tr>
     </tbody>
   </table>
