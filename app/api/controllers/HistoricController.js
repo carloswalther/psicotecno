@@ -198,7 +198,7 @@ module.exports = {
                         conf.rows = rows;
                         var result = excel.execute(conf);
                         res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-                        res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla General.xlsx");
+                        res.setHeader("Content-Disposition", "attachment; filename=" + "Nómina Diaria.xlsx");
                         res.end(result, 'binary');
                     }
                 });
