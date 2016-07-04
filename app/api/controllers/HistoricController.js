@@ -172,11 +172,22 @@ module.exports = {
                             tempName += _.isNull(historic.patientLastName) ? "" : " " + historic.patientLastName;
                             tempName += _.isNull(historic.patientSecondLastName) ? "" : " " + historic.patientSecondLastName;
                             row.push(tempName);
-                            row.push(chileanRut.format(historic.patientRut.substr(0, historic.patientRut.length - 1))
-                                    + "-" + historic.patientRut.substr(historic.patientRut.length - 1, 1));
+
+                            if (_.isNull(historic.patientRut)) {
+                                row.push("");
+                            } else {
+                                row.push(chileanRut.format(historic.patientRut.substr(0, historic.patientRut.length - 1))
+                                        + "-" + historic.patientRut.substr(historic.patientRut.length - 1, 1));
+                            }
                             row.push(historic.companyName);
-                            row.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
-                                    + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+//                            row.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
+//                                    + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+                            if (_.isNull(historic.companyRut)) {
+                                row.push("");
+                            } else {
+                                row.push(chileanRut.format(historic.companyRut.substr(0, historic.companyRut.length - 1))
+                                        + "-" + historic.companyRut.substr(historic.companyRut.length - 1, 1));
+                            }
                             row.push(historic.pooc);
                             row.push(historic.examName);
                             rows.push(row);
