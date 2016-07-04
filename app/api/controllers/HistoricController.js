@@ -301,7 +301,7 @@ module.exports = {
                         sails.log("CONF", conf);
                         var result = excel.execute(conf);
                         res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-                        res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Detalle.xlsx");
+                        res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Centralizada.xlsx");
                         res.end(result, 'binary');
                     }
                 });
@@ -373,7 +373,7 @@ module.exports = {
                             sails.log("CONF", conf);
                             var result = excel.execute(conf);
                             res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-                            res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Facturacion.xlsx");
+                            res.setHeader("Content-Disposition", "attachment; filename=" + "Memo Cobro Mutual.xlsx");
                             res.end(result, 'binary');
                         }
                     });
