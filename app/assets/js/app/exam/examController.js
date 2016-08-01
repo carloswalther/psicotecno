@@ -139,7 +139,7 @@ angular.module('ExamModule').controller('ExamController',
                     $scope.patientId = patientId;
                     io.socket.get("/archivo", {patient: patientId}, function (files) {
                         $scope.files = files;
-                        console.log(files);
+                        console.log("Archivo",files);
                         $scope.$apply($scope.files);
                     });
                 };
