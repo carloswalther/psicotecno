@@ -4,52 +4,52 @@
     margin-right: 0px;
     margin-bottom: 15px;
 }
-    
+
 </style>
 <script>
 
    </script>
 
-  
-  
+
+
 <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="dailyReportModule" ng-controller="dailyReportController" ng-cloak>
-     
+
     <div class="row search">
-      
-   <div class="col-sm-3"> 
-        
+
+   <div class="col-sm-3">
+
 <!--        <input type="text" class="form-control" uib-datepicker-popup ng-model="newHistoric.registerDate" is-open="status.opened" datepicker-options="dateOptions" close-text="Close" />-->
         <input type="date" class="form-control" ng-model="filter.from" ng-change="getHistorics();" />
-        
-        
-    </div> 
-   <div class="col-sm-3"> 
-        
+
+
+    </div>
+   <div class="col-sm-3">
+
 <!--        <input type="text" class="form-control" uib-datepicker-popup ng-model="newHistoric.registerDate" is-open="status.opened" datepicker-options="dateOptions" close-text="Close" />-->
         <input type="date" class="form-control" ng-model="filter.to" ng-change="getHistorics();" />
-        
-        
-    </div> 
-    <div class="col-sm-3"> 
-        <button type="button" class="btn btn-warning form-control" ng-click="clarAll()">Limpiar formulario</button>
-    
-    </div>   
-    <div class="col-sm-3 pull-right"> 
-    
-        <button type="button" class="btn btn-success  form-control" ng-click="searchReport()" >Buscar</button>
-    </div>   
-       
-       
-</div> 
 
-    
+
+    </div>
+    <div class="col-sm-3">
+        <button type="button" class="btn btn-warning form-control" ng-click="clarAll()">Limpiar formulario</button>
+
+    </div>
+    <div class="col-sm-3 pull-right">
+
+        <button type="button" class="btn btn-success  form-control" ng-click="searchReport()" >Buscar</button>
+    </div>
+
+
+</div>
+
+
     <div class="row">
             <form method="post" action="/historic/dailyExcelGeneral">
-                <div class="col-sm-4"> 
+                <div class="col-sm-4">
                     <input type="hidden" name="filter" value="{{lastFilter}}"/>
-                    <button type="submit" class="btn btn-success form-control"  
+                    <button type="submit" class="btn btn-success form-control"
                              ng-disabled="historics.length === 0">Nómina Diaria</button>
-                </div> 
+                </div>
             </form>
     </div>
 
@@ -60,11 +60,14 @@
             <input ng-model="nameFilter" type="text">
         </th>
         <th>Empresa
-            
+
         </th>
+        <th>Paciente</th>
+        <th>Empresa</th>
         <th>Examen</th>
         <th>Centro de Costo</th>
         <th>Responsable Solicitud</th>
+
         <th>Fecha</th>
     </thead>
     <tbody>
@@ -72,12 +75,12 @@
             <td>{{historic.patientName}} {{historic.patientSecondName}} {{historic.patientLastName}} {{historic.patientSecondLastName}}</td>
             <td>{{historic.companyName}}</td>
             <td>{{historic.examName}}</td>
-            <td>{{historic.cc}}</td>
             <td>{{historic.respApplication}}</td>
+            <td>{{historic.cc}}</td>
             <td>{{historic.registerDate |date:"dd-MM-yy":"-0300" }}</td>
         </tr>
     </tbody>
   </table>
-</div>     
+</div>
 </div>
 
