@@ -49,7 +49,29 @@ angular.module('ExamModule').controller('ExamController',
       // verifica que elevento sea el de capturar un elemento
       if (valid) {
         $scope.editHistoric.processed = true;
-        io.socket.post("/historic/edit", {historic: $scope.editHistoric}, function (data) {
+        var toSend = {}
+        toSend.processed = $scope.editHistoric.processed;
+        toSend.edad = $scope.editHistoric.edad;
+        toSend.estudios = $scope.editHistoric.estudios;
+        toSend.aniosEstudio = $scope.editHistoric.aniosEstudio;
+        toSend.raven = $scope.editHistoric.raven;
+        toSend.epqN = $scope.editHistoric.epqN;
+        toSend.epqQ = $scope.editHistoric.epqQ;
+        toSend.epworth = $scope.editHistoric.epworth;
+        toSend.reactimetro = $scope.editHistoric.reactimetro;
+        toSend.palanca = $scope.editHistoric.palanca;
+        toSend.punteo = $scope.editHistoric.punteo;
+        toSend.encandilamiento= $scope.editHistoric.encandilamiento;
+        toSend.lentesCerca= $scope.editHistoric.lentesCerca;
+        toSend.lentesLejos = $scope.editHistoric.lentesLejos;
+        toSend.conclusion = $scope.editHistoric.conclusion;
+        toSend.observacion = $scope.editHistoric.observacion;
+        toSend.type = $scope.editHistoric.type;
+        if (!_.isUndefined($scope.editHistoric.ids)){
+          toSend.ids = $scope.editHistoric.ids;
+        }
+
+        io.socket.post("/historic/edit", {historic: toSend}, function (data) {
           if (data) {
             $scope.editHistoric = {};
             msg("Exito al guardar los resultados", "", "success");
@@ -65,6 +87,7 @@ angular.module('ExamModule').controller('ExamController',
       }
 
     };
+
     $scope.deleteFile = function (file) {
       if (confirm("seguro que deseas eliminar ", file.name)) {
         io.socket.post("/archivo/deleteFile", {file: file}, function (res) {
@@ -111,14 +134,22 @@ angular.module('ExamModule').controller('ExamController',
     $scope.openNewResult = function (historic) {
       $scope.editHistoric = historic;
       $scope.editHistoric.type = "single";
+      $scope.registerExamForm.edad.$touched = false;
+      $scope.registerExamForm.estudios.$touched = false;
+      $scope.registerExamForm.aniosEstudio.$touched = false;
+      $scope.registerExamForm.conclusion.$touched = false;
 
       $('#createResultModal').modal("show");
       //$scope.isSaving = false
     };
     $scope.openNewResultMultiple = function () {
-      $scope.editHistoric = {};
+      $scope.editHistoric = _.findWhere($scope.historics,{id:$scope.examsToRegister[0]});
       $scope.editHistoric.type = "multiple";
       $scope.editHistoric.ids = $scope.examsToRegister;
+      $scope.registerExamForm.edad.$touched = false;
+      $scope.registerExamForm.estudios.$touched = false;
+      $scope.registerExamForm.aniosEstudio.$touched = false;
+      $scope.registerExamForm.conclusion.$touched = false;
 
       $('#createResultModal').modal("show");
       //$scope.isSaving = false
