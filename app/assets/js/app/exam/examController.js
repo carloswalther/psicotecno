@@ -1,5 +1,6 @@
 angular.module('ExamModule').controller('ExamController',
   ['$scope', 'Upload', "$timeout", "$http", function ($scope, Upload, $timeout, $http) {
+    $scope.chargeComplete = false;
     $scope.filter = "";
     $scope.newPatient = {};
     $scope.historics = [];
@@ -114,6 +115,7 @@ angular.module('ExamModule').controller('ExamController',
           $scope.historics = data;
         }
         $scope.$apply();
+        $scope.chargeComplete = true;
       });
     };
     //obteniendo listado del día

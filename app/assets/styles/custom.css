@@ -3,7 +3,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : 14-mar-2016, 18:25:49
     Author     : carloswalther
 */
@@ -21,7 +21,7 @@ body{
 .angucomplete-dropdown {
     overflow-y: auto;
     max-height: 400px;
-    
+
 }
 .table{
     margin-bottom: 0;
@@ -33,7 +33,7 @@ body{
     margin:0;
 }
 button{
-    margin:10px;
+    margin:0px;
 }
 .well .row{
     margin:5px;
