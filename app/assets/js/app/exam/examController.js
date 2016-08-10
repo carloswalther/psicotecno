@@ -60,7 +60,7 @@ angular.module('ExamModule').controller('ExamController',
         toSend.epqN = $scope.editHistoric.epqN;
         toSend.epqQ = $scope.editHistoric.epqQ;
         toSend.epworth = $scope.editHistoric.epworth;
-        toSend.reactimetro = $scope.editHistoric.reactimetro;
+        toSend.reactimetro = ($scope.editHistoric.reactimetro === "") ? null:$scope.editHistoric.reactimetro;
         toSend.palanca = $scope.editHistoric.palanca;
         toSend.punteo = $scope.editHistoric.punteo;
         toSend.encandilamiento= $scope.editHistoric.encandilamiento;
