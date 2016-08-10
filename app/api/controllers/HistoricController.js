@@ -55,6 +55,7 @@ module.exports = {
     if (historic.type === "single") {
       Historic.update({id: req.body.historic.id}, req.body.historic).exec(function (err, historic) {
         if (err) {
+          sails.log(err);
           return res.send(false)
         } else {
           sails.log("Edit Historic:", historic);
