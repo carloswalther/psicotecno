@@ -19,6 +19,7 @@ angular.module('ExamModule').controller('ExamController',
     $scope.examsToRegister = [];
 
     $scope.editHistoric = {};
+    $scope.patientNameFile = "";
 
 
     /**
@@ -50,7 +51,7 @@ angular.module('ExamModule').controller('ExamController',
       // verifica que elevento sea el de capturar un elemento
       if (valid) {
         $scope.editHistoric.processed = true;
-        var toSend = {}
+        var toSend = {};
         toSend.processed = $scope.editHistoric.processed;
         toSend.edad = $scope.editHistoric.edad;
         toSend.estudios = $scope.editHistoric.estudios;
@@ -70,6 +71,8 @@ angular.module('ExamModule').controller('ExamController',
         toSend.type = $scope.editHistoric.type;
         if (!_.isUndefined($scope.editHistoric.ids)){
           toSend.ids = $scope.editHistoric.ids;
+        }else{
+          toSend.id = $scope.editHistoric.id;
         }
 
         io.socket.post("/historic/edit", {historic: toSend}, function (data) {
@@ -174,6 +177,7 @@ angular.module('ExamModule').controller('ExamController',
 
     $scope.openFiles = function (patient) {
       console.log("patinet", patient)
+      $scope.patientNameFile = patient.name+" "+patient.lastName;
       $scope.getFiles(patient.id);
       $('#file').modal("show");
       $scope.isSaving = false
