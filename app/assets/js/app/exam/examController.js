@@ -177,6 +177,7 @@ angular.module('ExamModule').controller('ExamController',
 
     $scope.openFiles = function (patient) {
       console.log("patinet", patient)
+      $scope.picFile = null;
       $scope.patientNameFile = patient.name+" "+patient.lastName;
       $scope.getFiles(patient.id);
       $('#file').modal("show");
@@ -186,7 +187,7 @@ angular.module('ExamModule').controller('ExamController',
     $scope.getFiles = function (patientId) {
       $scope.files = [];
       $scope.patientId = patientId;
-      io.socket.get("/archivo", {patient: patientId}, function (files) {
+      io.socket.post("/archivo/getAll", {patient: patientId}, function (files) {
         $scope.files = files;
         console.log("Archivo", files);
         $scope.$apply($scope.files);

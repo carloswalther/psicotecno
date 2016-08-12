@@ -103,6 +103,20 @@ module.exports = {
 //        sails.log(wb.Sheets.Hoja1["D1"].w);
 //        sails.log(wb.Sheets.Hoja1["E1"].w);
     //return res.ok();
+  },
+  getAll : function(req,res){
+    var _ = require("underscore");
+    if (!_.isUndefined(req.body.patient)){
+      var patient = req.body.patient;
+      Archivo.find({patient:patient}).exec(function(err,archivos){
+        if (err)
+          return res.send([]);
+        else
+          return res.send(archivos);
+      });
+    }else{
+      return res.send([])
+    }
   }
 
 };
