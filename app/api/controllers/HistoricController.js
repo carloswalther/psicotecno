@@ -146,7 +146,11 @@ module.exports = {
     var filter = JSON.parse(req.body.filter);
     var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
     var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
-    var q = {registerDate: {'>=': begin, '<': end}, mutual: "Mutual"};
+    var q = {registerDate: {'>=': begin, '<': end}};
+    if (!_.isUndefined(filter.mutual)) {
+      if (filter.mutual !== "MutualParticular")
+        q.mutual = filter.mutual;
+    }
     sails.log(q);
     Historic.find(q)
       .exec(function (err, historics) {

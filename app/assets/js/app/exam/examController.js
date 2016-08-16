@@ -164,12 +164,14 @@ angular.module('ExamModule').controller('ExamController',
       if ($scope.filter.trim() === "")
         return true;
       var find = $scope.filter.toLowerCase();
-      var searchFrace = historic.patientName + " "
-      searchFrace += _.isUndefined(historic.patientSecondName) ? "" : " " + historic.patientSecondName;
-      searchFrace += _.isUndefined(historic.patientLastName) ? "" : " " + historic.patientLastName;
-      searchFrace += _.isUndefined(historic.patientSecondLastName) ? "" : " " + historic.patientSecondLastName;
+      var searchFrace = historic.patientName.trim();
+      searchFrace += (_.isUndefined(historic.patientSecondName) || _.isNull(historic.patientSecondName))
+        ? "" : " " + historic.patientSecondName.trim();
+      searchFrace += (_.isUndefined(historic.patientLastName) || _.isNull(historic.patientLastName))
+        ? "" : " " + historic.patientLastName.trim();
+      searchFrace += (_.isUndefined(historic.patientSecondLastName) || _.isNull(historic.patientSecondLastName)) ? "" : " " + historic.patientSecondLastName.trim();
       searchFrace = searchFrace.toLowerCase();
-      console.log(searchFrace);
+      //console.log(searchFrace);
       return (searchFrace.indexOf(find) !== -1);
     };
 
