@@ -87,6 +87,7 @@ module.exports = {
       .populateAll()
       .exec(function (err, data) {
         if (err) {
+          sails.log(err);
           return res.send("err");
         } else {
           return res.send(data);
