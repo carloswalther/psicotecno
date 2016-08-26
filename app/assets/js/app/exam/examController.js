@@ -52,6 +52,8 @@ angular.module('ExamModule').controller('ExamController',
       if (valid) {
         $scope.editHistoric.processed = true;
         var toSend = {};
+        toSend.maritalStatus = $scope.editHistoric.maritalStatus;
+        toSend.alert = $scope.editHistoric.alert;
         toSend.processed = $scope.editHistoric.processed;
         toSend.edad = $scope.editHistoric.edad;
         toSend.estudios = $scope.editHistoric.estudios;
