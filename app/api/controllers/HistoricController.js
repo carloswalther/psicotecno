@@ -235,6 +235,8 @@ module.exports = {
       if (filter.centralPayment !== "centralNoCentral")
         q.centralPayment = (filter.centralPayment === "true") ? true : false;
     }
+    //forzando solo empresas central
+    q.centralPayment = true;
     sails.log(q);
     Historic.find(q)
       .exec(function (err, historics) {
@@ -308,6 +310,84 @@ module.exports = {
           var result = excel.execute(conf);
           res.setHeader('Content-Type', 'application/vnd.openxmlformats');
           res.setHeader("Content-Disposition", "attachment; filename=" + "Planilla Centralizada.xlsx");
+          res.end(result, 'binary');
+        }
+      });
+  },
+  excelProvision: function (req, res) {
+    var chileanRut = require("chilean-rut");
+    var excel = require('excel-export');
+    sails.log(req.body);
+    var moment = require("moment");
+    var _ = require("underscore");
+    var filter = JSON.parse(req.body.filter);
+    var begin = moment(moment(filter.from).format("YYYY-MM-DD")).toISOString();
+    var end = moment(moment(filter.to).format("YYYY-MM-DD")).add(1, 'days').toISOString();
+    var q = {registerDate: {'>=': begin, '<': end}};
+//        if (!_.isUndefined(filter.processed)) {
+//            q.processed = true;
+//        }
+    if (!_.isUndefined(filter.company)) {
+      q.company = filter.company.id;
+    }
+    if (!_.isUndefined(filter.mutual)) {
+      if (filter.mutual !== "MutualParticular")
+        q.mutual = filter.mutual;
+    }
+    if (!_.isUndefined(filter.centralPayment)) {
+      if (filter.centralPayment !== "centralNoCentral")
+        q.centralPayment = (filter.centralPayment === "true") ? true : false;
+    }
+    sails.log(q);
+    Historic.find(q)
+      .exec(function (err, historics) {
+        if (err) {
+          sails.log(err);
+        } else {
+          sails.log("HISTORICS", historics);
+          var totalGeneral = 0;
+          var heading = [{caption: "RUT EMPRESA", type: "string"},
+            {caption: "EMPRESA", type: "string"},
+            {caption: "MONTO", type: "number"}];
+          var rows = [];
+          var companies = [];
+          historics.forEach(function (historic) {
+            var toAdd = _.findWhere(companies,{companyName:historic.companyName})
+            sails.log("to Add",toAdd);
+            if (_.isUndefined(toAdd)){
+              var newCompany = {
+                companyRut:historic.companyRut,
+                companyName:historic.companyName,
+                amount : historic.examCost
+              };
+              companies.push(newCompany)
+            }else{
+              toAdd.amount += historic.examCost
+            }
+          });
+          var total = 0;
+          companies.forEach(function(company){
+            var row = [];
+            total +=  company.amount
+            if (!_.isEmpty(company.companyRut)){
+              row.push((chileanRut.format(company.companyRut.substr(0, company.companyRut.length - 1))
+              + "-" + company.companyRut.substr(company.companyRut.length - 1, 1)));
+            }else{
+              row.push("");
+            }
+
+            row.push(company.companyName);
+            row.push(company.amount);
+            rows.push(row);
+          });
+          rows.push(["","TOTAL",total]);
+          var conf = {};
+          conf.name = "Provision";
+          conf.cols = heading;
+          conf.rows = rows;
+          var result = excel.execute(conf);
+          res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+          res.setHeader("Content-Disposition", "attachment; filename=" + "Provision.xlsx");
           res.end(result, 'binary');
         }
       });

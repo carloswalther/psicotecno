@@ -4,14 +4,14 @@
     margin-right: 0px;
     margin-bottom: 15px;
 }
-    
+
 </style>
 <script>
 
    </script>
 
-  
-  
+
+
 <div  class="row" style="margin-top: 70px;padding: 20;" ng-app="HistoricReportModule" ng-controller="HistoricReportController" ng-cloak>
       <div class="modal fade" id="createPatientModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-lg-6">
                             <input type="text"  ng-rut rut-format="live" name="rut" class="form-control" ng-model="newPatient.rut" placeholder="Rut" required>
-                        </div>    
+                        </div>
                     </div>
                     <div class="row" ng-show="newPatient.error">
                         <div class="alert alert-danger" style="margin:15px">
@@ -53,7 +53,7 @@
                     </div>
                     </div>
                 </div>
-               
+
                 <div class=" form-group modal-footer">
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-success pull-rigth" ng-click="savePatient()" ng-disabled="isSaving">Crear</button>
@@ -79,14 +79,14 @@
                         </div>
                         <div class="col-sm-12 col-lg-6">
                             <input type="text" class="form-control"  ng-rut rut-format="live"  ng-model="newCompany.rut" placeholder="Rut">
-                        </div>    
+                        </div>
                     </div>
                     <br>
                      <div class="row">
                         <div class="col-sm-12 col-lg-6">
                             <label>Pago Centralizado <input type="checkbox" class="form-control" ng-model="newCompany.centralPayment" placeholder="Nombre"></label>
                         </div>
-                        
+
                     </div>
                     <div class="row" ng-show="newCompany.error">
                         <div class="alert alert-danger" style="margin:15px">
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-success pull-rigth" ng-click="saveCompany()" ng-disabled="isSaving">Crear</button>
@@ -105,7 +105,7 @@
         </div>
     </div>
 
-    
+
     <div class="modal fade" id="newQuotation" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <form>
@@ -126,10 +126,10 @@
                                 <label >Descripción</label>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
-               
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveQuotation(newQuotation)">Guardar</button>
@@ -138,12 +138,12 @@
             </form>
         </div>
     </div>
-    
+
 
     <div class="row search">
-      
-  <div class="padded-row"> 
-   <div class="col-sm-2"> 
+
+  <div class="padded-row">
+   <div class="col-sm-2">
       <angucomplete-alt id="company"
               input-changed="deleteIfEmpty"
               placeholder="Buscar Empresa"
@@ -161,47 +161,47 @@
               />
           </div>
   </div>
-   <div class="col-sm-2"> 
-        
+   <div class="col-sm-2">
+
 <!--        <input type="text" class="form-control" uib-datepicker-popup ng-model="newHistoric.registerDate" is-open="status.opened" datepicker-options="dateOptions" close-text="Close" />-->
         <input type="date" class="form-control" ng-model="filter.from" ng-change="getHistorics();" />
-        
-        
-    </div> 
-   <div class="col-sm-2"> 
-        
+
+
+    </div>
+   <div class="col-sm-2">
+
 <!--        <input type="text" class="form-control" uib-datepicker-popup ng-model="newHistoric.registerDate" is-open="status.opened" datepicker-options="dateOptions" close-text="Close" />-->
         <input type="date" class="form-control" ng-model="filter.to" ng-change="getHistorics();" />
-        
-        
-    </div> 
-        <div class="col-sm-2"> 
+
+
+    </div>
+        <div class="col-sm-2">
         <select class="form-control" ng-model="filter.mutual">
             <option value="MutualParticular">Mutual/Particular</option>
             <option value="Mutual">Mutual</option>
             <option value="Particular">Particular</option>
-        </select>      
-        </div> 
-         <div class="col-sm-2"> 
+        </select>
+        </div>
+         <div class="col-sm-2">
         <select class="form-control" ng-model="filter.centralPayment">
             <option value="centralNoCentral">Centralizado si/no</option>
-            <option value="true">Cemtralizado</option>
+            <option value="true">Centralizado</option>
             <option value="false">No Centralizado</option>
-        </select>      
-        </div> 
-</div> 
+        </select>
+        </div>
+</div>
 
 <div class="row">
-    <div class="col-sm-4"> 
+    <div class="col-sm-4">
         <button type="button" class="btn btn-warning form-control" ng-click="clarAll()">Limpiar formulario</button>
-    
-    </div>   
-    <div class="col-sm-4 pull-right"> 
-    
+
+    </div>
+    <div class="col-sm-4 pull-right">
+
         <button type="button" class="btn btn-success  form-control" ng-click="searchReport()" >Buscar</button>
-    </div>   
+    </div>
 </div>
-    
+
 <!--    <div class="row" ng-show="customer">-->
 <!--<form name="quotationForm">-->
 <div class="well">
@@ -223,33 +223,41 @@
             <td>Total Numero Exámenes:</td>
             <td>{{historics.length}}</td>
         </tr>
-    </tbody> 
+    </tbody>
     </table>
     <div class="row">
             <form method="post" action="/historic/excelConPaciente">
-                <div class="col-sm-4"> 
+                <div class="col-sm-3">
                     <input type="hidden" name="filter" value="{{lastFilter}}"/>
-                    <button type="submit" class="btn btn-success form-control"  
+                    <button type="submit" class="btn btn-default form-control"
                              ng-disabled="lastFilter.mutual !== 'Mutual'">Planilla Centralizada</button>
-                </div> 
+                </div>
             </form>
             <form method="post" action="/historic/excelDetalle">
-                <div class="col-sm-4"> 
+                <div class="col-sm-3">
                     <input type="hidden" name="filter" value="{{lastFilter}}"/>
-                    <button type="submit" class="btn btn-success form-control"  
+                    <button type="submit" class="btn btn-success form-control"
                              ng-disabled="lastFilter.mutual !== 'Mutual'">Planilla Cobro</button>
-                </div> 
+                </div>
             </form>
-        
+
             <form method="post" action="/historic/excelCobro">
-                <div class="col-sm-4"> 
+                <div class="col-sm-3">
                     <input type="hidden" name="filter" value="{{lastFilter}}"/>
-                    <button type="submit" class="btn btn-success form-control" 
+                    <button type="submit" class="btn btn-success form-control"
                             ng-disabled="lastFilter.mutual !== 'Mutual'">Memo Cobro Mutual</button>
-                </div> 
+                </div>
             </form>
-                
-        
+
+      <form method="post" action="/historic/excelProvision">
+        <div class="col-sm-3">
+          <input type="hidden" name="filter" value="{{lastFilter}}"/>
+          <button type="submit" class="btn btn-success form-control"
+                  ng-disabled="lastFilter.mutual !== 'Mutual'">Planilla Provisión</button>
+        </div>
+      </form>
+
+
     </div>
 </div>
 <div class="table-responsive" ng-show="historics.length > 0">
@@ -259,7 +267,7 @@
             <input ng-model="nameFilter" type="text">
         </th>
         <th>Empresa
-            
+
         </th>
         <th>Examen</th>
         <th>Centro de Costo</th>
@@ -267,7 +275,7 @@
         <th>Precio</th>
         <th>Cargo</th>
         <th>PO/CO</th>
-        
+
         <th>Fecha</th>
     </thead>
     <tbody>
@@ -284,6 +292,6 @@
         </tr>
     </tbody>
   </table>
-</div>     
+</div>
 </div>
 

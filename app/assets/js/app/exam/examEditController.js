@@ -33,6 +33,7 @@ angular.module('ExamEditModule').controller('ExamEditController',
                                 $scope.getAllExams();
                             }
                             //$scope.exams.push(exam);
+                            $scope.$apply($scope.exams);
                             msg("Examen editado exitosamente", "", "success");
                         } else {
                             msg("No se pudo crear el examen", "", "danger");

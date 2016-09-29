@@ -139,6 +139,7 @@ angular.module('ExamModule').controller('ExamController',
     }
 
     $scope.openNewResult = function (historic) {
+      $scope.patientNameFile = historic.patientName+" "+historic.patientLastName;
       $scope.editHistoric = historic;
       $scope.editHistoric.type = "single";
       $scope.registerExamForm.edad.$touched = false;
@@ -150,6 +151,7 @@ angular.module('ExamModule').controller('ExamController',
       //$scope.isSaving = false
     };
     $scope.openNewResultMultiple = function () {
+      $scope.patientNameFile = "Multiples Registros Seleccionados"
       $scope.editHistoric = _.findWhere($scope.historics,{id:$scope.examsToRegister[0]});
       $scope.editHistoric.type = "multiple";
       $scope.editHistoric.ids = $scope.examsToRegister;
