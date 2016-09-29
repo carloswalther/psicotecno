@@ -56,6 +56,28 @@ angular.module('CompanyModule').controller('CompanyController',
                     });
                 };
 
+            $scope.delete = function (company) {
+
+                $scope.isSaving = true;
+                var lComp = _.findWhere($scope.companies,{id:company.id});
+                var index = $scope.companies.indexOf(lComp);
+                console.log("index company",index);
+                io.socket.delete("/company/"+company.id, function (data,jwRes) {
+                    if (jwRes.statusCode === 200){
+                        msg("Empresa "+data.nombre," eliminada con exito","success");
+
+                        if (index !== -1) {
+                            $scope.companies.splice(index, index + 1);
+                            $scope.company = null;
+                            $scope.$apply();
+
+                        }
+                    }else{
+                        msg("Fallo al borrar","No se pudo borrar el registro","warning");
+                    }
+                });
+            };
+
 
 
                 $scope.savePatient = function () {
