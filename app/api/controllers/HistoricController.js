@@ -346,7 +346,8 @@ module.exports = {
         } else {
           sails.log("HISTORICS", historics);
           var totalGeneral = 0;
-          var heading = [{caption: "RUT EMPRESA", type: "string"},
+          var heading = [{caption: "Centralizada", type: "string"},
+            {caption: "RUT EMPRESA", type: "string"},
             {caption: "EMPRESA", type: "string"},
             {caption: "MONTO", type: "number"}];
           var rows = [];
@@ -356,6 +357,7 @@ module.exports = {
             sails.log("to Add",toAdd);
             if (_.isUndefined(toAdd)){
               var newCompany = {
+                centralPayment:(historic.centralPayment ? "SI" : "NO"),
                 companyRut:historic.companyRut,
                 companyName:historic.companyName,
                 amount : historic.examCost
@@ -369,6 +371,7 @@ module.exports = {
           companies.forEach(function(company){
             var row = [];
             total +=  company.amount
+            row.push(company.centralPayment);
             if (!_.isEmpty(company.companyRut)){
               row.push((chileanRut.format(company.companyRut.substr(0, company.companyRut.length - 1))
               + "-" + company.companyRut.substr(company.companyRut.length - 1, 1)));
@@ -380,7 +383,7 @@ module.exports = {
             row.push(company.amount);
             rows.push(row);
           });
-          rows.push(["","TOTAL",total]);
+          rows.push(["","","TOTAL",total]);
           var conf = {};
           conf.name = "Provision";
           conf.cols = heading;
